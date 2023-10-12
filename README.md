@@ -9,7 +9,7 @@
   * In order to add a quizz to the app, an entry should be added in
     `resource/quizzesList.json`
 
-* Available quizz (in `resource` folder)
+* Available quizzes (in `resource` folder)
   * Country to Capital
   * Grec alphabet
   * Grec vocabulary
