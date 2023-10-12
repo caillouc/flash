@@ -1,0 +1,230 @@
+
+[
+	{
+        "Question": "א",
+		"Answer": "אָ֫לֶף – Alèf",
+		"Image": "",
+		"Description": "On prononce uniquement la voyelle qui accompagne cette lettre (comme un H muet en français : hérisson)."
+	},
+    {
+        "Question": "בּ ב",
+        "Answer": "בֵּית – Bèt",
+        "Image": "",
+        "Description": "Avec un Dagesh (point): b\nSans Dagesh : v"
+    }, {
+        "Question": "ג",
+        "Answer": "גִּ֫ימֶל – Guimèl",
+        "Image": "",
+        "Description": "g (comme dans « garder »)"
+    }, {
+        "Question": "ד",
+        "Answer": "דָּ֫לֶת – Dalèt",
+        "Image": "",
+        "Description": "d"
+    }, {
+        "Question": "ה",
+        "Answer": "הֵא – Hè",
+        "Image": "",
+        "Description": "h (aspiré)"
+    }, {
+        "Question": "ו",
+        "Answer": "וָו – Vav",
+        "Image": "",
+        "Description": "v"
+    }, {
+        "Question": "ז",
+        "Answer": "זַ֫יִן – Zayin",
+        "Image": "",
+        "Description": "z"
+    }, {
+        "Question": "ח",
+        "Answer": "חֵית – Ḥèt",
+        "Image": "",
+        "Description": "Deux prononciations courantes : 1. comme ح en arabe (consonne gutturale fricative prononcée au niveau de la base de la langue). \n2. Comme ch en allemand dans « Bach », خ en arabe."
+    }, {
+        "Question": "ט",
+        "Answer": "טֵית – Tèt",
+        "Image": "",
+        "Description": "t"
+    }, {
+        "Question": "י",
+        "Answer": "יוֹד – Yod",
+        "Image": "",
+        "Description": "y"
+    }, {
+        "Question": "כּ כ",
+        "Answer": "כַּף – Kaf",
+        "Image": "",
+        "Description": "Avec un Dagesh (point) : k\nSans Dagesh : comme ch en allemand dans « Bach », خ en arabe."
+    }, {
+        "Question": "ךּ ך",
+        "Answer": "כַּף – Kaf\n(forme finale)",
+        "Image": "",
+        "Description": "Avec un Dagesh (point) : k\nSans Dagesh : comme ch en allemand dans « Bach », خ en arabe."
+    }, {
+        "Question": "ל",
+        "Answer": "לָ֫מֶד – Lamèd",
+        "Image": "",
+        "Description": "l"
+    }, {
+        "Question": "מ",
+        "Answer": "מֵם – Mèm",
+        "Image": "",
+        "Description": "m"
+    }, {
+        "Question": "ם",
+        "Answer": "מֵם – Mèm\n(forme finale)",
+        "Image": "",
+        "Description": "m"
+    }, {
+        "Question": "נ",
+        "Answer": "נוּן – Noun",
+        "Image": "",
+        "Description": "n"
+    }, {
+        "Question": "ן",
+        "Answer": "נוּן – Noun\n(forme finale)",
+        "Image": "",
+        "Description": "n"
+    }, {
+        "Question": "ס",
+        "Answer": "סָ֫מֶךְ – Samèkh",
+        "Image": "",
+        "Description": "s"
+    }, {
+        "Question": "ע",
+        "Answer": "עַ֫יִן – Ayin",
+        "Image": "",
+        "Description": "Deux prononciations courantes : \n1. comme ع en arabe (consonne gutturale prononcée au niveau de la base de la langue). \n2. On prononce uniquement la voyelle qui accompagne la lettre (comme un H muet en français : hérisson)."
+    }, {
+        "Question": "פּ פ",
+        "Answer": "פֵּה – Pè",
+        "Image": "",
+        "Description": "Avec un Dagesh (point) : p\nSans Dagesh : f"
+    }, {
+        "Question": "ף",
+        "Answer": "פֵּה – Pè\n(forme finale)",
+        "Image": "",
+        "Description": "Avec un Dagesh (point) : p\nSans Dagesh : f"
+    }, {
+        "Question": "צ",
+        "Answer": "צָ֫דֵי – Tsadè",
+        "Image": "",
+        "Description": "ts"
+    }, {
+        "Question": "ץ",
+        "Answer": "צָ֫דֵי – Tsadè\n(forme finale)",
+        "Image": "",
+        "Description": "ts"
+    }, {
+        "Question": "ק",
+        "Answer": "קוֹף – Kof",
+        "Image": "",
+        "Description": "k"
+    }, {
+        "Question": "ר",
+        "Answer": "רֵישׁ – Rèsh",
+        "Image": "",
+        "Description": "r"
+    }, {
+        "Question": "שׁ",
+        "Answer": "שִׁין – Shin",
+        "Image": "",
+        "Description": "sh"
+    }, {
+        "Question": "שׂ",
+        "Answer": "שִׂין – Sin",
+        "Image": "",
+        "Description": "s"
+    },
+    {
+        "Question": "ת",
+        "Answer": "תָּו – Tav",
+        "Image": "",
+        "Description": "t"
+    },
+    {
+        "Question": "דָ",
+        "Answer": "a\nקָמֵץ גָּדוֹל\nQamèts long",
+        "Image": "",
+        "Description": "Voyelle longue"
+    },
+    {
+        "Question": "דַ",
+        "Answer": "a\nפָּתַח\nPataḥ",
+        "Image": "",
+        "Description": "Voyelle brève"
+    },
+    {
+        "Question": "אֲ",
+        "Answer": "a\nחֲטֵף פָּתַח\nḤatèf Pataḥ",
+        "Image": "",
+        "Description": "Ḥatèf"
+    },
+    {
+        "Question": "דֵ דֵי",
+        "Answer": "é\nצֵרֵי חָסֵר / מָלֵא\nTsèrè manquant / plein",
+        "Image": "",
+        "Description": "Voyelle longue"
+    },
+    {
+        "Question": "דֶ",
+        "Answer": "é\nסֶגוֹל\nSègol",
+        "Image": "",
+        "Description": "Voyelle brève"
+    },
+    {
+        "Question": "אֱ",
+        "Answer": "é\nחֲטֵף סֶגוֹל\nḤatèf Sègol",
+        "Image": "",
+        "Description": "Ḥatèf"
+    },
+    {
+        "Question": "דִי",
+        "Answer": "i\nחִירֶק מָלֵא\nḤirèq plein",
+        "Image": "",
+        "Description": "Voyelle longue"
+    },
+    {
+        "Question": "דִ",
+        "Answer": "i\nחִירֶק חָסֵר\nḤirèq manquant",
+        "Image": "",
+        "Description": "Voyelle brève"
+    },
+    {
+        "Question": "דֹ דוֹ",
+        "Answer": "o\nחוֹלֶם חָסֵר / מָלֵא\nḤolèm manquant / plein",
+        "Image": "",
+        "Description": "Voyelle longue"
+    },
+    {
+        "Question": "דָ",
+        "Answer": "o\nקָמֵץ קָטָן\nQamèts bref",
+        "Image": "",
+        "Description": "Voyelle brève"
+    },
+    {
+        "Question": "אֳ",
+        "Answer": "o\nחֲטֵף קָמֵץ\nḤatèf Qamèts",
+        "Image": "",
+        "Description": "Ḥatèf"
+    },
+    {
+        "Question": "דוּ",
+        "Answer": "ou\nשׁוּרֶק\nShourèq",
+        "Image": "",
+        "Description": "Voyelle longue"
+    },
+    {
+        "Question": "דֻ",
+        "Answer": "ou\nקִבּוּץ\nQibbouts",
+        "Image": "",
+        "Description": "Voyelle brève"
+    },
+    {
+        "Question": "דְ",
+        "Answer": "∅ / é\nשְׁוָא\nSheva",
+        "Image": "",
+        "Description": ""
+    }
+]

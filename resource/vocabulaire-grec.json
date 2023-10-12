@@ -1,0 +1,632 @@
+[
+	{
+		"Question": "᾽Αβραάμ",
+		"Answer": "Abraham",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀμήν",
+		"Answer": "amen",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Δαυίδ",
+		"Answer": "David",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ῥαββί",
+		"Answer": "rabbi",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ἰακώβ",
+		"Answer": "Jacob",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ἰσραήλ",
+		"Answer": "Israël",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ἰωσήφ",
+		"Answer": "Joseph",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "καί",
+		"Answer": "et",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἄγω",
+		"Answer": "je conduis, je guide",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀκούω",
+		"Answer": "j'écoute, j'entends",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "βάλλω",
+		"Answer": "je jette",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "βλέπω",
+		"Answer": "je vois, je regarde",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "διδάσκω",
+		"Answer": "j'enseigne",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἔχω",
+		"Answer": "j'ai, je possède",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "λαμβάνω",
+		"Answer": "je prends, je reçois",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "λέγω",
+		"Answer": "je dis, je parle",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "λύω",
+		"Answer": "je délie",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ζητέω",
+		"Answer": "je cherche",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "καλέω",
+		"Answer": "j'appelle",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "λαλέω",
+		"Answer": "je parle",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ποιέω",
+		"Answer": "je fais, je crée",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "τηρέω",
+		"Answer": "je garde, je conserve",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Answer": "j'aime",
+		"Question": "φιλέω",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἄγγελος",
+		"Answer": "le messager, l'ange",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀδελφός",
+		"Answer": "le frère",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἄρτος",
+		"Answer": "le pain",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δοῦλος",
+		"Answer": "l'esclave, le serviteur",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "θεός",
+		"Answer": "(le) dieu",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "κόσμος",
+		"Answer": "le monde",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "κύριος",
+		"Answer": "le seigneur, le maître",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "λόγος",
+		"Answer": "le mot, la parole, le discours",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "νόμος",
+		"Answer": "la loi",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "οἶκος",
+		"Answer": "la maison, la maisonnée",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "οὐρανός",
+		"Answer": "le ciel",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ὄχλος",
+		"Answer": "la foule",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "υἱός",
+		"Answer": "le fils",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Χριστός",
+		"Answer": "le christ, le messie",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ὁ, ἡ, τό",
+		"Answer": "le, la, les",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἄνθρωπος",
+		"Answer": "l'être humain, l'individu, le personne, l'homme",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "λαός",
+		"Answer": "le peuple, la nation",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀγάπη",
+		"Answer": "l'amour",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀδελφή",
+		"Answer": "la soeur",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀρχή",
+		"Answer": "le début, le commencement",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "γῆ",
+		"Answer": "la terre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ζωή",
+		"Answer": "la vie",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "φωνή",
+		"Answer": "le son, la voix",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ψυχή",
+		"Answer": "l'âme",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἁμαρτία",
+		"Answer": "le péché",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "βασιλεία",
+		"Answer": "le règne, le royaume",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἐκκλησία",
+		"Answer": "l'assemblée",
+		"Image": "",
+		"Description": "puis ensuite l'Eglise"
+	},
+	{
+		"Question": "ἡμέρα", 
+		"Answer": "le jour",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "καρδία",
+		"Answer": "le coeur",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Μαρία",
+		"Answer": "Marie",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Μαριάμ",
+		"Answer": "Μαρία",
+		"Image": "",
+		"Description": "Nom indéclinable, équivalent hébreu de Μαρία"
+	},
+	{
+		"Question": "οἰκία",
+		"Answer": "la maison, la maisonnée ",
+		"Image": "",
+		"Description": "utilisé de manière interchangeable avec οἶκος"
+	},
+	{
+		"Question": "ὥρα",
+		"Answer": "l'heure",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δόξα",
+		"Answer": "la gloire",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "θάλασσα",
+		"Answer": "la mer",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "βιβλίον",
+		"Answer": "le livre, le rouleau",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δαιμόνιον",
+		"Answer": "le démon",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἔργον",
+		"Answer": "l'oeuvre, le fait, le travail",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "εὐαγγέλιον",
+		"Answer": "la bonne nouvelle, l'évangile",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἱερόν",
+		"Answer": "le temple",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πλοῖον",
+		"Answer": "la barque, le bateau",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πρόσωπον",
+		"Answer": "le visage",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "σάββατον",
+		"Answer": "le sabbat",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "σημεῖον",
+		"Answer": "le signe, le miracle",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "τέκνον",
+		"Answer": "l'enfant",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "αὐτός, αὐτή, αὐτό",
+		"Answer": "le, lui, la, les, eux...",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Παῦλος",
+		"Answer": "Paul",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ἰησοῦς",
+		"Answer": "Jésus",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Πέτρος",
+		"Answer": "Pierre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πιστεύω",
+		"Answer": "croire en, avoir foi en, faire confiance",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀπό",
+		"Answer": "loin de",
+		"Image": "",
+		"Description": "+ gén"
+	},
+	{
+		"Question": "διά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - à cause de, grace à\n+ gén - à travers"
+	},
+	{
+		"Question": "εἰς",
+		"Answer": "vers, dans (+ mouvement), en vue de",
+		"Image": "",
+		"Description": "+ acc"
+	},
+	{
+		"Question": "ἐκ",
+		"Answer": "hors de, de",
+		"Image": "",
+		"Description": "+ gén"
+	},
+	{
+		"Question": "ἐν",
+		"Answer": "dans, grâce à (rare)",
+		"Image": "",
+		"Description": "+ dat"
+	},
+	{
+		"Question": "ἐνώπιον",
+		"Answer": "devant, en présence de",
+		"Image": "",
+		"Description": "+ gén"
+	},
+	{
+		"Question": "ἔξω",
+		"Answer": "hors de, en dehors",
+		"Image": "",
+		"Description": "+ gén"
+	},
+	{
+		"Question": "ἐπί",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - au dessus, sur (avec mouvement)\n+ gén - à l'époque de, sur (localisaton)\n+ dat - sur, dans, sur la base de"
+	},
+	{
+		"Question": "ἕως",
+		"Answer": "jusqu'à",
+		"Image": "",
+		"Description": "+ gen"
+	},
+	{
+		"Question": "κατά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - selon\n+ gén - contre, en opposition à"
+	},
+	{
+		"Question": "μετά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - après\n+ gén - avec"
+	},
+	{
+		"Question": "παρά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - le long de\n+ gén - d'auprès de\n+ dat - de (sans mouvement)"
+	},
+	{
+		"Question": "περί",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - autour, approximativement\n+ gén - à propos de"
+	},
+	{
+		"Question": "πρό",
+		"Answer": "avant",
+		"Image": "",
+		"Description": "+ gén"
+	},
+	{
+		"Question": "πρός",
+		"Answer": "vers, en direction de",
+		"Image": "",
+		"Description": "+ acc"
+	},
+	{
+		"Question": "σύν",
+		"Answer": "avec",
+		"Image": "",
+		"Description": "+ dat"
+	},
+	{
+		"Question": "ὑπέρ",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - au dessus de\n+ gén - au nom de, à cause de, pour"
+	},
+	{
+		"Question": "ὑπό",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - au-dessous, sous\n+ gén - par, grâce à"
+	},
+	{
+		"Question": "ἀναβλέπω",
+		"Answer": "lever les yeux\n recouvrer la vue",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀπολύω",
+		"Answer": "libérer, divorcer, délier",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἐκβάλλω",
+		"Answer": "chasser, faire sortir, jeter hors de",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἐπικαλέω",
+		"Answer": "nommer, appeler",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "κατοικέω",
+		"Answer": "habiter",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "παρακαλέω",
+		"Answer": "exhorter, demander, conforter, encourager",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "παραλαμβάνω",
+		"Answer": "emmener, recevoir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "περιπατέω",
+		"Answer": "marcher, vivre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "προσκυνέω",
+		"Answer": "adorer, se prosterner",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "συνάγω",
+		"Answer": "rassembler, mettre ensemble",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ὑπάγω",
+		"Answer": "partir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πῶς",
+		"Answer": "comment ?",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ποῦ",
+		"Answer": "où ?",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "οὐ, οὐκ, οὐχ",
+		"Answer": "ne ... pas",
+		"Image": "",
+		"Description": ""
+	}
+]

@@ -1,0 +1,20 @@
+[
+	{
+		"Question": "Question 1",
+		"Answer": "Answer 1",
+		"Image": "/path/to/an/image.jpg",
+		"Description": "The image will be displayed on the question side of the flash card\n the description will be displayed on the answer side of the flash card"
+	}, 
+	{
+		"Question": "Question 2",
+		"Answer": "Answer 2",
+		"Image": "",
+		"Description": "Fields can stay empty is needed"
+	},
+	{
+		"Question": "France",
+		"Answer": "Paris",
+		"Image": "",
+		"Description": ""
+	}
+]

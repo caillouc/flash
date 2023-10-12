@@ -1,0 +1,224 @@
+[
+	{
+		"Question": "דְּבָרִים",
+		"Answer": "des paroles",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אָנֹכִי / אֲנִי",
+		"Answer": "je, moi",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אַתָּה",
+		"Answer": "tu, toi",
+		"Image": "",
+		"Description": "(masculin)"
+	},
+	{
+		"Question": "אַתְּ",
+		"Answer": "tu, toi",
+		"Image": "",
+		"Description": "(féminin)"
+	},
+	{
+		"Question": "מַה",
+		"Answer": "quoi, quel",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "-הֲ",
+		"Answer": "est-ce que ... ?",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "שֵׁם",
+		"Answer": "nom",
+		"Image": "",
+		"Description": "(masculin)"
+	},
+	{
+		"Question": "שְׁמִי",
+		"Answer": "mon nom",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "שִׁמְךָ",
+		"Answer": "ton nom",
+		"Image": "",
+		"Description": "(se réfère à un homme)"
+	},
+	{
+		"Question": "שְׁמֵךְ",
+		"Answer": "ton nom",
+		"Image": "",
+		"Description": "(se réfère à une femme)"
+	},
+	{
+		"Question": "הֲשָׁלוֹם לְךָ׃",
+		"Answer": "Est-ce que tu vas bien ?",
+		"Image": "",
+		"Description": "(en s'addressant à un homme)"
+	},
+	{
+		"Question": "הֲשָׁלוֹם לָךְ׃",
+		"Answer": "Est-ce que tu vas bien ?",
+		"Image": "",
+		"Description": "(en s'addressant à une femme)"
+	},
+	{
+		"Question": "מוֹרֶה",
+		"Answer": "maître, enseignant",
+		"Image": "",
+		"Description": "(masculin)"
+	},
+	{
+		"Question": "מוֹרָה",
+		"Answer": "maître, enseignante",
+		"Image": "",
+		"Description": "(féminin)"
+	},
+	{
+		"Question": "תַּלְמִיד",
+		"Answer": "disciple",
+		"Image": "",
+		"Description": "(masculin)"
+	},
+	{
+		"Question": "תַּלְמִידָה",
+		"Answer": "disciple",
+		"Image": "",
+		"Description": "(féminin)"
+	},
+	{
+		"Question": "נָבִיא",
+		"Answer": "prophète",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "מֶ֫לֶךְ ",
+		"Answer": "roi",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "מַלְכָּה",
+		"Answer": "reinne",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "נְבִיאָה",
+		"Answer": "prophètesse",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "כֹּהֵן",
+		"Answer": "prêtre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "סֵ֫פֶר",
+		"Answer": "livre",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "בַּ֫יִת",
+		"Answer": "maison",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "הַר",
+		"Answer": "montagne",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "שֻׁלְחָן",
+		"Answer": "table",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "כִּסֵּא",
+		"Answer": "chaise",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "דֶּ֫לֶת",
+		"Answer": "porte",
+		"Image": "",
+		"Description": "(נ)"
+	},
+	{
+		"Question": "מְנוֹרָה",
+		"Answer": "chandelier",
+		"Image": "",
+		"Description": "(נ)"
+	},
+	{
+		"Question": "עִיר",
+		"Answer": "ville",
+		"Image": "",
+		"Description": "(נ)"
+	} ,
+	{
+		"Question": "נְקֵבָה",
+		"Answer": "♀",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "זָכָר",
+		"Answer": "♂",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אַיֵּה",
+		"Answer": "où",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "עַל",
+		"Answer": "au dessus",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "-בְּ",
+		"Answer": "dans",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "תַּ֫חַת",
+		"Answer": "au dessous",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "הוּא",
+		"Answer": "il",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "הִיא",
+		"Answer": "elle",
+		"Image": "",
+		"Description": ""
+	}
+]

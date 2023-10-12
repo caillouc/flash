@@ -1,0 +1,146 @@
+[
+	{
+		"Question": "Α α",
+		"Answer": "ἂλφα – a",
+		"Image": "",
+		"Description": ""
+	}, 
+	{
+		"Question": "Β β",
+		"Answer": "βῆτα – b",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Γ γ",
+		"Answer": "γάμμα – g",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Δ δ",
+		"Answer": "δέλτα – d",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ε ε",
+		"Answer": "ἒψιλόν – é",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ζ ζ",
+		"Answer": "ζῆτα – z",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Η η",
+		"Answer": "ἦτα – ê",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Θ θ",
+		"Answer": "θῆτα – th",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ι ι",
+		"Answer": "ἰῶτα – i",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Κ κ",
+		"Answer": "κάππα – k",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Λ λ",
+		"Answer": "λάμβδα – l",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Μ μ",
+		"Answer": "μῦ – m",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ν ν",
+		"Answer": "νῦ – n",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ξ ξ",
+		"Answer": "ξῖ – x",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ο ο",
+		"Answer": "ὂμικρόν – o",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Π π",
+		"Answer": "πῖ – p",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ρ ρ",
+		"Answer": "ῥῶ – r",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Σ σ",
+		"Answer": "σῖγμα – s",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Τ τ",
+		"Answer": "ταῦ – t",
+		"Image": "",
+		"Description": ""
+	}, 
+	{
+		"Question": "Υ υ",
+		"Answer": "ὖψιλόν – u",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Φ φ",
+		"Answer": "φῖ – ph/f",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Χ χ",
+		"Answer": "χῖ – kh",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ψ ψ",
+		"Answer": "ψῖ – ps",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ω ω",
+		"Answer": "ὦμέγα – ô",
+		"Image": "",
+		"Description": ""
+	}
+]

@@ -1,0 +1,38 @@
+[
+	{
+		"Name": "Country \u2192 Capital",
+		"Path": "resource/country-to-capital.json",
+		"Icon": "0xe67c",
+		"QuestionTextSize": 50.0
+	},
+	{
+		"Name": "Les Saints",
+		"Path": "resource/les-saints.json",
+		"Icon": "0xf02e7",
+		"QuestionTextSize": 50.0
+	},
+	{
+		"Name": "Glyphes Hébreu",
+		"Path": "resource/glyphes-hebreu.json",
+		"Icon": "0xe0bf",
+		"QuestionTextSize": 180.0
+	},
+	{
+		"Name": "Vocabulaire Hébreu",
+		"Path": "resource/vocabulaire-hebreu.json",
+		"Icon": "0xf05f0",
+		"QuestionTextSize": 65.0
+	},
+	{
+		"Name": "Alphabet Grec",
+		"Path": "resource/alphabet-grec.json",
+		"Icon": "0xe3dd",
+		"QuestionTextSize": 180.0
+	},
+	{
+		"Name": "Vocabulaire Grec",
+		"Path": "resource/vocabulaire-grec.json",
+		"Icon": "0xe5dd",
+		"QuestionTextSize": 50.0
+	}
+]
