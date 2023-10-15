@@ -34,5 +34,11 @@
 		"Path": "resource/vocabulaire-grec.json",
 		"Icon": "0xe5dd",
 		"QuestionTextSize": 50.0
+	},
+	{
+		"Name": "Prépositions Grec",
+		"Path": "resource/prepositions-grec.json",
+		"Icon": "0xf0226",
+		"QuestionTextSize": 65.0
 	}
 ]

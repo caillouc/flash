@@ -57,7 +57,7 @@
 		"Question": "ἀκούω",
 		"Answer": "j'écoute, j'entends",
 		"Image": "",
-		"Description": ""
+		"Description": "+ gén"
 	},
 	{
 		"Question": "βάλλω",
@@ -75,7 +75,7 @@
 		"Question": "διδάσκω",
 		"Answer": "j'enseigne",
 		"Image": "",
-		"Description": ""
+		"Description": "double accusatif : enseigner qqch à qqn (acc) à propos de qqch (acc)"
 	},
 	{
 		"Question": "ἔχω",
@@ -438,114 +438,6 @@
 		"Description": ""
 	},
 	{
-		"Question": "ἀπό",
-		"Answer": "loin de",
-		"Image": "",
-		"Description": "+ gén"
-	},
-	{
-		"Question": "διά",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - à cause de, grace à\n+ gén - à travers"
-	},
-	{
-		"Question": "εἰς",
-		"Answer": "vers, dans (+ mouvement), en vue de",
-		"Image": "",
-		"Description": "+ acc"
-	},
-	{
-		"Question": "ἐκ",
-		"Answer": "hors de, de",
-		"Image": "",
-		"Description": "+ gén"
-	},
-	{
-		"Question": "ἐν",
-		"Answer": "dans, grâce à (rare)",
-		"Image": "",
-		"Description": "+ dat"
-	},
-	{
-		"Question": "ἐνώπιον",
-		"Answer": "devant, en présence de",
-		"Image": "",
-		"Description": "+ gén"
-	},
-	{
-		"Question": "ἔξω",
-		"Answer": "hors de, en dehors",
-		"Image": "",
-		"Description": "+ gén"
-	},
-	{
-		"Question": "ἐπί",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - au dessus, sur (avec mouvement)\n+ gén - à l'époque de, sur (localisaton)\n+ dat - sur, dans, sur la base de"
-	},
-	{
-		"Question": "ἕως",
-		"Answer": "jusqu'à",
-		"Image": "",
-		"Description": "+ gen"
-	},
-	{
-		"Question": "κατά",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - selon\n+ gén - contre, en opposition à"
-	},
-	{
-		"Question": "μετά",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - après\n+ gén - avec"
-	},
-	{
-		"Question": "παρά",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - le long de\n+ gén - d'auprès de\n+ dat - de (sans mouvement)"
-	},
-	{
-		"Question": "περί",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - autour, approximativement\n+ gén - à propos de"
-	},
-	{
-		"Question": "πρό",
-		"Answer": "avant",
-		"Image": "",
-		"Description": "+ gén"
-	},
-	{
-		"Question": "πρός",
-		"Answer": "vers, en direction de",
-		"Image": "",
-		"Description": "+ acc"
-	},
-	{
-		"Question": "σύν",
-		"Answer": "avec",
-		"Image": "",
-		"Description": "+ dat"
-	},
-	{
-		"Question": "ὑπέρ",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - au dessus de\n+ gén - au nom de, à cause de, pour"
-	},
-	{
-		"Question": "ὑπό",
-		"Answer": "",
-		"Image": "",
-		"Description": "+ acc - au-dessous, sous\n+ gén - par, grâce à"
-	},
-	{
 		"Question": "ἀναβλέπω",
 		"Answer": "lever les yeux\n recouvrer la vue",
 		"Image": "",
@@ -597,7 +489,7 @@
 		"Question": "προσκυνέω",
 		"Answer": "adorer, se prosterner",
 		"Image": "",
-		"Description": ""
+		"Description": "+ dat\nl'adoration (cf se prosterner) n'a pas un objet mais un bénéficiaire"
 	},
 	{
 		"Question": "συνάγω",

@@ -220,5 +220,17 @@
 		"Answer": "elle",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "בֵּן",
+		"Answer": "fils",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "בַּת",
+		"Answer": "fille",
+		"Image": "",
+		"Description": ""
 	}
 ]
