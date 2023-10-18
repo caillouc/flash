@@ -232,5 +232,65 @@
 		"Answer": "fille",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "טוֹב/טוֹבָה",
+		"Answer": "bien",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "רַע/רָעָה",
+		"Answer": "mauvais",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "גָּדוֹל/גְּדוֹלָה",
+		"Answer": "grand",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "קָטֹן/קְטַנָּה",
+		"Answer": "petit",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "חָכָם/חֲכָמָה",
+		"Answer": "intelligent",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "צַדִּיק/צַדִּיקָה",
+		"Answer": "juste",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "קָדוֹשׁ/קְדוֹשָׁה",
+		"Answer": "saint",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "עָנִי/עֲנִיָּה",
+		"Answer": "pauvre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "עָשִׁיר/עֲשִׁירָה",
+		"Answer": "riche",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "גַּם ",
+		"Answer": "aussi",
+		"Image": "",
+		"Description": ""
 	}
 ]
