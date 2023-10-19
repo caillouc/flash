@@ -59,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _cardDisplayed = 0;
 
   List _questions = [];
+  List _questionsOrder = [];
+  int _orderListIndex = -1;
   int _currentQuestionIndex = -1;
   double _currentQuestionTextSize = -1;
   List _quizzes = [];
@@ -102,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             backgroundColor: buttonColors[3 - i], // Background color
             foregroundColor: Colors.black,
             shape: const CircleBorder(),
-            fixedSize: const Size(75, 75),
+            fixedSize: const Size(85, 85),
           ),
           onPressed: () {
             dev.log("DEBUG: Button $i pressed");
@@ -115,14 +117,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 _moveController.reset();
                 _cardDisplayed = (_cardDisplayed + 1) % 3;
               });
-              _getNextCard().then((value) {
-                setState(() {
-                  _currentQuestionIndex = value;
-                });
-              });
+              _setNextCard();
             });
           },
-          child: Text('${buttonTexts[i]}'),
+          child: Text(buttonTexts[i]),
         ),
       );
     }
@@ -178,19 +176,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       setState(() {
         _showLearnQuestion = List.filled(_questions.length, true);
       });
-      _getNextCard().then((value) {
-        setState(() {
-          _currentQuestionIndex = value;
-        });
-        dev.log("DEBUG: Index of first question $_currentQuestionIndex");
-      });
+      _setNextCard();
     });
   }
 
-  Future<int> _getNextCard() async {
+  Future<bool> suffleCard() async {
     final prefs = await SharedPreferences.getInstance();
     List<int> options = [];
-    final random = Random();
     for (int i = 0; i < _questions.length; i++) {
       String? values = prefs.getString(_currentQuizzName + i.toString());
       if (values == null) {
@@ -203,9 +195,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         options.add(i);
       }
     }
-    if (options.isNotEmpty) {
-      return options[random.nextInt(options.length)];
-    } else {
+    if (options.isEmpty) {
       for (int i = 0; i < _questions.length; i++) {
         String values = prefs.getString(_currentQuizzName + i.toString())!;
         List<String> splitted = values.split('_');
@@ -214,11 +204,33 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           options.add(i);
         }
       }
-      if (options.isNotEmpty) {
-        return options[random.nextInt(options.length)];
-      } else {
-        return random.nextInt(_questions.length);
-      }
+    }
+    if (options.isEmpty) {
+      options = List.generate(_questions.length, (i) => i);
+    }
+    options.shuffle();
+    setState(() {
+      _questionsOrder = List.from(options);
+    });
+    return true;
+  }
+
+  void _setNextCard({bool resuffle = false}) {
+    if (resuffle || _questionsOrder.isEmpty || _orderListIndex == _questionsOrder.length - 1) {
+      suffleCard().then((value) {
+        setState(() {
+          _orderListIndex = 0;
+          _currentQuestionIndex = _questionsOrder[_orderListIndex];
+        });
+      });
+    } else {
+      setState(() {
+        _orderListIndex = _orderListIndex + 1;
+        _currentQuestionIndex = _questionsOrder[_orderListIndex];
+      });
+      // setState(() {
+      // });
+        
     }
   }
 
@@ -500,11 +512,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       setState(() {
         _showLearnQuestion = List.filled(_questions.length, true);
       });
-      _getNextCard().then((value) {
-        setState(() {
-          _currentQuestionIndex = value;
-        });
-      });
+      _setNextCard(resuffle: true);
     });
   }
 
@@ -591,11 +599,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ? FloatingActionButton(
                 child: const Icon(Icons.arrow_downward),
                 onPressed: () {
-                    _listViewController.animateTo(
-                      518 * (_questions.length.toDouble() - 1) - 138,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOut,
-                    );
+                  _listViewController.animateTo(
+                    518 * (_questions.length.toDouble() - 1) - 138,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                  );
                 },
               )
             : null,
