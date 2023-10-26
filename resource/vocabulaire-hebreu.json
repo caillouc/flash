@@ -60,40 +60,16 @@
 		"Description": "(se réfère à une femme)"
 	},
 	{
-		"Question": "הֲשָׁלוֹם לְךָ׃",
-		"Answer": "Est-ce que tu vas bien ?",
-		"Image": "",
-		"Description": "(en s'addressant à un homme)"
-	},
-	{
-		"Question": "הֲשָׁלוֹם לָךְ׃",
-		"Answer": "Est-ce que tu vas bien ?",
-		"Image": "",
-		"Description": "(en s'addressant à une femme)"
-	},
-	{
-		"Question": "מוֹרֶה",
+		"Question": "מוֹרֶה\nמוֹרָה",
 		"Answer": "maître, enseignant",
 		"Image": "",
-		"Description": "(masculin)"
+		"Description": "masculin\nféminin"
 	},
 	{
-		"Question": "מוֹרָה",
-		"Answer": "maître, enseignante",
-		"Image": "",
-		"Description": "(féminin)"
-	},
-	{
-		"Question": "תַּלְמִיד",
+		"Question": "תַּלְמִיד\nתַּלְמִידָה",
 		"Answer": "disciple",
 		"Image": "",
-		"Description": "(masculin)"
-	},
-	{
-		"Question": "תַּלְמִידָה",
-		"Answer": "disciple",
-		"Image": "",
-		"Description": "(féminin)"
+		"Description": "masculin\nféminin"
 	},
 	{
 		"Question": "נָבִיא",
@@ -234,55 +210,61 @@
 		"Description": ""
 	},
 	{
-		"Question": "טוֹב/טוֹבָה",
-		"Answer": "bien",
+		"Question": "זֶה\nזֹאת",
+		"Answer": "c'est",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "רַע/רָעָה",
+		"Question": "טוֹב\nטוֹבָה",
+		"Answer": "bon",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "רַע\nרָעָה",
 		"Answer": "mauvais",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "גָּדוֹל/גְּדוֹלָה",
+		"Question": "גָּדוֹל\nגְּדוֹלָה",
 		"Answer": "grand",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "קָטֹן/קְטַנָּה",
+		"Question": "קָטֹן\nקְטַנָּה",
 		"Answer": "petit",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "חָכָם/חֲכָמָה",
+		"Question": "חָכָם\nחֲכָמָה",
 		"Answer": "intelligent",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "צַדִּיק/צַדִּיקָה",
+		"Question": "צַדִּיק\nצַדִּיקָה",
 		"Answer": "juste",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "קָדוֹשׁ/קְדוֹשָׁה",
+		"Question": "קָדוֹשׁ\nקְדוֹשָׁה",
 		"Answer": "saint",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "עָנִי/עֲנִיָּה",
+		"Question": "עָנִי\nעֲנִיָּה",
 		"Answer": "pauvre",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "עָשִׁיר/עֲשִׁירָה",
+		"Question": "עָשִׁיר\nעֲשִׁירָה",
 		"Answer": "riche",
 		"Image": "",
 		"Description": ""
@@ -290,6 +272,30 @@
 	{
 		"Question": "גַּם ",
 		"Answer": "aussi",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אֲדֹנָי",
+		"Answer": "Dieu",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אֵ֫לֶּה",
+		"Answer": "ce-sont",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אִישׁ",
+		"Answer": "homme",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אִשָּׁה",
+		"Answer": "femme",
 		"Image": "",
 		"Description": ""
 	}

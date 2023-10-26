@@ -57,7 +57,7 @@
 		"Question": "ἀκούω",
 		"Answer": "j'écoute, j'entends",
 		"Image": "",
-		"Description": "+ gén"
+		"Description": "+ gén de la personne entendue\n+ acc de la chose entendue"
 	},
 	{
 		"Question": "βάλλω",
@@ -435,7 +435,7 @@
 		"Question": "πιστεύω",
 		"Answer": "croire en, avoir foi en, faire confiance",
 		"Image": "",
-		"Description": ""
+		"Description": "+ dat"
 	},
 	{
 		"Question": "ἀναβλέπω",
@@ -520,5 +520,191 @@
 		"Answer": "ne ... pas",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "ἀγαθός",
+		"Answer": "bon",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀγαπητός",
+		"Answer": "aimé",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἅγιος",
+		"Answer": "saint",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δίκαιος",
+		"Answer": "juste",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἕκαστος",
+		"Answer": "chaque",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἕτερος",
+		"Answer": "autre, différent",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἵδιος",
+		"Answer": "propre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Ἰουδαῖος",
+		"Answer": "juif",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "κακός",
+		"Answer": "mauvais",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "καλός",
+		"Answer": "beau",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "καινός",
+		"Answer": "nouveau",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μακάριος",
+		"Answer": "heureux, bienheureux",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μόνος",
+		"Answer": "seul, unique",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "νεκρός",
+		"Answer": "mort",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ὅσος",
+		"Answer": "combien ?",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πιστός",
+		"Answer": "croyant",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πονηρός",
+		"Answer": "mal, maudit, mauvais",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "τυφλός",
+		"Answer": "aveugle",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μέγας",
+		"Answer": "large, grand",
+		"Image": "",
+		"Description": "μέγας, μεγάλη, μέγα"
+	},
+	{
+		"Question": "πολύς",
+		"Answer": "beaucoup",
+		"Image": "",
+		"Description": "πολύς, πολλή, πολύ"
+	},
+	{
+		"Question": "ἀλλά",
+		"Answer": "mais",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "εἰ",
+		"Answer": "si",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἤ",
+		"Answer": "ou",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ὡς",
+		"Answer": "comme",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Γαλιλαία",
+		"Answer": "La Galilée",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "εἰρήνη",
+		"Answer": "la paix",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "κεφαλή",
+		"Answer": "la tête",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "συναγωγή",
+		"Answer": "la synagogue",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "καιρός",
+		"Answer": "le temps, la saison",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "εἰμί",
+		"Answer": "je suis",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "αἰώνιος",
+		"Answer": "éternel",
+		"Image": "",
+		"Description": "Il prend les désinences du masculin même lorsqu'il s'accorde avec un nom féminin"
 	}
 ]
