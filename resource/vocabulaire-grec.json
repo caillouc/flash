@@ -49,91 +49,91 @@
 	},
 	{
 		"Question": "ἄγω",
-		"Answer": "je conduis, je guide",
+		"Answer": "conduire, guider",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "ἀκούω",
-		"Answer": "j'écoute, j'entends",
+		"Answer": "écouter, entendre",
 		"Image": "",
 		"Description": "+ gén de la personne entendue\n+ acc de la chose entendue"
 	},
 	{
 		"Question": "βάλλω",
-		"Answer": "je jette",
+		"Answer": "jeter",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "βλέπω",
-		"Answer": "je vois, je regarde",
+		"Answer": "voir, regarder",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "διδάσκω",
-		"Answer": "j'enseigne",
+		"Answer": "enseigner",
 		"Image": "",
 		"Description": "double accusatif : enseigner qqch à qqn (acc) à propos de qqch (acc)"
 	},
 	{
 		"Question": "ἔχω",
-		"Answer": "j'ai, je possède",
+		"Answer": "avoir, posséder",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "λαμβάνω",
-		"Answer": "je prends, je reçois",
+		"Answer": "prendre, recevoir",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "λέγω",
-		"Answer": "je dis, je parle",
+		"Answer": "dire, parler",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "λύω",
-		"Answer": "je délie",
+		"Answer": "délier",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "ζητέω",
-		"Answer": "je cherche",
+		"Answer": "chercher",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "καλέω",
-		"Answer": "j'appelle",
+		"Answer": "appeler",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "λαλέω",
-		"Answer": "je parle",
+		"Answer": "paler",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "ποιέω",
-		"Answer": "je fais, je crée",
+		"Answer": "faire, créer",
 		"Image": "",
 		"Description": ""
 	},
 	{
 		"Question": "τηρέω",
-		"Answer": "je garde, je conserve",
+		"Answer": "garder, conserver",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Answer": "j'aime",
 		"Question": "φιλέω",
+		"Answer": "aimer",
 		"Image": "",
 		"Description": ""
 	},
@@ -706,5 +706,197 @@
 		"Answer": "éternel",
 		"Image": "",
 		"Description": "Il prend les désinences du masculin même lorsqu'il s'accorde avec un nom féminin"
+	},
+	{
+		"Question": "ἀνοίγω",
+		"Answer": "ouvrir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀποκαλύπτω",
+		"Answer": "révéler, dévoiler",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "βαπτίζω",
+		"Answer": "plonger, baptiser",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "γράφω",
+		"Answer": "écrire",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "διώκω",
+		"Answer": "persécuter, poursuivre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δοξάζω",
+		"Answer": "glorifier",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "κηρύσσω",
+		"Answer": "proclamer, prêcher",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "κράζω",
+		"Answer": "crier",
+		"Image": "",
+		"Description": "se comporte comme si le verte était en réalité κρασσω"
+	},
+	{
+		"Question": "πέμπω",
+		"Answer": "envoyer",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πείθω",
+		"Answer": "persuader, convaincre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "προσέχω",
+		"Answer": "faire attention à",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "σώζω",
+		"Answer": "souver, soigner",
+		"Image": "",
+		"Description": "écrit aussi σῴζω"
+	},
+	{
+		"Question": "ὑπαρχω",
+		"Answer": "exister",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "αἰτέω",
+		"Answer": "demander",
+		"Image": "",
+		"Description": "double accusatif - demander qqch à qqn"
+	},
+	{
+		"Question": "εὐλογέω",
+		"Answer": "parler en bien, bénir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "εὐχαριστέω",
+		"Answer": "remercier",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "οἰκοδομέω",
+		"Answer": "construire, édifier",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἄρτι",
+		"Answer": "maintenant",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἐτι",
+		"Answer": "encore",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἤδη",
+		"Answer": "déjà",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "νῦν",
+		"Answer": "maintenant",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ὅτε",
+		"Answer": "quand, lorsque",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "οὐκέτι",
+		"Answer": "ne ... plus",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "οὔπω",
+		"Answer": "pas encore",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πάλιν",
+		"Answer": "de nouveau, encore",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πάντοτε",
+		"Answer": "toujours",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ποτέ",
+		"Answer": "un jour, autrefois",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "σήμερον",
+		"Answer": "aujourd'hui",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "τότε",
+		"Answer": "alors",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δύο",
+		"Answer": "deux",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Τιμόθεος",
+		"Answer": "Timothée",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "τόπος",
+		"Answer": "le lieu",
+		"Image": "",
+		"Description": ""
 	}
 ]
