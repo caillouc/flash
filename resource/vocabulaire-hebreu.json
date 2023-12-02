@@ -39,7 +39,7 @@
 		"Question": "שֵׁם",
 		"Answer": "nom",
 		"Image": "",
-		"Description": "(masculin)"
+		"Description": "(ז)\nשֵׁמוֹת"
 	},
 	{
 		"Question": "שְׁמִי",
@@ -63,91 +63,91 @@
 		"Question": "מוֹרֶה\nמוֹרָה",
 		"Answer": "maître, enseignant",
 		"Image": "",
-		"Description": "masculin\nféminin"
+		"Description": "masculin\nféminin\nמוֹרִים\nמוֹרוֹת"
 	},
 	{
 		"Question": "תַּלְמִיד\nתַּלְמִידָה",
 		"Answer": "disciple",
 		"Image": "",
-		"Description": "masculin\nféminin"
+		"Description": "masculin\nféminin\nתַּלְמִידִים\nתַּלְמִידוֹת"
 	},
 	{
 		"Question": "נָבִיא",
 		"Answer": "prophète",
 		"Image": "",
-		"Description": ""
+		"Description": "נְבִיאִים"
 	},
 	{
 		"Question": "מֶ֫לֶךְ ",
 		"Answer": "roi",
 		"Image": "",
-		"Description": ""
+		"Description": "מְלָכִים"
 	},
 	{
 		"Question": "מַלְכָּה",
 		"Answer": "reinne",
 		"Image": "",
-		"Description": ""
+		"Description": "מְלָכוֹת"
 	},
 	{
 		"Question": "נְבִיאָה",
 		"Answer": "prophètesse",
 		"Image": "",
-		"Description": ""
+		"Description": "נְבִיאוֹת"
 	},
 	{
 		"Question": "כֹּהֵן",
 		"Answer": "prêtre",
 		"Image": "",
-		"Description": ""
+		"Description": "כֹּהֲנִים"
 	},
 	{
 		"Question": "סֵ֫פֶר",
 		"Answer": "livre",
 		"Image": "",
-		"Description": "(ז)"
+		"Description": "(ז)\nסְפָרִים"
 	},
 	{
 		"Question": "בַּ֫יִת",
 		"Answer": "maison",
 		"Image": "",
-		"Description": "(ז)"
+		"Description": "(ז)\nבָּתִּים"
 	},
 	{
 		"Question": "הַר",
 		"Answer": "montagne",
 		"Image": "",
-		"Description": "(ז)"
+		"Description": "(ז)\nהָרִים"
 	},
 	{
 		"Question": "שֻׁלְחָן",
 		"Answer": "table",
 		"Image": "",
-		"Description": "(ז)"
+		"Description": "(ז)\nשֻׁלְחָנוֹת"
 	},
 	{
 		"Question": "כִּסֵּא",
 		"Answer": "chaise",
 		"Image": "",
-		"Description": "(ז)"
+		"Description": "(ז)\nכִּסְאוֹת"
 	},
 	{
 		"Question": "דֶּ֫לֶת",
 		"Answer": "porte",
 		"Image": "",
-		"Description": "(נ)"
+		"Description": "(נ)\nדְּלָתוֹת"
 	},
 	{
 		"Question": "מְנוֹרָה",
 		"Answer": "chandelier",
 		"Image": "",
-		"Description": "(נ)"
+		"Description": "(נ)\nמְנוֹרוֹת"
 	},
 	{
 		"Question": "עִיר",
 		"Answer": "ville",
 		"Image": "",
-		"Description": "(נ)"
+		"Description": "(נ)עָרִים"
 	} ,
 	{
 		"Question": "נְקֵבָה",
@@ -201,7 +201,7 @@
 		"Question": "בֵּן",
 		"Answer": "fils",
 		"Image": "",
-		"Description": ""
+		"Description": "בָּנִים"
 	},
 	{
 		"Question": "בַּת",
@@ -291,11 +291,95 @@
 		"Question": "אִישׁ",
 		"Answer": "homme",
 		"Image": "",
-		"Description": ""
+		"Description": "אֲנָשּׁים"
 	},
 	{
 		"Question": "אִשָּׁה",
 		"Answer": "femme",
+		"Image": "",
+		"Description": "נָשִׁים"
+	},
+	{
+		"Question": "νנַ֫חְנוּ / אֲנַ֫חְנוּ",
+		"Answer": "nous",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אַתֶּם\nאַתֶּן / אַתֵּ֫נָה",
+		"Answer": "vous",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "הֵם / הֵ֫מָּה \n הֵ֫נָּה",
+		"Answer": "ils, elles",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אֱלֹהִים",
+		"Answer": "Dieu",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אֶ֫רֶץ",
+		"Answer": "terre",
+		"Image": "",
+		"Description": "(נ)\nאֲרָצוֹת (הָאָ֫רֶץ)"
+	},
+	{
+		"Question": "גּוֹי",
+		"Answer": "nation",
+		"Image": "",
+		"Description": "(ז)\nגּוֹיִם "
+	},
+	{
+		"Question": "עַם\n",
+		"Answer": "peuple",
+		"Image": "",
+		"Description": "(ז)עַמִּים"
+	},
+	{
+		"Question": "יוֹם",
+		"Answer": "24h",
+		"Image": "",
+		"Description": "יָמִים"
+	},
+	{
+		"Question": "כֹּל / כָּל־",
+		"Answer": "tout",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "עֵץ",
+		"Answer": "abre",
+		"Image": "",
+		"Description": "(ז)\nעֵצִים"
+	},
+	{
+		"Question": "תְּאֵנָה ",
+		"Answer": "figue",
+		"Image": "",
+		"Description": "(נ)\nתְּאֵנִים"
+	},
+	{
+		"Question": "יָפֶה\nיָפָה",
+		"Answer": "beau\nbelle",
+		"Image": "",
+		"Description": "יָפִים\nיָפוֹת"
+	},
+	{
+		"Question": "רַב\nרַבָּה",
+		"Answer": "nombreux\nnombreuse",
+		"Image": "",
+		"Description": "רַבִּים\nרַבּוֹת"
+	},
+	{
+		"Question": "מְאֹד",
+		"Answer": "très",
 		"Image": "",
 		"Description": ""
 	}

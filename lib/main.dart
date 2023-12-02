@@ -156,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       I = max(I - dayDiff, 0);
       await prefs.setString(_currentQuizzName + i.toString(),
           '${splitted[0]}_${splitted[1]}_${I}_${splitted[3]}');
+      print("DEBUG: Updated question ${_questions[i]["Question"]}} with I: $I");
     }
   }
 

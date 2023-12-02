@@ -898,5 +898,191 @@
 		"Answer": "le lieu",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "δικαιοσύνη",
+		"Answer": "la justice",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἐντολή",
+		"Answer": "le commandement, le précepte",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἐξουσία",
+		"Answer": "l'autorité",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "παραβολή",
+		"Answer": "la parabole",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "παρρησία",
+		"Answer": "la franchise",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "χαρά",
+		"Answer": "la joie",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀπόστολος",
+		"Answer": "l'apôtre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "θάνατος",
+		"Answer": "la mort",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ὀφθαλμός",
+		"Answer": "l'oeil",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "Φαρισαῖος",
+		"Answer": "le Pharisien",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "θηρίον",
+		"Answer": "l'animal, la bête",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἱμάτιον",
+		"Answer": "le vêtement, la chemise, l'himation",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μνημεῖον",
+		"Answer": "la tombe, le monument",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "πρόβατον",
+		"Answer": "le mouton",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μή",
+		"Answer": "ne ... pas, non",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μηδέ",
+		"Answer": "et ne ... pas, mais ne ... pas",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μηκέτι",
+		"Answer": "ne .. plus, pas davantage",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μήτε",
+		"Answer": "et ne ... pas",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἀκολουθέω",
+		"Answer": "suivre",
+		"Image": "",
+		"Description": "+ dat"
+	},
+	{
+		"Question": "ἀνάγω",
+		"Answer": "faire monter, restaurer",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δέω",
+		"Answer": "lier",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δοκέω",
+		"Answer": "penser, sembler",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἐλεέω",
+		"Answer": "avoir pitité",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "θέλω",
+		"Answer": "vouloir",
+		"Image": "",
+		"Description": "imparfait: ἤθελον\nfutur: θελήσω\naoriste: ἠθέκησα"
+	},
+	{
+		"Question": "θεωρέω",
+		"Answer": "regarder",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "καταργέω",
+		"Answer": "rendre ineffectif, abolir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μαρτυρέω",
+		"Answer": "témoigner",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μέλλω",
+		"Answer": "être sur le point de, avoir l'intention de",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "μετανοέω",
+		"Answer": "se repentir, se convertir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "δεῖ",
+		"Answer": "il faut",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "ἔξεστι",
+		"Answer": "il est permis",
+		"Image": "",
+		"Description": ""
 	}
 ]
