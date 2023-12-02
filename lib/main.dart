@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             backgroundColor: buttonColors[3 - i], // Background color
             foregroundColor: Colors.black,
             shape: const CircleBorder(),
-            fixedSize: const Size(85, 85),
+            fixedSize: const Size(90, 90),
           ),
           onPressed: () {
             dev.log("DEBUG: Button $i pressed");
