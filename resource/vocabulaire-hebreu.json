@@ -277,9 +277,9 @@
 	},
 	{
 		"Question": "אֲדֹנָי",
-		"Answer": "Dieu",
+		"Answer": "Mon Seigneur",
 		"Image": "",
-		"Description": ""
+		"Description": "nom propre, le dieu d'Israël"
 	},
 	{
 		"Question": "אֵ֫לֶּה",
@@ -300,7 +300,7 @@
 		"Description": "נָשִׁים"
 	},
 	{
-		"Question": "νנַ֫חְנוּ / אֲנַ֫חְנוּ",
+		"Question": "נַ֫חְנוּ / אֲנַ֫חְנוּ",
 		"Answer": "nous",
 		"Image": "",
 		"Description": ""
@@ -343,7 +343,7 @@
 	},
 	{
 		"Question": "יוֹם",
-		"Answer": "24h",
+		"Answer": "jour",
 		"Image": "",
 		"Description": "יָמִים"
 	},
@@ -380,6 +380,96 @@
 	{
 		"Question": "מְאֹד",
 		"Answer": "très",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "לֶ֫חֶם",
+		"Answer": "Pain",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "לַ֫יְלָה",
+		"Answer": "nuit",
+		"Image": "",
+		"Description": "(ז)\nלֵילוֹת"
+	},
+	{
+		"Question": "אַחֵר/אַחֶ֫רֶת\nאֲחֵרִים/אֲחֵרוֹת",
+		"Answer": "autre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "שָׁפַט",
+		"Answer": "juger",
+		"Image": "",
+		"Description": "שָׁפוֹט"
+	},
+	{
+		"Question": "שָׁכַב",
+		"Answer": "être coucher",
+		"Image": "",
+		"Description": "שָׁכוֹב"
+	},
+	{
+		"Question": "אָכַל",
+		"Answer": "mager",
+		"Image": "",
+		"Description": "אָכוֹל"
+	},
+	{
+		"Question": "הָלַךְ",
+		"Answer": "marcher, aller, partir",
+		"Image": "",
+		"Description": "הָלוֹךְ"
+	},
+	{
+		"Question": "בָּא",
+		"Answer": "venir",
+		"Image": "",
+		"Description": "בּוֹא"
+	},
+	{
+		"Question": "יָשַׁב",
+		"Answer": "être assis",
+		"Image": "",
+		"Description": "יָשׁוֹב"
+	},
+	{
+		"Question": "קָם",
+		"Answer": "se lever",
+		"Image": "",
+		"Description": "קוֹם"
+	},
+	{
+		"Question": "עָמַד",
+		"Answer": "être debout",
+		"Image": "",
+		"Description": "עָמוֹד"
+	},
+	{
+		"Question": "לִפְנֵי־",
+		"Answer": "devant",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אַחֲרֵי־",
+		"Answer": "derrière",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "הַרְבֵּה",
+		"Answer": "beaucoup",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "מְעַט",
+		"Answer": "peu",
 		"Image": "",
 		"Description": ""
 	}
