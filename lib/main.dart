@@ -63,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _orderListIndex = -1;
   int _currentQuestionIndex = -1;
   double _currentQuestionTextSize = -1;
+  double _currentQuestionDescriptionSize = -1;
   List _quizzes = [];
   int _currentQuizzIndex = -1;
   String _currentQuizzName = "";
@@ -170,6 +171,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       _quizzes = data;
       _currentQuizzIndex = tempListindex ?? 0;
       _currentQuestionTextSize = data[_currentQuizzIndex]["QuestionTextSize"];
+      _currentQuestionDescriptionSize =
+          data[_currentQuizzIndex]["DescriptionTextSize"];
       _currentQuizzName = data[_currentQuizzIndex]["Name"];
     });
     dev.log("DEBUG: Quizz $_currentQuizzName loaded");
@@ -375,6 +378,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               child: Text(
                                 description,
                                 textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  fontSize: _currentQuestionDescriptionSize,
+                                ),
                               ),
                             ),
                     ]
@@ -506,6 +512,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     setState(() {
       _currentQuizzIndex = newIndex;
       _currentQuestionTextSize = _quizzes[newIndex]["QuestionTextSize"];
+      _currentQuestionDescriptionSize =
+          _quizzes[newIndex]["DescriptionTextSize"];
       _currentQuizzName = _quizzes[newIndex]["Name"];
       _showQuestion = true;
     });

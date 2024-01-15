@@ -396,7 +396,7 @@
 		"Description": "(ז)\nלֵילוֹת"
 	},
 	{
-		"Question": "אַחֵר/אַחֶ֫רֶת\nאֲחֵרִים/אֲחֵרוֹת",
+		"Question": "אַחֵר/אַחֶ֫רֶת",
 		"Answer": "autre",
 		"Image": "",
 		"Description": ""
@@ -415,7 +415,7 @@
 	},
 	{
 		"Question": "אָכַל",
-		"Answer": "mager",
+		"Answer": "manger",
 		"Image": "",
 		"Description": "אָכוֹל"
 	},
