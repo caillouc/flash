@@ -472,5 +472,131 @@
 		"Answer": "peu",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "אֹ֫הֶל",
+		"Answer": "tente",
+		"Image": "",
+		"Description": "(ז)\nאֹהָלִים "
+	},
+	{
+		"Question": "חֲמוֹר",
+		"Answer": "âne",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "מִדְבָּר",
+		"Answer": "désert",
+		"Image": "",
+		"Description": "(ז)"
+	},
+	{
+		"Question": "מַ֫יִם",
+		"Answer": "eau",
+		"Image": "",
+		"Description": "(ז. Pluriel)"
+	},
+	{
+		"Question": "מַעְיָן",
+		"Answer": "source",
+		"Image": "",
+		"Description": "(ז)\nמַעְיָנוֹת  "
+	},
+	{
+		"Question": "נַ֫חַל",
+		"Answer": "fleuve",
+		"Image": "",
+		"Description": "(ז)\nנְחָלִים "
+	},
+	{
+		"Question": "ר֫וּחַ",
+		"Answer": "soufle, vent",
+		"Image": "",
+		"Description": "רוּחוֹת"
+	},
+	{
+		"Question": "נָעִים",
+		"Answer": "agréable",
+		"Image": "",
+		"Description": "נָעִים, נְעִימָה\nנְעִימִים, נְעִימוֹת"
+	},
+	{
+		"Question": "קָשֶׁה",
+		"Answer": "difficile, dur",
+		"Image": "",
+		"Description": "קָשֶׁה, קָשָׁה\nקָשִׁים, קָשׁוֹת "
+	},
+	{
+		"Question": "שָׁב",
+		"Answer": "revenir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "שָׁתָה",
+		"Answer": "boire",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "עִם",
+		"Answer": "avec",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "לְבַד",
+		"Answer": "seul",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "יַחְדָּו",
+		"Answer": "ensemble",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "פֹּה ",
+		"Answer": "ici",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "שָׁם",
+		"Answer": "là-bas",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "הִנֵּה",
+		"Answer": "voici",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "לָ֫מָּה",
+		"Answer": "pourquoi",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אַיֵּה\nאֵיפֹה\nאֵי־זֶה ",
+		"Answer": "où",
+		"Image": "",
+		"Description": "pour des lieux\nבְּ-, עַל, תַּ֫חַת\nאַחֲרֵי, לִפְנֵי..."
+	},
+	{
+		"Question": "אָ֫נָה",
+		"Answer": "où",
+		"Image": "",
+		"Description": "pour des directions\nאֶל, לְ, ָה"
+	},
+	{
+		"Question": "מֵאַ֫יִן\nאֵי־מִזֶּה ",
+		"Answer": "d'où",
+		"Image": "",
+		"Description": "pour des origines\nמִן, מִ"
 	}
 ]
