@@ -69,12 +69,9 @@ flutter:
   - resource/
   - resource/images/
   fonts:
-    - family: NotoSerif
+    - family: SBL_Hbrw
       fonts:
-        - asset: ./font/NotoSerif-VariableFont_wdth,wght.ttf
-    - family: NotoSerifHebrew
-      fonts:
-        - asset: ./font/NotoSerifHebrew-VariableFont_wdth,wght.ttf
+        - asset: ./font/SBL_Hbrw.ttf
 
 
   # To add assets to your application, add an assets section, like this:

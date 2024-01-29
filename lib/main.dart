@@ -3,7 +3,6 @@ import 'package:scrolls_to_top/scrolls_to_top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'dart:developer' as dev;
 
 import 'dart:convert';
 import 'dart:math';
@@ -25,8 +24,8 @@ class MyApp extends StatelessWidget {
         // appBarTheme: AppBarTheme.,
         textTheme: Theme.of(context).textTheme.apply(
           fontSizeFactor: 1.25,
-          fontFamily: "NotoSerif",
-          fontFamilyFallback: ["NotoSerifHebrew"],
+          fontFamily: "SBL_Hbrw",
+          fontFamilyFallback: ["SBL_Hbrw"],
         ),
         colorScheme: const ColorScheme.light(
           primary: Color(0xffb5bbbd),
@@ -59,8 +58,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _cardDisplayed = 0;
 
   List _questions = [];
-  List _questionsOrder = [];
-  int _orderListIndex = -1;
   int _currentQuestionIndex = -1;
   double _currentQuestionTextSize = -1;
   double _currentQuestionDescriptionSize = -1;
@@ -70,6 +67,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   String _searchPattern = "";
 
   List<Widget> scoreButtons = [];
+  List<int> _toAsk = [];
+  int _toAskIndex = 0;
 
   late AnimationController _moveController;
   final _fieldTextController = TextEditingController();
@@ -87,28 +86,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
     _initQuizz();
     _buildSuccessButton();
-    _updateDate();
   }
 
   void _buildSuccessButton() {
     List<Color> buttonColors = const [
       Color(0xFFC8F4C5),
       Color(0xFFC5DFF4),
-      Color(0xFFF1C5F4),
+      // Color(0xFFF1C5F4),
       Color(0xFFF4DAC5)
     ];
-    List<String> buttonTexts = const ["Again", "Hard", "Good", "Easy"];
-    for (int i = 0; i < 4; i++) {
+    List<String> buttonTexts = const ["Again", "Hard", "Easy"];
+    for (int i = 0; i < buttonTexts.length; i++) {
       scoreButtons.add(
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: buttonColors[3 - i], // Background color
+            backgroundColor: buttonColors[buttonTexts.length - 1 - i], // Background color
             foregroundColor: Colors.black,
             shape: const CircleBorder(),
             fixedSize: const Size(90, 90),
           ),
           onPressed: () {
-            dev.log("DEBUG: Button $i pressed");
+            print("DEBUG: Button $i pressed");
             _updateQuestion(_currentQuestionIndex, i);
             setState(() {
               _showQuestion = true;
@@ -143,21 +141,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     int dayOfYear = int.parse(DateFormat('D').format(DateTime.now()));
     prefs.setInt("year", year);
     prefs.setInt("dayOfYear", dayOfYear);
-    dev.log(
+    print(
         "DEBUG: Stored year: $storedYear, stored day of year: $storedDayOfYear, current year: $year, current day of year: $dayOfYear");
     int dayDiff = dayOfYear + 365 * (year - storedYear) - storedDayOfYear;
-    dev.log("DEBUG: Day diff: $dayDiff");
+    print("DEBUG: Day diff: $dayDiff");
     for (int i = 0; i < _questions.length; i++) {
       String? values = prefs.getString(_currentQuizzName + i.toString());
       if (values == null) {
         continue;
       }
       List<String> splitted = values.split('_');
-      int I = int.parse(splitted[2]);
-      I = max(I - dayDiff, 0);
-      await prefs.setString(_currentQuizzName + i.toString(),
-          '${splitted[0]}_${splitted[1]}_${I}_${splitted[3]}');
-      print("DEBUG: Updated question ${_questions[i]["Question"]}} with I: $I");
+      int day = int.parse(splitted[1]);
+      int newDay = max(day - dayDiff, 0);
+      if (day == newDay) {
+        continue;
+      }
+      await prefs.setString(
+          _currentQuizzName + i.toString(), '${splitted[0]}_$newDay');
+      print(
+          "DEBUG: Updated question ${_questions[i]["Question"]} with day: $newDay");
     }
   }
 
@@ -175,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           data[_currentQuizzIndex]["DescriptionTextSize"];
       _currentQuizzName = data[_currentQuizzIndex]["Name"];
     });
-    dev.log("DEBUG: Quizz $_currentQuizzName loaded");
+    print("DEBUG: Quizz $_currentQuizzName loaded");
     _readQuestions(_quizzes[_currentQuizzIndex]["Path"]).then((value) {
       setState(() {
         _showLearnQuestion = List.filled(_questions.length, true);
@@ -188,57 +190,69 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final prefs = await SharedPreferences.getInstance();
     List<int> options = [];
     for (int i = 0; i < _questions.length; i++) {
-      String? values = prefs.getString(_currentQuizzName + i.toString());
-      if (values == null) {
-        values ??= "0_2.5_0_0";
-        await prefs.setString(_currentQuizzName + i.toString(), values);
-      }
-      List<String> splitted = values.split('_');
-      int I = int.parse(splitted[2]);
-      if (I == 0) {
-        options.add(i);
-      }
-    }
-    if (options.isEmpty) {
-      for (int i = 0; i < _questions.length; i++) {
-        String values = prefs.getString(_currentQuizzName + i.toString())!;
+        String? values = prefs.getString(_currentQuizzName + i.toString());
+        if (values == null) {
+          // values = box_remainingDay
+          values ??= "0_0";
+          await prefs.setString(_currentQuizzName + i.toString(), values);
+        } 
+        // get all questions with remaining day = 0
         List<String> splitted = values.split('_');
-        int grade = int.parse(splitted[3]);
-        if (grade < 2) {
+        if (splitted[1] == "0") {
+          options.add(i);
+        }
+    }
+    // There are 5 boxes in total
+    int box = -1;
+    while (options.isEmpty && box < 4) {
+      box++;
+      for (int i = 0; i < _questions.length; i++) {
+        String? values = prefs.getString(_currentQuizzName + i.toString());
+        List<String> splitted = values!.split('_');
+        if (splitted[0] == box.toString()) {
           options.add(i);
         }
       }
     }
     if (options.isEmpty) {
+      // next line only for debug print
       options = List.generate(_questions.length, (i) => i);
+    }
+    if (box == -1) {
+      print("DEBUG: New order generated for current day with ${options.length} questions");
+    } else {
+      print("DEBUG: New order generated for box $box with ${options.length} questions");
     }
     options.shuffle();
     setState(() {
-      _questionsOrder = List.from(options);
+      _toAsk = List.from(options);
     });
+    print("DEBUG: toAsk : $_toAsk");
     return true;
   }
 
   void _setNextCard({bool resuffle = false}) {
-    if (resuffle || _questionsOrder.isEmpty || _orderListIndex == _questionsOrder.length - 1) {
+    if (_toAsk.isEmpty || _toAskIndex >= _toAsk.length - 1 || resuffle) {
       suffleCard().then((value) {
+        _updateDate();
         setState(() {
-          _orderListIndex = 0;
-          _currentQuestionIndex = _questionsOrder[_orderListIndex];
+          _toAskIndex = 0;
+          _currentQuestionIndex = _toAsk[0];
         });
+        print("DEBUG: Next card set to $_currentQuestionIndex");
       });
     } else {
       setState(() {
-        _orderListIndex = _orderListIndex + 1;
-        _currentQuestionIndex = _questionsOrder[_orderListIndex];
+        _toAskIndex = _toAskIndex + 1;
       });
-      // setState(() {
-      // });
-        
+      setState(() {
+        _currentQuestionIndex = _toAsk[_toAskIndex];
+      });
     }
+    print("DEBUG: Next card set to $_currentQuestionIndex");
   }
 
-  void _updateQuestion(int questionIndex, int newQ) async {
+  void _updateQuestion(int questionIndex, int newValue) async {
     final prefs = await SharedPreferences.getInstance();
     final String? values =
         prefs.getString(_currentQuizzName + questionIndex.toString());
@@ -246,52 +260,42 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       return;
     }
     List<String> splitted = values.split('_');
-    int n = int.parse(splitted[0]);
-    double EF = double.parse(splitted[1]);
-    int I = int.parse(splitted[2]);
-    int q = int.parse(splitted[3]);
-    dev.log(
-        "DEBUG: Old Values for ${_questions[questionIndex]["Question"]} n: $n, EF: $EF, I: $I, q: $q");
-
-    if (newQ > 0) {
-      if (n == 0) {
-        I = 1;
-      } else if (n == 1) {
-        I = 4;
-      } else {
-        I = (I * EF).round();
-      }
-      n = n + 1;
+    int box = int.parse(splitted[0]);
+    String toSet = "";
+    if (newValue == 0){
+      toSet = "0_0";
+    } else if (newValue == 1) {
+      toSet = "${max(0, box - 1)}_1";
     } else {
-      n = 0;
-      I = 1;
+      if (box == 0) {
+        toSet = "${box + 1}_1";
+      } else if (box == 1) {
+        toSet = "${box + 1}_2";
+      } else if (box == 2) {
+        toSet = "${box + 1}_4";
+      } else if (box == 3) {
+        toSet = "${box + 1}_7";
+      } else {
+        toSet = "${box}_14";
+      }
     }
-
-    EF = EF + (0.1 - (3 - newQ) * (0.08 + (3 - newQ) * 0.02));
-    EF = (EF * 1000).toInt() / 1000;
-    if (EF < 1.3) {
-      EF = 1.3;
-    }
-
-    dev.log(
-        "DEBUG: New Values for ${_questions[questionIndex]["Question"]} n: $n, EF: $EF, I: $I, q: $newQ");
-    await prefs.setString(
-        _currentQuizzName + questionIndex.toString(), '${n}_${EF}_${I}_$newQ');
+    print(
+        "DEBUG: New Values for ${_questions[questionIndex]["Question"]} $toSet");
+    await prefs.setString(_currentQuizzName + questionIndex.toString(), toSet);
   }
 
   Future<int> _readQuestions(String filePath) async {
-    dev.log("DEBUG: trying to read questions in file $filePath");
+    print("DEBUG: trying to read questions in file $filePath");
     final String response = await rootBundle.loadString(filePath);
     final data = await json.decode(response);
     setState(() {
       _questions = data;
-      // _filteredQuestions = data;
       setState(() {
         _searchPattern = "";
       });
       _fieldTextController.clear();
     });
-    dev.log("DEBUG: ${_questions.length} questions parsed");
+    print("DEBUG: ${_questions.length} questions parsed");
     return 0;
   }
 
@@ -585,7 +589,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               icon: Icon(_learnMode ? Icons.school : Icons.school_outlined),
               onPressed: () {
                 setState(() {
-                  dev.log("DEBUG: Learn mode toggled");
+                  print("DEBUG: Learn mode toggled");
                   _learnMode = !_learnMode;
                   _showLearnQuestion = List.filled(_questions.length, true);
                 });
