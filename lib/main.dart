@@ -95,12 +95,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       // Color(0xFFF1C5F4),
       Color(0xFFF4DAC5)
     ];
-    List<String> buttonTexts = const ["Again", "Hard", "Easy"];
+    List<String> buttonTexts = const ["Again", "Hard", "Good"];
     for (int i = 0; i < buttonTexts.length; i++) {
       scoreButtons.add(
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: buttonColors[buttonTexts.length - 1 - i], // Background color
+            backgroundColor:
+                buttonColors[buttonTexts.length - 1 - i], // Background color
             foregroundColor: Colors.black,
             shape: const CircleBorder(),
             fixedSize: const Size(90, 90),
@@ -190,17 +191,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final prefs = await SharedPreferences.getInstance();
     List<int> options = [];
     for (int i = 0; i < _questions.length; i++) {
-        String? values = prefs.getString(_currentQuizzName + i.toString());
-        if (values == null) {
-          // values = box_remainingDay
-          values ??= "0_0";
-          await prefs.setString(_currentQuizzName + i.toString(), values);
-        } 
-        // get all questions with remaining day = 0
-        List<String> splitted = values.split('_');
-        if (splitted[1] == "0") {
-          options.add(i);
-        }
+      String? values = prefs.getString(_currentQuizzName + i.toString());
+      if (values == null) {
+        // values = box_remainingDay
+        values ??= "0_0";
+        await prefs.setString(_currentQuizzName + i.toString(), values);
+      }
+      // get all questions with remaining day = 0
+      List<String> splitted = values.split('_');
+      if (splitted[1] == "0") {
+        options.add(i);
+      }
     }
     // There are 5 boxes in total
     int box = -1;
@@ -219,9 +220,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       options = List.generate(_questions.length, (i) => i);
     }
     if (box == -1) {
-      print("DEBUG: New order generated for current day with ${options.length} questions");
+      print(
+          "DEBUG: New order generated for current day with ${options.length} questions");
     } else {
-      print("DEBUG: New order generated for box $box with ${options.length} questions");
+      print(
+          "DEBUG: New order generated for box $box with ${options.length} questions");
     }
     options.shuffle();
     setState(() {
@@ -239,7 +242,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           _toAskIndex = 0;
           _currentQuestionIndex = _toAsk[0];
         });
-        print("DEBUG: Next card set to $_currentQuestionIndex");
       });
     } else {
       setState(() {
@@ -249,6 +251,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         _currentQuestionIndex = _toAsk[_toAskIndex];
       });
     }
+    // final prefs = await SharedPreferences.getInstance();
+    // final String? values =
+    //     prefs.getString(_currentQuizzName + _currentQuestionIndex.toString());
+    // print("DEBUG: Next card set to $_currentQuestionIndex with values $values");
     print("DEBUG: Next card set to $_currentQuestionIndex");
   }
 
@@ -262,25 +268,29 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     List<String> splitted = values.split('_');
     int box = int.parse(splitted[0]);
     String toSet = "";
-    if (newValue == 0){
+    if (newValue == 0) {
       toSet = "0_0";
     } else if (newValue == 1) {
-      toSet = "${max(0, box - 1)}_1";
+      if (box - 1 <= 0){
+      toSet = "0_0";
+      } else {
+        toSet = "${box - 1}_1";
+      }
     } else {
       if (box == 0) {
-        toSet = "${box + 1}_1";
+        toSet = "1_1";
       } else if (box == 1) {
-        toSet = "${box + 1}_2";
+        toSet = "2_3";
       } else if (box == 2) {
-        toSet = "${box + 1}_4";
+        toSet = "3_7";
       } else if (box == 3) {
-        toSet = "${box + 1}_7";
+        toSet = "4_14";
       } else {
-        toSet = "${box}_14";
+        toSet = "4_30";
       }
     }
     print(
-        "DEBUG: New Values for ${_questions[questionIndex]["Question"]} $toSet");
+        "DEBUG: New Values $toSet for ${_questions[questionIndex]["Question"]}");
     await prefs.setString(_currentQuizzName + questionIndex.toString(), toSet);
   }
 
@@ -659,22 +669,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               ),
                             );
                           }
-                          if (_questions[index - 1]["Question"]
+                          if (_searchPattern.isEmpty ||
+                              _questions[index - 1]["Question"]
                                   .toString()
                                   .toLowerCase()
+                                  .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
                                   .contains(
                                       _searchPattern.trim().toLowerCase()) ||
                               _questions[index - 1]["Answer"]
                                   .toString()
                                   .toLowerCase()
+                                  .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
                                   .contains(
                                       _searchPattern.trim().toLowerCase()) ||
                               _questions[index - 1]["Description"]
                                   .toString()
                                   .toLowerCase()
+                                  .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
                                   .contains(
-                                      _searchPattern.trim().toLowerCase()) ||
-                              _searchPattern.isEmpty) {
+                                      _searchPattern.trim().toLowerCase())) {
                             return Center(
                               child: Container(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),

@@ -162,12 +162,6 @@
 		"Description": ""
 	},
 	{
-		"Question": "אַיֵּה",
-		"Answer": "où",
-		"Image": "",
-		"Description": ""
-	},
-	{
 		"Question": "עַל",
 		"Answer": "au dessus",
 		"Image": "",
@@ -450,13 +444,13 @@
 		"Description": "עָמוֹד"
 	},
 	{
-		"Question": "לִפְנֵי־",
+		"Question": "לִפְנֵי",
 		"Answer": "devant",
 		"Image": "",
 		"Description": ""
 	},
 	{
-		"Question": "אַחֲרֵי־",
+		"Question": "אַחֲרֵי",
 		"Answer": "derrière",
 		"Image": "",
 		"Description": ""
@@ -531,13 +525,13 @@
 		"Question": "שָׁב",
 		"Answer": "revenir",
 		"Image": "",
-		"Description": ""
+		"Description": "שׁוֹב"
 	},
 	{
 		"Question": "שָׁתָה",
 		"Answer": "boire",
 		"Image": "",
-		"Description": ""
+		"Description": "שָׁתֹה"
 	},
 	{
 		"Question": "עִם",
