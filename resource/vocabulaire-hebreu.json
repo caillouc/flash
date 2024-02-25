@@ -1,11 +1,5 @@
 [
 	{
-		"Question": "דְּבָרִים",
-		"Answer": "des paroles",
-		"Image": "",
-		"Description": ""
-	},
-	{
 		"Question": "אָנֹכִי / אֲנִי",
 		"Answer": "je, moi",
 		"Image": "",
@@ -592,5 +586,101 @@
 		"Answer": "d'où",
 		"Image": "",
 		"Description": "pour des origines\nמִן, מִ"
+	},
+	{
+		"Question": "אָרוֹן",
+		"Answer": "coffre",
+		"Image": "",
+		"Description": "(ז)\nאֲרוֹנוֹת"
+	},
+	{
+		"Question": "דָּבָר",
+		"Answer": "chose, parole, énoncé",
+		"Image": "",
+		"Description": "(ז)\nדְּבָרִים"
+	},
+	{
+		"Question": "הֵיכָל",
+		"Answer": "temple, palais",
+		"Image": "",
+		"Description": "(ז)\nהֵיכָלִים / הֵיכָלוֹת"
+	},
+	{
+		"Question": "נַ֫עַר",
+		"Answer": "garçon",
+		"Image": "",
+		"Description": "(ז)\nנְעָרִים"
+	},
+	{
+		"Question": "נַעֲרָה",
+		"Answer": "fille",
+		"Image": "",
+		"Description": "(נ)\nנְעָרוֹת"
+	},
+	{
+		"Question": "עֵת",
+		"Answer": "temps",
+		"Image": "",
+		"Description": "(נ)\nעִתּוֹת"
+	},
+	{
+		"Question": "זָקֵן",
+		"Answer": "vieux",
+		"Image": "",
+		"Description": "(ז)\nזְקֵנִים"
+	},
+	{
+		"Question": "אָז",
+		"Answer": "à ce moment, alors, donc",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אִם",
+		"Answer": "si",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "כִּי",
+		"Answer": "parce que, mais, quand",
+		"Image": "",
+		"Description": "que (introduisant une proposition complétive)"
+	},
+	{
+		"Question": "עוֹד",
+		"Answer": "encore",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "לֹא... עוֹד",
+		"Answer": "ne... plus",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "קָרָא",
+		"Answer": "crier, lire, appeler",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "שָׁמַע",
+		"Answer": "entendre, écouter",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אָמַר",
+		"Answer": "dire",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "יָדַע",
+		"Answer": "ensigner, savoir",
+		"Image": "",
+		"Description": ""
 	}
 ]

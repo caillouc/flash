@@ -183,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       setState(() {
         _showLearnQuestion = List.filled(_questions.length, true);
       });
-      _setNextCard();
+      _setNextCard(resuffle: true);
     });
   }
 
@@ -216,7 +216,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       }
     }
     if (options.isEmpty) {
-      // next line only for debug print
       options = List.generate(_questions.length, (i) => i);
     }
     if (box == -1) {
@@ -435,6 +434,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
 
     return GestureDetector(
+      onLongPress: () async {
+        final prefs = await SharedPreferences.getInstance();
+        String? values = _learnMode ? prefs.getString(_currentQuizzName + cardID.toString()) : prefs.getString(_currentQuizzName + _currentQuestionIndex.toString());
+        SnackBar snackBar = SnackBar(
+          content: Text(
+              "Box: ${values == null ? 0 : values.split('_')[0]}, Day: ${values == null ? 0 : values.split('_')[1]}"),
+          duration: const Duration(seconds: 2),
+        );
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+       
+      },
       onTap: () => setState(() {
         if (_learnMode) {
           _showLearnQuestion[cardID] = !_showLearnQuestion[cardID];
