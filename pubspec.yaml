@@ -67,7 +67,7 @@ flutter:
   uses-material-design: true
   assets:
   - resource/
-  - resource/images/
+  # - resource/images/
   fonts:
     - family: SBL_Hbrw
       fonts:

@@ -142,7 +142,7 @@
 		"Answer": "ville",
 		"Image": "",
 		"Description": "(נ)עָרִים"
-	} ,
+	},
 	{
 		"Question": "נְקֵבָה",
 		"Answer": "♀",
@@ -679,7 +679,13 @@
 	},
 	{
 		"Question": "יָדַע",
-		"Answer": "ensigner, savoir",
+		"Answer": "enseigner, savoir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "דִּבֵּר",
+		"Answer": "parler",
 		"Image": "",
 		"Description": ""
 	}
