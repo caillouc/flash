@@ -1,6 +1,6 @@
 [
 	{
-		"Question": "אָנֹכִי / אֲנִי",
+		"Question": "אָנֹכִי \n אֲנִי",
 		"Answer": "je, moi",
 		"Image": "",
 		"Description": ""
@@ -288,7 +288,7 @@
 		"Description": "נָשִׁים"
 	},
 	{
-		"Question": "נַ֫חְנוּ / אֲנַ֫חְנוּ",
+		"Question": "נַ֫חְנוּ \nאֲנַ֫חְנוּ",
 		"Answer": "nous",
 		"Image": "",
 		"Description": ""
@@ -336,7 +336,7 @@
 		"Description": "יָמִים"
 	},
 	{
-		"Question": "כֹּל / כָּל־",
+		"Question": "כֹּל \n כָּל־",
 		"Answer": "tout",
 		"Image": "",
 		"Description": ""
@@ -384,7 +384,7 @@
 		"Description": "(ז)\nלֵילוֹת"
 	},
 	{
-		"Question": "אַחֵר/אַחֶ֫רֶת",
+		"Question": "אַחֵר\nאַחֶ֫רֶת",
 		"Answer": "autre",
 		"Image": "",
 		"Description": ""
@@ -686,6 +686,18 @@
 	{
 		"Question": "דִּבֵּר",
 		"Answer": "parler",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "מָחָר",
+		"Answer": "demain",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "תֵּמוֹל\nאֶתְמוֹל",
+		"Answer": "hier",
 		"Image": "",
 		"Description": ""
 	}
