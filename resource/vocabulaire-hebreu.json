@@ -700,5 +700,11 @@
 		"Answer": "hier",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "מִי",
+		"Answer": "qui",
+		"Image": "",
+		"Description": "pronom interrogatif"
 	}
 ]
