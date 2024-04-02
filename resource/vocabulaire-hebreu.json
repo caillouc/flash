@@ -750,54 +750,6 @@
 		"Description": ""
 	},
 	{
-		"Question": "כָּזָב",
-		"Answer": "tromperie\n(ז)\nכָּזָבִים",
-		"Image": "",
-		"Description": ""
-	},
-	{
-		"Question": "כָּבוֹד",
-		"Answer": "gloire\n(ז)\nכְּבוֹדוֹת",
-		"Image": "",
-		"Description": ""
-	},
-	{
-		"Question": "כֶּ֫סֶף",
-		"Answer": "argent\n(ז)",
-		"Image": "",
-		"Description": ""
-	},
-	{
-		"Question": "זָהָב",
-		"Answer": "or\n(ז)",
-		"Image": "",
-		"Description": ""
-	},
-	{
-		"Question": "כָּלָה",
-		"Answer": "belle-fille\n(נ)\nכַּלּוֹת",
-		"Image": "",
-		"Description": ""
-	},
-	{
-		"Question": "חָתָן",
-		"Answer": "beau-fils\n(ז)\nחֲתָנִים",
-		"Image": "",
-		"Description": ""
-	},
-	{
-		"Question": "אַב",
-		"Answer": "père\n(ז)\nאָבוֹת",
-		"Image": "",
-		"Description": ""
-	},
-	{
-		"Question": "אֵם",
-		"Answer": "mère\n(נ)\nאִמּוֹת",
-		"Image": "",
-		"Description": ""
-	},
-	{
 		"Question": "בָּשָׂר",
 		"Answer": "viande",
 		"Image": "",
@@ -811,7 +763,7 @@
 	},
 	{
 		"Question": "יֶלֶד",
-		"Answer": "enfant\n(ז)\nיֶלָדִים",
+		"Answer": "enfant\n(ז)\nיְלָדִים",
 		"Image": "",
 		"Description": ""
 	},
@@ -823,7 +775,7 @@
 	},
 	{
 		"Question": "קוֹל",
-		"Answer": "voie\n(ז)\nקוֹלוֹת",
+		"Answer": "voix\n(ז)\nקוֹלוֹת",
 		"Image": "",
 		"Description": ""
 	},
