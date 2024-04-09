@@ -790,5 +790,17 @@
 		"Answer": "sans",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "אֵם",
+		"Answer": "mère \nאִמּוֹת",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אָב",
+		"Answer": "père \nאָבוֹת",
+		"Image": "",
+		"Description": ""
 	}
 ]
