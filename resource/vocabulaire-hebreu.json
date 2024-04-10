@@ -802,5 +802,11 @@
 		"Answer": "père \nאָבוֹת",
 		"Image": "",
 		"Description": ""
+	},
+	{
+		"Question": "לֵאמֹר",
+		"Answer": "introduit un discours direct",
+		"Image": "",
+		"Description": ""
 	}
 ]
