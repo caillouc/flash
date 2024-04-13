@@ -607,7 +607,7 @@
 	},
 	{
 		"Question": "נַ֫עַר",
-		"Answer": "garçon",
+		"Answer": "garçon, serviteur",
 		"Image": "",
 		"Description": "(ז)\nנְעָרִים"
 	},
@@ -806,6 +806,126 @@
 	{
 		"Question": "לֵאמֹר",
 		"Answer": "introduit un discours direct",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אָדוֹן",
+		"Answer": "Maître",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "גְּבִירָה",
+		"Answer": "'patronne'",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "בֹּקֶר",
+		"Answer": "matin",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "זוֹנָה",
+		"Answer": "prostituée",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "חֵיק",
+		"Answer": "seins",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "חָכְמָה",
+		"Answer": "sagesse",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "חֲצִי",
+		"Answer": "moitié",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "חֶרֶב",
+		"Answer": "épée \n חֲרָבוֹת",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "זָר",
+		"Answer": "étranger",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "מֵת",
+		"Answer": "mort",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "חַי",
+		"Answer": "vivant",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "אֵצֶל",
+		"Answer": "près de",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "בְּתוֹךְ",
+		"Answer": "au centre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "גָּזַר",
+		"Answer": "couper",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "יָלַד",
+		"Answer": "engendrer",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "מֵת",
+		"Answer": "mourir",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "נָפַל",
+		"Answer": "tomber",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "נָתַל",
+		"Answer": "donner",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "לָקַח",
+		"Answer": "prendre",
+		"Image": "",
+		"Description": ""
+	},
+	{
+		"Question": "יָרֵא",
+		"Answer": "craindre",
 		"Image": "",
 		"Description": ""
 	}
