@@ -588,15 +588,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 onSelected: (bool value) {
                   setState(() {
                     if (tag == toutTag) {
-                      _selectedTags.clear();
+                      if (_selectedTags.isNotEmpty) {
+                        _selectedTags.clear();
+                        _setNextCard(resuffle: true);
+                      }
                     } else {
                       if (value) {
                         _selectedTags.add(tag);
                       } else {
                         _selectedTags.remove(tag);
                       }
+                      _setNextCard(resuffle: true);
                     }
-                    _setNextCard(resuffle: true);
                     _saveSelectedTags();
                   });
                 },

@@ -3,1182 +3,1775 @@
         "Question": "Afghanistan",
         "Answer": "Kaboul",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Afrique du Sud",
         "Answer": "Prétoria",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Albanie",
         "Answer": "Tirana",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Algérie",
         "Answer": "Alger",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Allemagne",
         "Answer": "Berlin",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Andorre",
         "Answer": "Andorre-la-Vieille",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Angola",
         "Answer": "Luanda",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Antigua-et-Barbuda",
         "Answer": "Saint John's",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Arabie saoudite",
         "Answer": "Riyad",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Argentine",
         "Answer": "Buenos Aires",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Arménie",
         "Answer": "Erevan",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Australie",
         "Answer": "Canberra",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Autriche",
         "Answer": "Vienne",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Azerbaïdjan",
         "Answer": "Bakou",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Bahamas",
         "Answer": "Nassau",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Bahreïn",
         "Answer": "Manama",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Bangladesh",
         "Answer": "Dacca",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Barbade",
         "Answer": "Bridgetown",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Belgique",
         "Answer": "Bruxelles",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Bélize",
         "Answer": "Belmopan",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Bénin",
         "Answer": "Porto-Novo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Bhoutan",
         "Answer": "Thimphou",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Biélorussie",
         "Answer": "Minsk",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Birmanie",
         "Answer": "Naypyidaw",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Bolivie",
         "Answer": "Sucre / La Paz",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Bosnie-Herzégovine",
         "Answer": "Sarajevo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Botswana",
         "Answer": "Gaborone",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Brésil",
         "Answer": "Brasilia",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Brunei",
         "Answer": "Bandar Seri Begawan",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Bulgarie",
         "Answer": "Sofia",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Burkina",
         "Answer": "Ouagadougou",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Burundi",
         "Answer": "Gitega",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Cambodge",
         "Answer": "Phnom Penh",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Cameroun",
         "Answer": "Yaoundé",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Canada",
         "Answer": "Ottawa",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Cap-Vert",
         "Answer": "Praia",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Centrafrique",
         "Answer": "Bangui",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Chili",
         "Answer": "Santiago",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Chine",
         "Answer": "Pékin",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Chypre",
         "Answer": "Nicosie",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Colombie",
         "Answer": "Bogota",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Comores",
         "Answer": "Moroni",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Congo",
         "Answer": "Brazzaville",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "République démocratique du Congo",
         "Answer": "Kinshasa",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Îles Cook",
         "Answer": "Avarua",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Corée du Nord",
         "Answer": "Pyongyang",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Corée du Sud",
         "Answer": "Séoul",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Costa Rica",
         "Answer": "San José",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Côte d'Ivoire",
         "Answer": "Yamoussoukro",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Croatie",
         "Answer": "Zagreb",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Cuba",
         "Answer": "La Havane",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Danemark",
         "Answer": "Copenhague",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Djibouti",
         "Answer": "Djibouti",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "République dominicaine",
         "Answer": "Saint-Domingue",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Dominique",
         "Answer": "Roseau",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Égypte",
         "Answer": "Le Caire",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Émirats arabes unis",
         "Answer": "Abou Dabi",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Équateur",
         "Answer": "Quito",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Érythrée",
         "Answer": "Asmara",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Espagne",
         "Answer": "Madrid",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Estonie",
         "Answer": "Tallinn",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Eswatini",
         "Answer": "Mbabané",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "États-Unis",
         "Answer": "Washington",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Éthiopie",
         "Answer": "Addis Abeba",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Fidji",
         "Answer": "Suva",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Finlande",
         "Answer": "Helsinki",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "France",
         "Answer": "Paris",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Gabon",
         "Answer": "Libreville",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Gambie",
         "Answer": "Banjul",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Géorgie",
         "Answer": "Tbilissi",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Ghana",
         "Answer": "Accra",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Grèce",
         "Answer": "Athènes",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Grenade",
         "Answer": "Saint-Georges",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Guatémala",
         "Answer": "Guatémala",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Guinée",
         "Answer": "Conakry",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Guinée équatoriale",
         "Answer": "Malabo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Guinée-Bissao",
         "Answer": "Bissao",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Guyana",
         "Answer": "Georgetown",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Haïti",
         "Answer": "Port-au-Prince",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Honduras",
         "Answer": "Tégucigalpa",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Hongrie",
         "Answer": "Budapest",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Inde",
         "Answer": "New Delhi",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Indonésie",
         "Answer": "Jakarta",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Irak",
         "Answer": "Bagdad",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Iran",
         "Answer": "Téhéran",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Irlande",
         "Answer": "Dublin",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Islande",
         "Answer": "Reykjavik",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Israël",
         "Answer": "Jérusalem",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Italie",
         "Answer": "Rome",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Jamaïque",
         "Answer": "Kingston",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Japon",
         "Answer": "Tokyo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Jordanie",
         "Answer": "Amman",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Kazakhstan",
         "Answer": "Nour-Soultan",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Kénya",
         "Answer": "Nairobi",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Kirghizstan",
         "Answer": "Bichkek",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Kiribati",
         "Answer": "Bairiki",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Kosovo",
         "Answer": "Pristina",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Koweït",
         "Answer": "Koweït",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Laos",
         "Answer": "Vientiane",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Lésotho",
         "Answer": "Maséru",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Lettonie",
         "Answer": "Riga",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Liban",
         "Answer": "Beyrouth",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Libéria",
         "Answer": "Monrovia",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Libye",
         "Answer": "Tripoli",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Liechtenstein",
         "Answer": "Vaduz",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Lituanie",
         "Answer": "Vilnius",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Luxembourg",
         "Answer": "Luxembourg",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Macédoine du Nord",
         "Answer": "Skopje",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Madagascar",
         "Answer": "Antananarivo (Tananarive)",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Malaisie",
         "Answer": "Kuala Lumpur",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Malawi",
         "Answer": "Lilongwé",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Maldives",
         "Answer": "Malé",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Mali",
         "Answer": "Bamako",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Malte",
         "Answer": "La Valette",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Maroc",
         "Answer": "Rabat",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Îles Marshall",
         "Answer": "Delap-Uliga-Darrit",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Maurice",
         "Answer": "Port-Louis",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Mauritanie",
         "Answer": "Nouakchott",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Mexique",
         "Answer": "Mexico",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Micronésie",
         "Answer": "Palikir",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Moldavie",
         "Answer": "Chisinau",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Monaco",
         "Answer": "Monaco",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Mongolie",
         "Answer": "Oulan-Bator",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Monténégro",
         "Answer": "Podgorica",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Mozambique",
         "Answer": "Maputo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Namibie",
         "Answer": "Windhoek",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Nauru",
         "Answer": "Yaren",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Népal",
         "Answer": "Katmandou",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Nicaragua",
         "Answer": "Managua",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Niger",
         "Answer": "Niamey",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Nigéria",
         "Answer": "Abuja",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Niue",
         "Answer": "Alofi",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Norvège",
         "Answer": "Oslo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Nouvelle-Zélande",
         "Answer": "Wellington",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Oman",
         "Answer": "Mascate",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Ouganda",
         "Answer": "Kampala",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Ouzbékistan",
         "Answer": "Tachkent",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Pakistan",
         "Answer": "Islamabad",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Palaos",
         "Answer": "Melekeok",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Panama",
         "Answer": "Panama",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Papouasie-Nouvelle-Guinée",
         "Answer": "Port Moresby",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Paraguay",
         "Answer": "Assomption (Asuncion)",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Pays-Bas",
         "Answer": "Amsterdam",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Pérou",
         "Answer": "Lima",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Philippines",
         "Answer": "Manille",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Pologne",
         "Answer": "Varsovie",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Portugal",
         "Answer": "Lisbonne",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Qatar",
         "Answer": "Doha",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Roumanie",
         "Answer": "Bucarest",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Royaume-Uni",
         "Answer": "Londres",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Russie",
         "Answer": "Moscou",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe",
+            "Asie"
+        ]
     },
     {
         "Question": "Rwanda",
         "Answer": "Kigali",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Saint-Christophe-et-Niévès",
         "Answer": "Basseterre",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Sainte-Lucie",
         "Answer": "Castries",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Saint-Marin",
         "Answer": "Saint-Marin",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Saint-Vincent-et-les-Grenadines",
         "Answer": "Kingstown",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Salomon",
         "Answer": "Honiara",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Salvador",
         "Answer": "San Salvador",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Samoa",
         "Answer": "Apia",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Sao Tomé-et-Principe",
         "Answer": "Sao Tomé",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Sénégal",
         "Answer": "Dakar",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Serbie",
         "Answer": "Belgrade",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Seychelles",
         "Answer": "Victoria",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Sierra Leone",
         "Answer": "Freetown",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Singapour",
         "Answer": "Singapour",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Slovaquie",
         "Answer": "Bratislava",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Slovénie",
         "Answer": "Ljubljana",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Somalie",
         "Answer": "Mogadiscio",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Soudan",
         "Answer": "Khartoum",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Soudan du Sud",
         "Answer": "Djouba",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Sri Lanka",
         "Answer": "Sri Jayewardenepura-Kotte",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Suède",
         "Answer": "Stockholm",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Suisse",
         "Answer": "Berne",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Suriname",
         "Answer": "Paramaribo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Syrie",
         "Answer": "Damas",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Tadjikistan",
         "Answer": "Douchanbé",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Tanzanie",
         "Answer": "Dodoma",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Tchad",
         "Answer": "Ndjamena",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Tchéquie",
         "Answer": "Prague",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Thaïlande",
         "Answer": "Bangkok",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Timor oriental",
         "Answer": "Dili",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Togo",
         "Answer": "Lomé",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Tonga",
         "Answer": "Nuku'alofa",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Trinité-et-Tobago",
         "Answer": "Port d'Espagne (Port of Spain)",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Nord"
+        ]
     },
     {
         "Question": "Tunisie",
         "Answer": "Tunis",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Turkménistan",
         "Answer": "Achgabat",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Turquie",
         "Answer": "Ankara",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe",
+            "Asie"
+        ]
     },
     {
         "Question": "Tuvalu",
         "Answer": "Vaiaku",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Ukraine",
         "Answer": "Kiev",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Uruguay",
         "Answer": "Montévidéo",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Vanuatu",
         "Answer": "Port-Vila",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Australie"
+        ]
     },
     {
         "Question": "Vatican",
         "Answer": "",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Europe"
+        ]
     },
     {
         "Question": "Vénézuéla",
         "Answer": "Caracas",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Amérique du Sud"
+        ]
     },
     {
         "Question": "Vietnam",
         "Answer": "Hanoï",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Yémen",
         "Answer": "Sanaa",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Asie"
+        ]
     },
     {
         "Question": "Zambie",
         "Answer": "Lusaka",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     },
     {
         "Question": "Zimbabwé",
         "Answer": "Hararé",
         "Image": "",
-        "Description": ""
+        "Description": "",
+        "Tags": [
+            "Afrique"
+        ]
     }
 ]

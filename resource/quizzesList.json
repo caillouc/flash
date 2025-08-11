@@ -4,7 +4,8 @@
 		"Path": "resource/country-to-capital.json",
 		"Icon": "0xe67c",
 		"QuestionTextSize": 50.0,
-		"DescriptionTextSize": 20.0
+		"DescriptionTextSize": 20.0,
+		"Tags": ["Europe", "Asie", "Amérique du Sud", "Amérique du Nord", "Afrique", "Australie"]
 	},
 	{
 		"Name": "Les Saints",
