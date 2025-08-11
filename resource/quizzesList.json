@@ -32,20 +32,15 @@
 		"Path": "resource/alphabet-grec.json",
 		"Icon": "0xe3dd",
 		"QuestionTextSize": 180.0,
-		"DescriptionTextSize": 20.0
+		"DescriptionTextSize": 20.0,
+		"Tags": ["Minuscule", "Majuscule"]
 	},
 	{
 		"Name": "Vocabulaire Grec",
 		"Path": "resource/vocabulaire-grec.json",
 		"Icon": "0xe5dd",
 		"QuestionTextSize": 50.0,
-		"DescriptionTextSize": 20.0
-	},
-	{
-		"Name": "Prépositions Grec",
-		"Path": "resource/prepositions-grec.json",
-		"Icon": "0xf0226",
-		"QuestionTextSize": 65.0,
-		"DescriptionTextSize": 20.0
+		"DescriptionTextSize": 20.0,
+		"Tags" : ["Préposition"]
 	}
 ]

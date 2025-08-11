@@ -14,14 +14,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flash Learning',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // appBarTheme: AppBarTheme.,
         textTheme: Theme.of(context).textTheme.apply(
           fontSizeFactor: 1.25,
           fontFamily: "SBL_Hbrw",
@@ -51,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final String toutTag = "Tout";
 
   bool _learnMode = false;
   List<bool> _showLearnQuestion = [];
@@ -65,6 +64,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _currentQuizzIndex = -1;
   String _currentQuizzName = "";
   String _searchPattern = "";
+
+  Set<String> _selectedTags = {};
 
   List<Widget> scoreButtons = [];
   List<int> _toAsk = [];
@@ -92,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     List<Color> buttonColors = const [
       Color(0xFFC8F4C5),
       Color(0xFFC5DFF4),
-      // Color(0xFFF1C5F4),
       Color(0xFFF4DAC5)
     ];
     List<String> buttonTexts = const ["Again", "Hard", "Good"];
@@ -100,14 +100,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       scoreButtons.add(
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                buttonColors[buttonTexts.length - 1 - i], // Background color
+            backgroundColor: buttonColors[buttonTexts.length - 1 - i],
             foregroundColor: Colors.black,
             shape: const CircleBorder(),
             fixedSize: const Size(90, 90),
           ),
           onPressed: () {
-            print("DEBUG: Button $i pressed");
             _updateQuestion(_currentQuestionIndex, i);
             setState(() {
               _showQuestion = true;
@@ -142,25 +140,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     int dayOfYear = int.parse(DateFormat('D').format(DateTime.now()));
     prefs.setInt("year", year);
     prefs.setInt("dayOfYear", dayOfYear);
-    print(
-        "DEBUG: Stored year: $storedYear, stored day of year: $storedDayOfYear, current year: $year, current day of year: $dayOfYear");
     int dayDiff = dayOfYear + 365 * (year - storedYear) - storedDayOfYear;
-    print("DEBUG: Day diff: $dayDiff");
     for (int i = 0; i < _questions.length; i++) {
       String? values = prefs.getString(_currentQuizzName + i.toString());
-      if (values == null) {
-        continue;
-      }
+      if (values == null) continue;
       List<String> splitted = values.split('_');
       int day = int.parse(splitted[1]);
       int newDay = max(day - dayDiff, 0);
-      if (day == newDay) {
-        continue;
-      }
+      if (day == newDay) continue;
       await prefs.setString(
           _currentQuizzName + i.toString(), '${splitted[0]}_$newDay');
-      print(
-          "DEBUG: Updated question ${_questions[i]["Question"]} with day: $newDay");
     }
   }
 
@@ -170,6 +159,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final String response =
         await rootBundle.loadString("resource/quizzesList.json");
     final data = await json.decode(response);
+    await _loadSelectedTags();
     setState(() {
       _quizzes = data;
       _currentQuizzIndex = tempListindex ?? 0;
@@ -177,8 +167,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       _currentQuestionDescriptionSize =
           data[_currentQuizzIndex]["DescriptionTextSize"];
       _currentQuizzName = data[_currentQuizzIndex]["Name"];
+      _selectedTags.clear();
     });
-    print("DEBUG: Quizz $_currentQuizzName loaded");
     _readQuestions(_quizzes[_currentQuizzIndex]["Path"]).then((value) {
       setState(() {
         _showLearnQuestion = List.filled(_questions.length, true);
@@ -191,19 +181,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final prefs = await SharedPreferences.getInstance();
     List<int> options = [];
     for (int i = 0; i < _questions.length; i++) {
+      if (_selectedTags.isNotEmpty) {
+        List<String> questionTags =
+            List<String>.from(_questions[i]["Tags"] ?? []);
+        if (!questionTags.any((tag) => _selectedTags.contains(tag))) {
+          continue;
+        }
+      }
       String? values = prefs.getString(_currentQuizzName + i.toString());
       if (values == null) {
-        // values = box_remainingDay
-        values ??= "0_0";
+        values = "0_0";
         await prefs.setString(_currentQuizzName + i.toString(), values);
       }
-      // get all questions with remaining day = 0
       List<String> splitted = values.split('_');
       if (splitted[1] == "0") {
         options.add(i);
       }
     }
-    // There are 5 boxes in total
     int box = -1;
     while (options.isEmpty && box < 4) {
       box++;
@@ -218,18 +212,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     if (options.isEmpty) {
       options = List.generate(_questions.length, (i) => i);
     }
-    if (box == -1) {
-      print(
-          "DEBUG: New order generated for current day with ${options.length} questions");
-    } else {
-      print(
-          "DEBUG: New order generated for box $box with ${options.length} questions");
-    }
     options.shuffle();
     setState(() {
       _toAsk = List.from(options);
     });
-    print("DEBUG: toAsk : $_toAsk");
     return true;
   }
 
@@ -250,28 +236,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         _currentQuestionIndex = _toAsk[_toAskIndex];
       });
     }
-    // final prefs = await SharedPreferences.getInstance();
-    // final String? values =
-    //     prefs.getString(_currentQuizzName + _currentQuestionIndex.toString());
-    // print("DEBUG: Next card set to $_currentQuestionIndex with values $values");
-    print("DEBUG: Next card set to $_currentQuestionIndex");
   }
 
   void _updateQuestion(int questionIndex, int newValue) async {
     final prefs = await SharedPreferences.getInstance();
     final String? values =
         prefs.getString(_currentQuizzName + questionIndex.toString());
-    if (values == null) {
-      return;
-    }
+    if (values == null) return;
     List<String> splitted = values.split('_');
     int box = int.parse(splitted[0]);
     String toSet = "";
     if (newValue == 0) {
       toSet = "0_0";
     } else if (newValue == 1) {
-      if (box - 1 <= 0){
-      toSet = "0_0";
+      if (box - 1 <= 0) {
+        toSet = "0_0";
       } else {
         toSet = "${box - 1}_1";
       }
@@ -288,13 +267,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         toSet = "4_30";
       }
     }
-    print(
-        "DEBUG: New Values $toSet for ${_questions[questionIndex]["Question"]}");
     await prefs.setString(_currentQuizzName + questionIndex.toString(), toSet);
   }
 
   Future<int> _readQuestions(String filePath) async {
-    print("DEBUG: trying to read questions in file $filePath");
     final String response = await rootBundle.loadString(filePath);
     final data = await json.decode(response);
     setState(() {
@@ -304,8 +280,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       });
       _fieldTextController.clear();
     });
-    print("DEBUG: ${_questions.length} questions parsed");
     return 0;
+  }
+
+  Future<void> _saveSelectedTags() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(
+      "selectedTags_$_currentQuizzName",
+      _selectedTags.toList(),
+    );
+  }
+
+  Future<void> _loadSelectedTags() async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String>? storedTags =
+        prefs.getStringList("selectedTags_$_currentQuizzName");
+    setState(() {
+      _selectedTags = storedTags != null ? storedTags.toSet() : {};
+    });
   }
 
   Widget _flashCard(
@@ -418,8 +410,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           final isUnder = _learnMode
               ? ValueKey(_showLearnQuestion[cardID]) != widget!.key
               : ValueKey(_showQuestion) != widget!.key;
-          // (_learnMode && _showLearnQuestion[cardID])) !=
-          // widget!.key);
           var tilt = ((animation.value - 0.5).abs() - 0.5) * 0.001;
           tilt *= isUnder ? -1.0 : 1.0;
           final value =
@@ -436,7 +426,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return GestureDetector(
       onLongPress: () async {
         final prefs = await SharedPreferences.getInstance();
-        String? values = _learnMode ? prefs.getString(_currentQuizzName + cardID.toString()) : prefs.getString(_currentQuizzName + _currentQuestionIndex.toString());
+        String? values = _learnMode
+            ? prefs.getString(_currentQuizzName + cardID.toString())
+            : prefs.getString(
+                _currentQuizzName + _currentQuestionIndex.toString());
         SnackBar snackBar = SnackBar(
           content: Text(
               "Box: ${values == null ? 0 : values.split('_')[0]}, Day: ${values == null ? 0 : values.split('_')[1]}"),
@@ -444,7 +437,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         );
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-       
       },
       onTap: () => setState(() {
         if (_learnMode) {
@@ -550,39 +542,116 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
   }
 
+  Widget tagFilterBar() {
+    if (_quizzes.isEmpty ||
+        _currentQuizzIndex < 0 ||
+        _quizzes[_currentQuizzIndex]["Tags"] == null) {
+      return const SizedBox(height: 0);
+    }
+    final quizTags = List<String>.from(_quizzes[_currentQuizzIndex]["Tags"]);
+    if (quizTags.isEmpty) return const SizedBox(height: 0);
+
+    final displayTags = [
+      toutTag,
+      ...quizTags.where((tag) => _selectedTags.contains(tag)).toList()..sort(),
+      ...quizTags.where((tag) => !_selectedTags.contains(tag)).toList()..sort()
+    ];
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 2.0),
+      child: SizedBox(
+        height: 36,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: displayTags.length,
+          itemBuilder: (context, tagIndex) {
+            String tag = displayTags[tagIndex];
+            bool selected = tag == toutTag
+                ? _selectedTags.isEmpty
+                : _selectedTags.contains(tag);
+
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: ChoiceChip(
+                label: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 2.0, horizontal: 8.0),
+                  child: Text(
+                    tag,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                selected: selected,
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onSelected: (bool value) {
+                  setState(() {
+                    if (tag == toutTag) {
+                      _selectedTags.clear();
+                    } else {
+                      if (value) {
+                        _selectedTags.add(tag);
+                      } else {
+                        _selectedTags.remove(tag);
+                      }
+                    }
+                    _setNextCard(resuffle: true);
+                    _saveSelectedTags();
+                  });
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   Widget quizzMenu() {
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 50,
-            ),
+            const SizedBox(height: 50),
             for (int i = 0; i < _quizzes.length; i++) ...[
-              SizedBox(
-                height: 60,
-                child: Center(
-                  child: Card(
-                    child: ListTile(
-                      title: Text(_quizzes[i]["Name"]),
-                      // https://api.flutter.dev/flutter/material/Icons-class.html#constants
-                      trailing: Icon(_quizzes[i]["Icon"] == ""
-                          ? Icons.done_all
-                          : IconData(int.parse(_quizzes[i]["Icon"]),
-                              fontFamily: 'MaterialIcons')),
-                      onTap: () {
-                        if (i == _currentQuizzIndex) {
-                          Navigator.of(context).pop();
-                          return;
-                        }
-                        switchQuizz(i);
-                        Navigator.of(context).pop();
-                      },
-                    ),
+              Card(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _quizzes[i]["Name"],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        _quizzes[i]["Icon"] == ""
+                            ? Icons.done_all
+                            : IconData(
+                                int.parse(_quizzes[i]["Icon"]),
+                                fontFamily: 'MaterialIcons',
+                              ),
+                      ),
+                    ],
                   ),
+                  onTap: () async {
+                    if (i == _currentQuizzIndex) {
+                      Navigator.of(context).pop();
+                      return;
+                    }
+                    await _saveSelectedTags();
+                    switchQuizz(i);
+                    await _loadSelectedTags();
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
-            ]
+            ],
           ],
         ),
       ),
@@ -610,7 +679,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               icon: Icon(_learnMode ? Icons.school : Icons.school_outlined),
               onPressed: () {
                 setState(() {
-                  print("DEBUG: Learn mode toggled");
                   _learnMode = !_learnMode;
                   _showLearnQuestion = List.filled(_questions.length, true);
                 });
@@ -627,7 +695,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               );
             },
           ),
-          title: Text(_currentQuizzName),
+          title: Text(
+              "$_currentQuizzName (${_selectedTags.isEmpty ? _questions.length : _questions.where(
+                  (q) => (q["Tags"] ?? []).any(
+                    (tag) => _selectedTags.contains(tag),
+                  ),
+                ).length})"),
         ),
         floatingActionButton: _learnMode && _fieldTextController.text.isEmpty
             ? FloatingActionButton(
@@ -644,56 +717,60 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         body: Center(
           child: _learnMode
               ? Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 20,
+                    tagFilterBar(), // <--- Tag Filter Bar is now shown here
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: TextField(
+                        controller: _fieldTextController,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: 'Search',
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: (() {
+                              _fieldTextController.clear();
+                              setState(() {
+                                _searchPattern = "";
+                              });
+                            }),
+                          ),
+                        ),
+                        onChanged: (value) => setState(() {
+                          _searchPattern = value;
+                        }),
+                      ),
                     ),
                     Expanded(
                       child: ListView.builder(
                         controller: _listViewController,
                         keyboardDismissBehavior:
                             ScrollViewKeyboardDismissBehavior.onDrag,
-                        itemCount: _questions.length + 1,
+                        itemCount: _questions.length,
                         itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return Container(
-                              padding: const EdgeInsets.all(10),
-                              child: TextField(
-                                controller: _fieldTextController,
-                                decoration: InputDecoration(
-                                  border: const OutlineInputBorder(),
-                                  labelText: 'Search',
-                                  suffixIcon: IconButton(
-                                    icon: const Icon(Icons.clear),
-                                    onPressed: (() {
-                                      _fieldTextController.clear();
-                                      setState(() {
-                                        _searchPattern = "";
-                                      });
-                                    }),
-                                  ),
-                                ),
-                                onChanged: (value) => setState(() {
-                                  _searchPattern = value;
-                                }),
-                              ),
-                            );
+                          if (_selectedTags.isNotEmpty) {
+                            List<String> questionTags = List<String>.from(
+                                _questions[index]["Tags"] ?? []);
+                            if (!questionTags
+                                .any((tag) => _selectedTags.contains(tag))) {
+                              return const SizedBox(height: 0);
+                            }
                           }
                           if (_searchPattern.isEmpty ||
-                              _questions[index - 1]["Question"]
+                              _questions[index]["Question"]
                                   .toString()
                                   .toLowerCase()
                                   .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
                                   .contains(
                                       _searchPattern.trim().toLowerCase()) ||
-                              _questions[index - 1]["Answer"]
+                              _questions[index]["Answer"]
                                   .toString()
                                   .toLowerCase()
                                   .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
                                   .contains(
                                       _searchPattern.trim().toLowerCase()) ||
-                              _questions[index - 1]["Description"]
+                              _questions[index]["Description"]
                                   .toString()
                                   .toLowerCase()
                                   .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
@@ -703,11 +780,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               child: Container(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                 child: animatedCard(
-                                    cardID: index - 1,
-                                    question: _questions[index - 1]["Question"],
-                                    answer: _questions[index - 1]["Answer"],
-                                    image: _questions[index - 1]["Image"],
-                                    description: _questions[index - 1]
+                                    cardID: index,
+                                    question: _questions[index]["Question"],
+                                    answer: _questions[index]["Answer"],
+                                    image: _questions[index]["Image"],
+                                    description: _questions[index]
                                         ["Description"]),
                               ),
                             );
@@ -718,12 +795,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           }
                         },
                       ),
-                    )
+                    ),
                   ],
                 )
               : Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    tagFilterBar(), // <--- Tag Filter Bar is now shown here
                     SizedBox(
                       height: 540,
                       width: 340,
@@ -739,6 +818,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: scoreButtons,
+                    ),
+                    const SizedBox(
+                      height: 0,
                     ),
                   ],
                 ),

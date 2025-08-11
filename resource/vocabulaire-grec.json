@@ -1,5 +1,138 @@
 [
 	{
+		"Question": "ἀπό",
+		"Answer": "loin de",
+		"Image": "",
+		"Description": "+ gén",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "διά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - à cause de, grace à\n+ gén - à travers",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "εἰς",
+		"Answer": "vers, dans (+ mouvement), en vue de",
+		"Image": "",
+		"Description": "+ acc",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ἐκ",
+		"Answer": "hors de, de",
+		"Image": "",
+		"Description": "+ gén",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ἐν",
+		"Answer": "dans, grâce à (rare)",
+		"Image": "",
+		"Description": "+ dat",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ἐνώπιον",
+		"Answer": "devant, en présence de",
+		"Image": "",
+		"Description": "+ gén",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ἔξω",
+		"Answer": "hors de, en dehors",
+		"Image": "",
+		"Description": "+ gén",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ἐπί",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - au dessus, sur (avec mouvement)\n+ gén - à l'époque de, sur (localisaton)\n+ dat - sur, dans, sur la base de",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ἕως",
+		"Answer": "jusqu'à",
+		"Image": "",
+		"Description": "+ gen",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "κατά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - selon\n+ gén - contre, en opposition à",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "μετά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - après\n+ gén - avec",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "παρά",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - le long de\n+ gén - d'auprès de\n+ dat - de (sans mouvement)",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "περί",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - autour, approximativement\n+ gén - à propos de",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "πρό",
+		"Answer": "avant",
+		"Image": "",
+		"Description": "+ gén",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "πρός",
+		"Answer": "vers, en direction de",
+		"Image": "",
+		"Description": "+ acc",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "σύν",
+		"Answer": "avec",
+		"Image": "",
+		"Description": "+ dat",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ὑπέρ",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - au dessus de\n+ gén - au nom de, à cause de, pour",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ὑπό",
+		"Answer": "",
+		"Image": "",
+		"Description": "+ acc - au-dessous, sous\n+ gén - par, grâce à",
+		"Tags": ["Préposition"]
+	},
+	{
+		"Question": "ὀπίσω",
+		"Answer": "derrrière",
+		"Image": "",
+		"Description": "+ gén",
+		"Tags": ["Préposition"]
+	},
+	{
 		"Question": "᾽Αβραάμ",
 		"Answer": "Abraham",
 		"Image": "",
