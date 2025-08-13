@@ -159,7 +159,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final String response =
         await rootBundle.loadString("resource/quizzesList.json");
     final data = await json.decode(response);
-    await _loadSelectedTags();
     setState(() {
       _quizzes = data;
       _currentQuizzIndex = tempListindex ?? 0;
@@ -167,8 +166,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       _currentQuestionDescriptionSize =
           data[_currentQuizzIndex]["DescriptionTextSize"];
       _currentQuizzName = data[_currentQuizzIndex]["Name"];
-      _selectedTags.clear();
     });
+    await _loadSelectedTags();
     _readQuestions(_quizzes[_currentQuizzIndex]["Path"]).then((value) {
       setState(() {
         _showLearnQuestion = List.filled(_questions.length, true);
@@ -289,6 +288,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       "selectedTags_$_currentQuizzName",
       _selectedTags.toList(),
     );
+    print("Saved selected tags: $_selectedTags for quizz $_currentQuizzName");
   }
 
   Future<void> _loadSelectedTags() async {
@@ -298,6 +298,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     setState(() {
       _selectedTags = storedTags != null ? storedTags.toSet() : {};
     });
+    print("Loaded selected tags: $_selectedTags for quizz $_currentQuizzName");
   }
 
   Widget _flashCard(
@@ -378,13 +379,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               height: 0,
                               width: 0,
                             )
-                          : Container(
-                              padding: const EdgeInsets.all(30),
-                              child: Text(
-                                description,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  fontSize: _currentQuestionDescriptionSize,
+                          : Expanded(
+                              child: SingleChildScrollView(
+                                // show scrollbar
+                                padding: const EdgeInsets.all(30),
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                // make description text justified
+                                child: Text(
+                                  description,
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: _currentQuestionDescriptionSize,
+                                  ),
                                 ),
                               ),
                             ),
@@ -647,7 +654,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       Navigator.of(context).pop();
                       return;
                     }
-                    await _saveSelectedTags();
                     switchQuizz(i);
                     await _loadSelectedTags();
                     Navigator.of(context).pop();
@@ -700,10 +706,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
           title: Text(
               "$_currentQuizzName (${_selectedTags.isEmpty ? _questions.length : _questions.where(
-                  (q) => (q["Tags"] ?? []).any(
-                    (tag) => _selectedTags.contains(tag),
-                  ),
-                ).length})"),
+                    (q) => (q["Tags"] ?? []).any(
+                      (tag) => _selectedTags.contains(tag),
+                    ),
+                  ).length})"),
         ),
         floatingActionButton: _learnMode && _fieldTextController.text.isEmpty
             ? FloatingActionButton(
