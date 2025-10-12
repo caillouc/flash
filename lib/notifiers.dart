@@ -18,7 +18,7 @@ class QuizzesNotifier extends ChangeNotifier {
 
   // URL to fetch the quizzes list JSON
   static const String _remoteUrl =
-      'https://raw.githubusercontent.com/caillouc/flash/refs/heads/refactoring/resource/quizzesList.json';
+      'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzesList.json';
 
   // SharedPreferences key for the saved version (etag or timestamp)
   static const String _prefsVersionKey = 'quizzes_list_version';
