@@ -1,15 +1,22 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flash/quizz.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
-import 'dart:convert';
-import 'dart:math';
+import 'card.dart';
+import 'card_stack.dart';
+import 'tag_bar.dart';
+import 'card_list.dart';
+import 'search_bar.dart';
+import 'notifiers.dart';
+import 'quizz_menu.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+CurrentQuizzNotifier currentQuizzNotifier = CurrentQuizzNotifier();
+QuizzesNotifier quizzesNotifier = QuizzesNotifier();
+StateNotifier stateNotifier = StateNotifier();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -49,623 +56,41 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final String toutTag = "Tout";
+  final ScrollController _listViewController = ScrollController();
+  final TextEditingController _fieldTextController = TextEditingController();
+
 
   bool _learnMode = false;
-  List<bool> _showLearnQuestion = [];
-  bool _showQuestion = true;
-  int _cardDisplayed = 0;
 
-  List _questions = [];
-  int _currentQuestionIndex = -1;
-  double _currentQuestionTextSize = -1;
-  double _currentQuestionDescriptionSize = -1;
-  List _quizzes = [];
-  int _currentQuizzIndex = -1;
-  String _currentQuizzName = "";
-  String _searchPattern = "";
+  final List<FlashCard> _testFlashCard = [
+    const FlashCard(frontTitle: "Question 1", backTitle: "Reponse 1"),
+    const FlashCard(frontTitle: "Question 2", backTitle: "Reponse 2"),
+    const FlashCard(frontTitle: "Question 3", backTitle: "Reponse 3"),
+    const FlashCard(frontTitle: "Question 4", backTitle: "Reponse 4"),
+    const FlashCard(frontTitle: "Question 5", backTitle: "Reponse 5")
+  ];
 
-  Set<String> _selectedTags = {};
+  final List<String> _tagTest = const ["Tag 1", "Tag2", "Tag3"];
+  final List<Quizz> _quizzTest = [
+    Quizz(name: "Quizz1", tags: [], icon: "0xe0bf"),
+    Quizz(name: "Quizz2", tags: ["tg1", "tg2", "tg3"], icon: "")
+  ];
 
-  List<Widget> scoreButtons = [];
-  List<int> _toAsk = [];
-  int _toAskIndex = 0;
-
-  late AnimationController _moveController;
-  final _fieldTextController = TextEditingController();
-  final _listViewController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _moveController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _moveController.addListener(() {
-      setState(() {});
-    });
-    _initQuizz();
-    _buildSuccessButton();
-  }
-
-  void _buildSuccessButton() {
-    List<Color> buttonColors = const [
-      Color(0xFFC8F4C5),
-      Color(0xFFC5DFF4),
-      Color(0xFFF4DAC5)
-    ];
-    List<String> buttonTexts = const ["Again", "Hard", "Good"];
-    for (int i = 0; i < buttonTexts.length; i++) {
-      scoreButtons.add(
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: buttonColors[buttonTexts.length - 1 - i],
-            foregroundColor: Colors.black,
-            shape: const CircleBorder(),
-            fixedSize: const Size(90, 90),
-          ),
-          onPressed: () {
-            _updateQuestion(_currentQuestionIndex, i);
-            setState(() {
-              _showQuestion = true;
-            });
-            _moveController.forward().whenComplete(() {
-              setState(() {
-                _moveController.reset();
-                _cardDisplayed = (_cardDisplayed + 1) % 3;
-              });
-              _setNextCard();
-            });
-          },
-          child: Text(buttonTexts[i]),
-        ),
-      );
-    }
+    // initQuizz
+    // Update dates
   }
 
   @override
   void dispose() {
     super.dispose();
-    _moveController.dispose();
-    _fieldTextController.dispose();
     _listViewController.dispose();
   }
 
-  void _updateDate() async {
-    final prefs = await SharedPreferences.getInstance();
-    int storedYear = prefs.getInt("year") ?? 0;
-    int storedDayOfYear = prefs.getInt("dayOfYear") ?? -1;
-    int year = int.parse(DateFormat.y().format(DateTime.now()));
-    int dayOfYear = int.parse(DateFormat('D').format(DateTime.now()));
-    prefs.setInt("year", year);
-    prefs.setInt("dayOfYear", dayOfYear);
-    int dayDiff = dayOfYear + 365 * (year - storedYear) - storedDayOfYear;
-    for (int i = 0; i < _questions.length; i++) {
-      String? values = prefs.getString(_currentQuizzName + i.toString());
-      if (values == null) continue;
-      List<String> splitted = values.split('_');
-      int day = int.parse(splitted[1]);
-      int newDay = max(day - dayDiff, 0);
-      if (day == newDay) continue;
-      await prefs.setString(
-          _currentQuizzName + i.toString(), '${splitted[0]}_$newDay');
-    }
-  }
 
-  void _initQuizz() async {
-    final prefs = await SharedPreferences.getInstance();
-    int? tempListindex = prefs.getInt("saveQuizzIndex");
-    final String response =
-        await rootBundle.loadString("resource/quizzesList.json");
-    final data = await json.decode(response);
-    setState(() {
-      _quizzes = data;
-      _currentQuizzIndex = tempListindex ?? 0;
-      _currentQuestionTextSize = data[_currentQuizzIndex]["QuestionTextSize"];
-      _currentQuestionDescriptionSize =
-          data[_currentQuizzIndex]["DescriptionTextSize"];
-      _currentQuizzName = data[_currentQuizzIndex]["Name"];
-    });
-    await _loadSelectedTags();
-    _readQuestions(_quizzes[_currentQuizzIndex]["Path"]).then((value) {
-      setState(() {
-        _showLearnQuestion = List.filled(_questions.length, true);
-      });
-      _setNextCard(resuffle: true);
-    });
-  }
-
-  Future<bool> suffleCard() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<int> options = [];
-    for (int i = 0; i < _questions.length; i++) {
-      if (_selectedTags.isNotEmpty) {
-        List<String> questionTags =
-            List<String>.from(_questions[i]["Tags"] ?? []);
-        if (!questionTags.any((tag) => _selectedTags.contains(tag))) {
-          continue;
-        }
-      }
-      String? values = prefs.getString(_currentQuizzName + i.toString());
-      if (values == null) {
-        values = "0_0";
-        await prefs.setString(_currentQuizzName + i.toString(), values);
-      }
-      List<String> splitted = values.split('_');
-      if (splitted[1] == "0") {
-        options.add(i);
-      }
-    }
-    int box = -1;
-    while (options.isEmpty && box < 4) {
-      box++;
-      for (int i = 0; i < _questions.length; i++) {
-        String? values = prefs.getString(_currentQuizzName + i.toString());
-        List<String> splitted = values!.split('_');
-        if (splitted[0] == box.toString()) {
-          options.add(i);
-        }
-      }
-    }
-    if (options.isEmpty) {
-      options = List.generate(_questions.length, (i) => i);
-    }
-    options.shuffle();
-    setState(() {
-      _toAsk = List.from(options);
-    });
-    return true;
-  }
-
-  void _setNextCard({bool resuffle = false}) {
-    if (_toAsk.isEmpty || _toAskIndex >= _toAsk.length - 1 || resuffle) {
-      suffleCard().then((value) {
-        _updateDate();
-        setState(() {
-          _toAskIndex = 0;
-          _currentQuestionIndex = _toAsk[0];
-        });
-      });
-    } else {
-      setState(() {
-        _toAskIndex = _toAskIndex + 1;
-      });
-      setState(() {
-        _currentQuestionIndex = _toAsk[_toAskIndex];
-      });
-    }
-  }
-
-  void _updateQuestion(int questionIndex, int newValue) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? values =
-        prefs.getString(_currentQuizzName + questionIndex.toString());
-    if (values == null) return;
-    List<String> splitted = values.split('_');
-    int box = int.parse(splitted[0]);
-    String toSet = "";
-    if (newValue == 0) {
-      toSet = "0_0";
-    } else if (newValue == 1) {
-      if (box - 1 <= 0) {
-        toSet = "0_0";
-      } else {
-        toSet = "${box - 1}_1";
-      }
-    } else {
-      if (box == 0) {
-        toSet = "1_1";
-      } else if (box == 1) {
-        toSet = "2_3";
-      } else if (box == 2) {
-        toSet = "3_7";
-      } else if (box == 3) {
-        toSet = "4_14";
-      } else {
-        toSet = "4_30";
-      }
-    }
-    await prefs.setString(_currentQuizzName + questionIndex.toString(), toSet);
-  }
-
-  Future<int> _readQuestions(String filePath) async {
-    final String response = await rootBundle.loadString(filePath);
-    final data = await json.decode(response);
-    setState(() {
-      _questions = data;
-      setState(() {
-        _searchPattern = "";
-      });
-      _fieldTextController.clear();
-    });
-    return 0;
-  }
-
-  Future<void> _saveSelectedTags() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(
-      "selectedTags_$_currentQuizzName",
-      _selectedTags.toList(),
-    );
-    print("Saved selected tags: $_selectedTags for quizz $_currentQuizzName");
-  }
-
-  Future<void> _loadSelectedTags() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String>? storedTags =
-        prefs.getStringList("selectedTags_$_currentQuizzName");
-    setState(() {
-      _selectedTags = storedTags != null ? storedTags.toSet() : {};
-    });
-    print("Loaded selected tags: $_selectedTags for quizz $_currentQuizzName");
-  }
-
-  Widget _flashCard(
-      {required int cardID,
-      required BuildContext context,
-      required String question,
-      required String answer,
-      required String image,
-      required String description}) {
-    final List<Color> cardColors = [
-      Theme.of(context).colorScheme.primary,
-      Theme.of(context).colorScheme.secondary,
-      Theme.of(context).colorScheme.tertiary,
-    ];
-    return Card(
-      key: _learnMode
-          ? ValueKey(_showLearnQuestion[cardID])
-          : ValueKey(_showQuestion),
-      color: cardColors[cardID % 3],
-      elevation: 10,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: SizedBox(
-        width: 300,
-        height: 500,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: (cardID == _cardDisplayed && _currentQuestionIndex != -1) ||
-                  _learnMode
-              ? (_showQuestion && !_learnMode) ||
-                      _learnMode && (_showLearnQuestion[cardID])
-                  ? [
-                      question == ""
-                          ? const SizedBox(
-                              height: 0,
-                              width: 0,
-                            )
-                          : Container(
-                              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                              child: Text(
-                                question,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineLarge!
-                                    .copyWith(
-                                      fontSize: _currentQuestionTextSize,
-                                    ),
-                                textAlign: TextAlign.center,
-                              )),
-                      image == ""
-                          ? const SizedBox(
-                              height: 0,
-                              width: 0,
-                            )
-                          : Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(10),
-                                child: Image.asset(
-                                  image,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                    ]
-                  : [
-                      const SizedBox(
-                        height: 20,
-                        width: 20,
-                      ),
-                      Text(
-                        answer,
-                        style: Theme.of(context).textTheme.headlineLarge,
-                        textAlign: TextAlign.center,
-                      ),
-                      description == ""
-                          ? const SizedBox(
-                              height: 0,
-                              width: 0,
-                            )
-                          : Expanded(
-                              child: SingleChildScrollView(
-                                // show scrollbar
-                                padding: const EdgeInsets.all(30),
-                                physics: const BouncingScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                // make description text justified
-                                child: Text(
-                                  description,
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    fontSize: _currentQuestionDescriptionSize,
-                                  ),
-                                ),
-                              ),
-                            ),
-                    ]
-              : [],
-        ),
-      ),
-    );
-  }
-
-  Widget animatedCard(
-      {required int cardID,
-      required String question,
-      required String answer,
-      required String image,
-      required String description}) {
-    Widget transitionBuilder(Widget widget, Animation<double> animation) {
-      final rotateAnim = Tween(begin: pi, end: 0.0).animate(animation);
-      return AnimatedBuilder(
-        animation: rotateAnim,
-        child: widget,
-        builder: (context, widget) {
-          final isUnder = _learnMode
-              ? ValueKey(_showLearnQuestion[cardID]) != widget!.key
-              : ValueKey(_showQuestion) != widget!.key;
-          var tilt = ((animation.value - 0.5).abs() - 0.5) * 0.001;
-          tilt *= isUnder ? -1.0 : 1.0;
-          final value =
-              isUnder ? min(rotateAnim.value, pi / 2) : rotateAnim.value;
-          return Transform(
-            transform: Matrix4.rotationY(value)..setEntry(3, 0, tilt),
-            alignment: Alignment.center,
-            child: widget,
-          );
-        },
-      );
-    }
-
-    return GestureDetector(
-      onLongPress: () async {
-        final prefs = await SharedPreferences.getInstance();
-        String? values = _learnMode
-            ? prefs.getString(_currentQuizzName + cardID.toString())
-            : prefs.getString(
-                _currentQuizzName + _currentQuestionIndex.toString());
-        SnackBar snackBar = SnackBar(
-          content: Text(
-              "Box: ${values == null ? 0 : values.split('_')[0]}, Day: ${values == null ? 0 : values.split('_')[1]}"),
-          duration: const Duration(seconds: 2),
-        );
-        if (!context.mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      },
-      onTap: () => setState(() {
-        if (_learnMode) {
-          _showLearnQuestion[cardID] = !_showLearnQuestion[cardID];
-          return;
-        }
-        _showQuestion = !_showQuestion;
-      }),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        transitionBuilder: transitionBuilder,
-        layoutBuilder: (widget, list) => Stack(children: [widget!, ...list]),
-        switchInCurve: Curves.easeInBack,
-        switchOutCurve: Curves.easeInBack.flipped,
-        child: _flashCard(
-            cardID: cardID,
-            context: context,
-            question: question,
-            answer: answer,
-            image: image,
-            description: description),
-      ),
-    );
-  }
-
-  List<Widget> _cardStack() {
-    List<Widget> ret = [];
-    for (int i = 0; i < 3; i++) {
-      double offsetInitial = _cardDisplayed == i
-          ? 0
-          : i == (_cardDisplayed + 2) % 3
-              ? 40
-              : 20;
-      double offsetNew = _cardDisplayed == i ? 40 : -20;
-      ret.add(
-        PositionedTransition(
-          rect: RelativeRectTween(
-            begin: RelativeRect.fromLTRB(
-              offsetInitial,
-              40 - offsetInitial,
-              40 - offsetInitial,
-              offsetInitial,
-            ),
-            end: RelativeRect.fromLTRB(
-              offsetInitial + offsetNew,
-              40 - offsetInitial - offsetNew,
-              40 - offsetInitial - offsetNew,
-              offsetInitial + offsetNew,
-            ),
-          ).animate(CurvedAnimation(
-            parent: _moveController,
-            curve: Curves.easeOut,
-          )),
-          child: _cardDisplayed == i
-              ? FadeTransition(
-                  opacity: Tween(
-                    begin: 1.0,
-                    end: 0.25,
-                  ).animate(_moveController),
-                  child: animatedCard(
-                    cardID: i,
-                    question: _questions[_currentQuestionIndex]["Question"],
-                    answer: _questions[_currentQuestionIndex]["Answer"],
-                    image: _questions[_currentQuestionIndex]["Image"],
-                    description: _questions[_currentQuestionIndex]
-                        ["Description"],
-                  ),
-                )
-              : _flashCard(
-                  cardID: i,
-                  context: context,
-                  question: _questions[_currentQuestionIndex]["Question"],
-                  answer: _questions[_currentQuestionIndex]["Answer"],
-                  image: _questions[_currentQuestionIndex]["Image"],
-                  description: _questions[_currentQuestionIndex]["Description"],
-                ),
-        ),
-      );
-    }
-    return [
-      ret[(_cardDisplayed + 2) % 3],
-      ret[(_cardDisplayed + 1) % 3],
-      ret[_cardDisplayed],
-    ];
-  }
-
-  void switchQuizz(int newIndex) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt("saveQuizzIndex", newIndex);
-    setState(() {
-      _currentQuizzIndex = newIndex;
-      _currentQuestionTextSize = _quizzes[newIndex]["QuestionTextSize"];
-      _currentQuestionDescriptionSize =
-          _quizzes[newIndex]["DescriptionTextSize"];
-      _currentQuizzName = _quizzes[newIndex]["Name"];
-      _showQuestion = true;
-    });
-    _readQuestions(_quizzes[_currentQuizzIndex]["Path"]).whenComplete(() {
-      setState(() {
-        _showLearnQuestion = List.filled(_questions.length, true);
-      });
-      _setNextCard(resuffle: true);
-    });
-  }
-
-  Widget tagFilterBar() {
-    if (_quizzes.isEmpty ||
-        _currentQuizzIndex < 0 ||
-        _quizzes[_currentQuizzIndex]["Tags"] == null) {
-      return const SizedBox(height: 0);
-    }
-    final quizTags = List<String>.from(_quizzes[_currentQuizzIndex]["Tags"]);
-    if (quizTags.isEmpty) return const SizedBox(height: 0);
-
-    final displayTags = [
-      toutTag,
-      ...quizTags.where((tag) => _selectedTags.contains(tag)).toList()..sort(),
-      ...quizTags.where((tag) => !_selectedTags.contains(tag)).toList()..sort()
-    ];
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 2.0),
-      child: SizedBox(
-        height: 36,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: displayTags.length,
-          itemBuilder: (context, tagIndex) {
-            String tag = displayTags[tagIndex];
-            bool selected = tag == toutTag
-                ? _selectedTags.isEmpty
-                : _selectedTags.contains(tag);
-
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.0),
-              child: ChoiceChip(
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 2.0, horizontal: 8.0),
-                  child: Text(
-                    tag,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                selected: selected,
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onSelected: (bool value) {
-                  setState(() {
-                    if (tag == toutTag) {
-                      if (_selectedTags.isNotEmpty) {
-                        _selectedTags.clear();
-                        _setNextCard(resuffle: true);
-                      }
-                    } else {
-                      if (value) {
-                        _selectedTags.add(tag);
-                      } else {
-                        _selectedTags.remove(tag);
-                      }
-                      _setNextCard(resuffle: true);
-                    }
-                    _saveSelectedTags();
-                  });
-                },
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget quizzMenu() {
-    return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            for (int i = 0; i < _quizzes.length; i++) ...[
-              Card(
-                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          _quizzes[i]["Name"],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Icon(
-                        _quizzes[i]["Icon"] == ""
-                            ? Icons.done_all
-                            : IconData(
-                                int.parse(_quizzes[i]["Icon"]),
-                                fontFamily: 'MaterialIcons',
-                              ),
-                      ),
-                    ],
-                  ),
-                  onTap: () async {
-                    if (i == _currentQuizzIndex) {
-                      Navigator.of(context).pop();
-                      return;
-                    }
-                    switchQuizz(i);
-                    await _loadSelectedTags();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
 
   Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
     _listViewController.animateTo(
@@ -681,7 +106,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       onScrollsToTop: _onScrollsToTop,
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: quizzMenu(),
+        drawer: QuizzMenu(
+          quizzes: _quizzTest,
+        ),
         appBar: AppBar(
           actions: [
             IconButton(
@@ -689,7 +116,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               onPressed: () {
                 setState(() {
                   _learnMode = !_learnMode;
-                  _showLearnQuestion = List.filled(_questions.length, true);
                 });
               },
             ),
@@ -704,132 +130,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               );
             },
           ),
-          title: Text(
-              "$_currentQuizzName (${_selectedTags.isEmpty ? _questions.length : _questions.where(
-                    (q) => (q["Tags"] ?? []).any(
-                      (tag) => _selectedTags.contains(tag),
-                    ),
-                  ).length})"),
+          title: Text(stateNotifier.currentQuizzName),
         ),
-        floatingActionButton: _learnMode && _fieldTextController.text.isEmpty
-            ? FloatingActionButton(
-                child: const Icon(Icons.arrow_downward),
-                onPressed: () {
-                  _listViewController.animateTo(
-                    518 * (_questions.length.toDouble() - 1) - 138,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeOut,
-                  );
-                },
-              )
-            : null,
         body: Center(
           child: _learnMode
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    tagFilterBar(), // <--- Tag Filter Bar is now shown here
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: TextField(
-                        controller: _fieldTextController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          labelText: 'Search',
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: (() {
-                              _fieldTextController.clear();
-                              setState(() {
-                                _searchPattern = "";
-                              });
-                            }),
-                          ),
-                        ),
-                        onChanged: (value) => setState(() {
-                          _searchPattern = value;
-                        }),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        controller: _listViewController,
-                        keyboardDismissBehavior:
-                            ScrollViewKeyboardDismissBehavior.onDrag,
-                        itemCount: _questions.length,
-                        itemBuilder: (context, index) {
-                          if (_selectedTags.isNotEmpty) {
-                            List<String> questionTags = List<String>.from(
-                                _questions[index]["Tags"] ?? []);
-                            if (!questionTags
-                                .any((tag) => _selectedTags.contains(tag))) {
-                              return const SizedBox(height: 0);
-                            }
-                          }
-                          if (_searchPattern.isEmpty ||
-                              _questions[index]["Question"]
-                                  .toString()
-                                  .toLowerCase()
-                                  .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
-                                  .contains(
-                                      _searchPattern.trim().toLowerCase()) ||
-                              _questions[index]["Answer"]
-                                  .toString()
-                                  .toLowerCase()
-                                  .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
-                                  .contains(
-                                      _searchPattern.trim().toLowerCase()) ||
-                              _questions[index]["Description"]
-                                  .toString()
-                                  .toLowerCase()
-                                  .replaceAll(RegExp(r'[\u0591-\u05C7]'), '')
-                                  .contains(
-                                      _searchPattern.trim().toLowerCase())) {
-                            return Center(
-                              child: Container(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                child: animatedCard(
-                                    cardID: index,
-                                    question: _questions[index]["Question"],
-                                    answer: _questions[index]["Answer"],
-                                    image: _questions[index]["Image"],
-                                    description: _questions[index]
-                                        ["Description"]),
-                              ),
-                            );
-                          } else {
-                            return const SizedBox(
-                              height: 0,
-                            );
-                          }
-                        },
-                      ),
-                    ),
+                    TagBar(tags: _tagTest),
+                    CustomSearchBar(controller: _fieldTextController),
+                    CardList(cards: _testFlashCard, controller: _listViewController,)
                   ],
                 )
               : Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    tagFilterBar(), // <--- Tag Filter Bar is now shown here
+                    TagBar(tags: _tagTest),
                     SizedBox(
                       height: 540,
                       width: 340,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        alignment: Alignment.center,
-                        children: _currentQuestionIndex == -1 ||
-                                _currentQuestionIndex >= _questions.length
-                            ? []
-                            : _cardStack(),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: scoreButtons,
-                    ),
-                    const SizedBox(
-                      height: 0,
+                      child: CardStack(cards: _testFlashCard),
                     ),
                   ],
                 ),
