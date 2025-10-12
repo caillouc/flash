@@ -4,7 +4,12 @@ import 'dart:io';
 
 Future<File> _localFile(String filePath) async {
   final dir = await getApplicationDocumentsDirectory();
-  return File('${dir.path}/$filePath');
+  final file = File('${dir.path}/$filePath');
+  final parent = file.parent;
+  if (!await parent.exists()) {
+    await parent.create(recursive: true);
+  }
+  return file;
 }
 
 Future<String> fetchAndSaveFile(String url, String localFilePath) async {
@@ -43,6 +48,7 @@ Future<void> deleteLocalFile(String localFilePath) async {
     if (await file.exists()) {
       await file.delete();
     }
+    print('File $localFilePath deleted');
   } catch (e) {
     // ignore
   }

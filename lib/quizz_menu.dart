@@ -9,12 +9,12 @@ class QuizzMenu extends StatefulWidget {
 }
 
 class _QuizzMenuState extends State<QuizzMenu> {
-  var _editMode = quizzesNotifier.localQuizzes.isEmpty;
+  var _editMode = quizzListNotifier.localQuizzes.isEmpty;
 
   @override
   void initState() {
     super.initState();
-    quizzesNotifier.addListener(() {
+    quizzListNotifier.addListener(() {
       if (mounted) {
         setState(() {});
       }
@@ -31,12 +31,12 @@ class _QuizzMenuState extends State<QuizzMenu> {
             child: ListView.builder(
               itemBuilder: (context, index) {
                 final quizz = _editMode
-                    ? quizzesNotifier.allQuizzes[index]
-                    : quizzesNotifier.localQuizzes[index];
+                    ? quizzListNotifier.allQuizzes[index]
+                    : quizzListNotifier.localQuizzes[index];
                 return ListTile(
                   title: Text(quizz.name),
                   leading: _editMode
-                      ? quizzesNotifier.isLocalQuizz(quizz)
+                      ? quizzListNotifier.isLocalQuizz(quizz)
                           ? const Icon(Icons.check_box)
                           : const Icon(Icons.check_box_outline_blank)
                       : null,
@@ -48,21 +48,22 @@ class _QuizzMenuState extends State<QuizzMenu> {
                   ),
                   onTap: () {
                     if (_editMode) {
-                      if (quizzesNotifier.isLocalQuizz(quizz)) {
-                        quizzesNotifier.removeLocalQuizz(quizz);
+                      if (quizzListNotifier.isLocalQuizz(quizz)) {
+                        quizzListNotifier.removeLocalQuizz(quizz);
                       } else {
-                        quizzesNotifier.addLocalQuizz(quizz);
+                        quizzListNotifier.addLocalQuizz(quizz);
                       }
                       return;
                     } else {
+                      currentQuizzNotifier.loadQuizz(quizz);
                       Navigator.of(context).pop();
                     }
                   },
                 );
               },
               itemCount: _editMode
-                  ? quizzesNotifier.allQuizzes.length
-                  : quizzesNotifier.localQuizzes.length,
+                  ? quizzListNotifier.allQuizzes.length
+                  : quizzListNotifier.localQuizzes.length,
             ),
           ),
           // Button to switch to edit mode

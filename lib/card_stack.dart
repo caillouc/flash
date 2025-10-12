@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'card.dart';
 
-class CardStack extends StatelessWidget {
-  final List<FlashCard> cards;
+import 'main.dart';
 
-  const CardStack({super.key, required this.cards});
+class CardStack extends StatefulWidget {
+  const CardStack({super.key});
+
+  @override
+  State<CardStack> createState() => _CardStackState();
+}
+
+class _CardStackState extends State<CardStack> {
+
+  @override
+  void initState() {
+    super.initState();
+    currentQuizzNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return CardSwiper(
-      cardsCount: cards.length,
+      cardsCount: currentQuizzNotifier.nbCard,
       numberOfCardsDisplayed: 3,
       cardBuilder: (context, index, percentThresholdX, percentThresholdY) =>
-          cards[index],
+          currentQuizzNotifier.cards[index],
+      allowedSwipeDirection: const AllowedSwipeDirection.only(left: true, right: true),
     );
   }
 }

@@ -12,10 +12,10 @@ class FlashCard extends StatefulWidget {
 
   const FlashCard(
       {super.key,
-      required this.frontTitle,
+      this.frontTitle = "",
       this.frontDescription = "",
       this.frontImage = "",
-      required this.backTitle,
+      this.backTitle = "",
       this.backDescription = "",
       this.backImage = ""});
 
@@ -34,7 +34,7 @@ class _FlashCardState extends State<FlashCard>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 200),
     )
       ..addListener(() {
         setState(() {});

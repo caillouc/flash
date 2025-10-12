@@ -6,12 +6,64 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'quizz.dart';
 import 'utils.dart' as utils;
+import 'main.dart';
+
+const String _remoteQuizzListUrl =
+  'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzesList.json';
+const String _remoteQuizzBaseUrl =
+  'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzes/';
+const String _prefsVersionKey = 'quizzes_list_version';
+const String _localQuizzListFileName = 'quizzesList.json';
+const String _localQuizzFolder =
+      'quizzes/'; // directory to save quizzes
+
+class TagNotifier extends ChangeNotifier {
+  List<String> _allTags = [];
+  List<String> _selectedTags = [];
+
+  List<String> get allTags => List.unmodifiable(_allTags);
+  List<String> get selectedTags => List.unmodifiable(_selectedTags);
+
+  void setAllTags(List<String> tags) {
+    if (tags.isNotEmpty) {
+      tags = ["Tout", ...tags];
+    }
+    _allTags = tags.toSet().toList();
+    notifyListeners();
+  }
+
+  void toggleTag(String tag) {
+    if (_selectedTags.contains(tag)) {
+      _selectedTags.remove(tag);
+    } else {
+      _selectedTags.add(tag);
+    }
+    notifyListeners();
+  }
+
+  void clearTags() {
+    _selectedTags.clear();
+    notifyListeners();
+  }
+}
 
 class CurrentQuizzNotifier extends ChangeNotifier {
-  List<FlashCard> _cards = [];
+  List<FlashCard> _cards = [
+    const FlashCard(frontTitle: "Téléchargez un quiz pour commencer"),
+    const FlashCard(
+        frontTitle:
+            "Naviguez dans le menu en haut à gauche et sélectionnez vos quizz"),
+    const FlashCard(
+        frontTitle: "Vous pourrez ensuite réviser les cartes dans cette section"),
+  ];
+  String _currentQuizzName = "";
+
+  List<FlashCard> get cards => List.unmodifiable(_cards);
+  String get currentQuizzName => _currentQuizzName;
+  int get nbCard => _cards.length;
 
   Future<void> loadQuizz(Quizz quizz) async {
-    final String jsonContent = await utils.readLocalFile(quizz.fileName);
+    final String jsonContent = await utils.readLocalFile( _localQuizzFolder + quizz.fileName);
     try {
       final decoded = json.decode(jsonContent);
 
@@ -33,28 +85,19 @@ class CurrentQuizzNotifier extends ChangeNotifier {
       }
 
       _cards = parsed;
+      _currentQuizzName = quizz.name;
+      tagNotifier.setAllTags(quizz.tags);
       notifyListeners();
     } catch (e) {
       print('Error loading quizz from JSON: $e');
-      _cards = [];
-      notifyListeners();
     }
   }
 }
 
-class QuizzesNotifier extends ChangeNotifier {
+class QuizzListNotifier extends ChangeNotifier {
   List<Quizz> _quizzes = [];
   List<String> _localQuizzesName = [];
 
-  // URL to fetch the quizzes list JSON
-  static const String _remoteQuizzListUrl =
-      'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzesList.json';
-  static const String _remoteQuizzBaseUrl =
-      'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzes/';
-  static const String _prefsVersionKey = 'quizzes_list_version';
-  static const String _localQuizzListFileName = 'quizzesList.json';
-  static const String _localQuizzFolder =
-      'quizzes/'; // directory to save quizzes
 
   List<Quizz> get allQuizzes => List.unmodifiable(_quizzes);
   List<Quizz> get localQuizzes =>
@@ -131,10 +174,4 @@ class QuizzesNotifier extends ChangeNotifier {
       return '';
     }
   }
-}
-
-class StateNotifier extends ChangeNotifier {
-  String _currentQuizzName = "";
-
-  String get currentQuizzName => _currentQuizzName;
 }

@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'main.dart';
 
 class TagBar extends StatefulWidget {
-  final List<String> tags;
-
-  TagBar({super.key, required List<String> tags})
-      : tags = tags.isNotEmpty ? ["Tout", ...tags] : [];
+  const TagBar({super.key});
 
   @override
   State<TagBar> createState() => _TagBarState();
 }
 
 class _TagBarState extends State<TagBar> {
-  List selectedTags = [];
+
+  @override
+  void initState() {
+    super.initState();
+    tagNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.tags.isEmpty) {
+    if (tagNotifier.allTags.isEmpty) {
       return const SizedBox.shrink();
     }
     return Container(
@@ -24,10 +31,10 @@ class _TagBarState extends State<TagBar> {
           height: 36,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: widget.tags.length,
+            itemCount: tagNotifier.allTags.length,
             itemBuilder: (context, index) {
-              final tag = widget.tags[index];
-              final isSelected = selectedTags.contains(tag);
+              final tag = tagNotifier.allTags[index];
+              final isSelected = tagNotifier.selectedTags.contains(tag);
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: ChoiceChip(
@@ -45,13 +52,9 @@ class _TagBarState extends State<TagBar> {
                   onSelected: (bool value) {
                     setState(() {
                       if (tag == "Tout") {
-                        selectedTags.clear();
+                        tagNotifier.clearTags();
                       } else {
-                        if (value) {
-                          selectedTags.add(tag);
-                        } else {
-                          selectedTags.remove(tag);
-                        }
+                        tagNotifier.toggleTag(tag);
                       }
                     });
                   },

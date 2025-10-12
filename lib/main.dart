@@ -1,7 +1,6 @@
 import 'package:scrolls_to_top/scrolls_to_top.dart';
 import 'package:flutter/material.dart';
 
-import 'card.dart';
 import 'card_stack.dart';
 import 'tag_bar.dart';
 import 'card_list.dart';
@@ -14,8 +13,8 @@ void main() {
 }
 
 CurrentQuizzNotifier currentQuizzNotifier = CurrentQuizzNotifier();
-QuizzesNotifier quizzesNotifier = QuizzesNotifier();
-StateNotifier stateNotifier = StateNotifier();
+QuizzListNotifier quizzListNotifier = QuizzListNotifier();
+TagNotifier tagNotifier = TagNotifier();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -61,21 +60,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   bool _learnMode = false;
 
-  final List<FlashCard> _testFlashCard = [
-    const FlashCard(frontTitle: "Question 1", backTitle: "Reponse 1"),
-    const FlashCard(frontTitle: "Question 2", backTitle: "Reponse 2"),
-    const FlashCard(frontTitle: "Question 3", backTitle: "Reponse 3"),
-    const FlashCard(frontTitle: "Question 4", backTitle: "Reponse 4"),
-    const FlashCard(frontTitle: "Question 5", backTitle: "Reponse 5")
-  ];
-
-  final List<String> _tagTest = const ["Tag 1", "Tag2", "Tag3"];
-
-
   @override
   void initState() {
     super.initState();
-    quizzesNotifier.fetchAndSaveQuizzList();
+    quizzListNotifier.fetchAndSaveQuizzList();
     // initQuizz
     // Update dates
   }
@@ -124,26 +112,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               );
             },
           ),
-          title: Text(stateNotifier.currentQuizzName),
+          title: Text(currentQuizzNotifier.currentQuizzName),
         ),
         body: Center(
           child: _learnMode
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    TagBar(tags: _tagTest),
+                    const TagBar(),
                     CustomSearchBar(controller: _fieldTextController),
-                    CardList(cards: _testFlashCard, controller: _listViewController,)
+                    CardList(cards: currentQuizzNotifier.cards, controller: _listViewController,)
                   ],
                 )
-              : Column(
+              : const Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TagBar(tags: _tagTest),
+                    TagBar(),
                     SizedBox(
                       height: 540,
                       width: 340,
-                      child: CardStack(cards: _testFlashCard),
+                      child: CardStack(),
                     ),
                   ],
                 ),
