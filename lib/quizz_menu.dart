@@ -1,56 +1,80 @@
 import 'package:flutter/material.dart';
-import 'quizz.dart';
 import 'main.dart';
 
-class QuizzMenu extends StatelessWidget{
-  final List<Quizz> quizzes;
+class QuizzMenu extends StatefulWidget {
+  const QuizzMenu({super.key});
 
-  const QuizzMenu({super.key, required this.quizzes});
+  @override
+  State<QuizzMenu> createState() => _QuizzMenuState();
+}
+
+class _QuizzMenuState extends State<QuizzMenu> {
+  var _editMode = quizzesNotifier.localQuizzes.isEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    quizzesNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            for (int i = 0; i < quizzes.length; i++) ...[
-              Card(
-                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          quizzes[i].name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Icon(
-                        quizzes[i].icon == ""
-                            ? Icons.done_all
-                            : IconData(
-                                int.parse(quizzes[i].icon),
-                                fontFamily: 'MaterialIcons',
-                              ),
-                      ),
-                    ],
+      child: Column(
+        children: [
+          Text("Quizzes", style: Theme.of(context).textTheme.headlineMedium),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                final quizz = _editMode
+                    ? quizzesNotifier.allQuizzes[index]
+                    : quizzesNotifier.localQuizzes[index];
+                return ListTile(
+                  title: Text(quizz.name),
+                  leading: _editMode
+                      ? quizzesNotifier.isLocalQuizz(quizz)
+                          ? const Icon(Icons.check_box)
+                          : const Icon(Icons.check_box_outline_blank)
+                      : null,
+                  trailing: Icon(
+                    IconData(
+                      int.parse(quizz.icon),
+                      fontFamily: 'MaterialIcons',
+                    ),
                   ),
-                  onTap: () async {
-                    if (quizzes[i].name == stateNotifier.currentQuizzName) {
-                      Navigator.of(context).pop();
+                  onTap: () {
+                    if (_editMode) {
+                      if (quizzesNotifier.isLocalQuizz(quizz)) {
+                        quizzesNotifier.removeLocalQuizz(quizz);
+                      } else {
+                        quizzesNotifier.addLocalQuizz(quizz);
+                      }
                       return;
+                    } else {
+                      Navigator.of(context).pop();
                     }
-                    Navigator.of(context).pop();
                   },
-                ),
-              ),
-            ],
-          ],
-        ),
+                );
+              },
+              itemCount: _editMode
+                  ? quizzesNotifier.allQuizzes.length
+                  : quizzesNotifier.localQuizzes.length,
+            ),
+          ),
+          // Button to switch to edit mode
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _editMode = !_editMode;
+              });
+            },
+            child: Text(_editMode ? 'Done' : 'Edit'),
+          )
+        ],
       ),
     );
   }

@@ -1,74 +1,102 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flash/card.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'quizz.dart';
+import 'utils.dart' as utils;
 
 class CurrentQuizzNotifier extends ChangeNotifier {
   List<FlashCard> _cards = [];
+
+  Future<void> loadQuizz(Quizz quizz) async {
+    final String jsonContent = await utils.readLocalFile(quizz.fileName);
+    try {
+      final decoded = json.decode(jsonContent);
+
+      List<dynamic> list = decoded as List<dynamic>;
+
+      final parsed = <FlashCard>[];
+
+      for (final e in list) {
+        final item = e as Map<String, dynamic>;
+
+        parsed.add(FlashCard(
+          frontTitle: item["frontTitle"] ?? "",
+          frontDescription: item["frontDescription"] ?? "",
+          frontImage: item["frontImage"] ?? "",
+          backTitle: item["backTitle"] ?? "",
+          backDescription: item["backDescription"] ?? "",
+          backImage: item["backImage"] ?? "",
+        ));
+      }
+
+      _cards = parsed;
+      notifyListeners();
+    } catch (e) {
+      print('Error loading quizz from JSON: $e');
+      _cards = [];
+      notifyListeners();
+    }
+  }
 }
 
 class QuizzesNotifier extends ChangeNotifier {
   List<Quizz> _quizzes = [];
+  List<String> _localQuizzesName = [];
 
   // URL to fetch the quizzes list JSON
-  static const String _remoteUrl =
+  static const String _remoteQuizzListUrl =
       'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzesList.json';
-
-  // SharedPreferences key for the saved version (etag or timestamp)
+  static const String _remoteQuizzBaseUrl =
+      'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzes/';
   static const String _prefsVersionKey = 'quizzes_list_version';
+  static const String _localQuizzListFileName = 'quizzesList.json';
+  static const String _localQuizzFolder =
+      'quizzes/'; // directory to save quizzes
 
-  // filename used to save the quizzes list locally
-  static const String _localFileName = 'quizzesList.json';
+  List<Quizz> get allQuizzes => List.unmodifiable(_quizzes);
+  List<Quizz> get localQuizzes =>
+      _quizzes.where((q) => _localQuizzesName.contains(q.name)).toList();
 
-  List<Quizz> get quizzes => List.unmodifiable(_quizzes);
+  bool isLocalQuizz(Quizz quizz) => _localQuizzesName.contains(quizz.name);
+  void removeLocalQuizz(Quizz quizz) {
+    _localQuizzesName.remove(quizz.name);
+    utils.deleteLocalFile(_localQuizzFolder + quizz.fileName);
+    notifyListeners();
+  }
 
-  Future<void> loadQuizzesFromLocalFile() async {
-    try {
-      final file = await _localFile;
-      if (await file.exists()) {
-        final contents = await file.readAsString();
-        _loadQuizzesFromJson(contents);
-        notifyListeners();
-      }
-    } catch (e) {
-      // ignore and leave quizzes empty
+  void addLocalQuizz(Quizz quizz) async {
+    if (!_localQuizzesName.contains(quizz.name)) {
+      String _ = await utils.fetchAndSaveFile(
+          _remoteQuizzBaseUrl + quizz.fileName,
+          _localQuizzFolder + quizz.fileName);
+      _localQuizzesName.add(quizz.name);
+      notifyListeners();
     }
   }
 
-  Future<void> fetchAndSaveQuizzes() async {
-    try {
-      final resp = await http.get(Uri.parse(_remoteUrl));
-      if (resp.statusCode == 200) {
-        final body = resp.body;
-        // save file
-        final file = await _localFile;
-        await file.writeAsString(body);
-        String version = _loadQuizzesFromJson(body);
-        print("Fetched quizzes list, version: $version");
-        if (version.isNotEmpty) {
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString(_prefsVersionKey, version);
-        }
-        notifyListeners();
-        return;
+  void loadQuizzListFromLocalFile() async {
+    String jsonContent = await utils.readLocalFile(_localQuizzListFileName);
+    _loadQuizzListFromJson(jsonContent);
+    notifyListeners();
+  }
+
+  void fetchAndSaveQuizzList() async {
+    String jsonContent = await utils.fetchAndSaveFile(
+        _remoteQuizzListUrl, _localQuizzListFileName);
+    if (jsonContent.isNotEmpty) {
+      String version = _loadQuizzListFromJson(jsonContent);
+      if (version.isNotEmpty) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(_prefsVersionKey, version);
       }
-    } catch (e) {
-      // TODO: popup error message
+      notifyListeners();
     }
   }
 
-  Future<File> get _localFile async {
-    final dir = await getApplicationDocumentsDirectory();
-    return File('${dir.path}/$_localFileName');
-  }
-
-  String _loadQuizzesFromJson(String jsonStr) {
+  String _loadQuizzListFromJson(String jsonStr) {
     try {
       final decoded = json.decode(jsonStr);
 

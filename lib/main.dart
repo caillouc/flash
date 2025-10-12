@@ -75,12 +75,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    quizzesNotifier.fetchAndSaveQuizzes();
-    quizzesNotifier.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    quizzesNotifier.fetchAndSaveQuizzList();
     // initQuizz
     // Update dates
   }
@@ -107,9 +102,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       onScrollsToTop: _onScrollsToTop,
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: QuizzMenu(
-          quizzes: quizzesNotifier.quizzes,
-        ),
+        drawer: const QuizzMenu(),
         appBar: AppBar(
           actions: [
             IconButton(
