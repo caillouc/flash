@@ -41,6 +41,8 @@ dependencies:
   ffi: ^2.1.4
   win32: ^5.14.0
   flutter_card_swiper: ^7.0.2
+  http: ^0.13.6
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:

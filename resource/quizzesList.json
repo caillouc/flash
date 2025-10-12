@@ -4,7 +4,8 @@
 	[
 		{
 			"name": "Country \u2192 Capital",
-			"path": "resource/country-to-capital.json",
+			"file_name": "country-to-capital.json",
+			"version": "1.0",
 			"icon": "0xe67c",
 			"question_text_size": 50.0,
 			"description_text_size": 20.0,
@@ -12,28 +13,32 @@
 		},
 		{
 			"name": "Les Saints",
-			"path": "resource/les-saints.json",
+			"file_name": "les-saints.json",
+			"version": "1.0",
 			"icon": "0xf02e7",
 			"question_text_size": 50.0,
 			"description_text_size": 20.0
 		},
 		{
 			"name": "Glyphes Hébreu",
-			"path": "resource/glyphes-hebreu.json",
+			"file_name": "glyphes-hebreu.json",
+			"version": "1.0",
 			"icon": "0xe0bf",
 			"question_text_size": 180.0,
 			"description_text_size": 20.0
 		},
 		{
 			"name": "Vocabulaire Hébreu",
-			"path": "resource/vocabulaire-hebreu.json",
+			"file_name": "vocabulaire-hebreu.json",
+			"version": "1.0",
 			"icon": "0xf05f0",
 			"question_text_size": 65.0,
 			"description_text_size": 40.0
 		},
 		{
 			"name": "Alphabet Grec",
-			"path": "resource/alphabet-grec.json",
+			"file_name": "alphabet-grec.json",
+			"version": "1.0",
 			"icon": "0xe3dd",
 			"question_text_size": 180.0,
 			"description_text_size": 20.0,
@@ -42,6 +47,7 @@
 		{
 			"name": "Vocabulaire Grec",
 			"file_name": "vocabulaire-grec.json",
+			"version": "1.0",
 			"icon": "0xe5dd",
 			"question_text_size": 50.0,
 			"description_text_size": 20.0,

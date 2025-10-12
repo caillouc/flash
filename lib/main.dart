@@ -1,4 +1,3 @@
-import 'package:flash/quizz.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
 import 'package:flutter/material.dart';
 
@@ -71,15 +70,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   ];
 
   final List<String> _tagTest = const ["Tag 1", "Tag2", "Tag3"];
-  final List<Quizz> _quizzTest = [
-    Quizz(name: "Quizz1", tags: [], icon: "0xe0bf"),
-    Quizz(name: "Quizz2", tags: ["tg1", "tg2", "tg3"], icon: "")
-  ];
 
 
   @override
   void initState() {
     super.initState();
+    quizzesNotifier.fetchAndSaveQuizzes();
+    quizzesNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
     // initQuizz
     // Update dates
   }
@@ -107,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       child: Scaffold(
         key: _scaffoldKey,
         drawer: QuizzMenu(
-          quizzes: _quizzTest,
+          quizzes: quizzesNotifier.quizzes,
         ),
         appBar: AppBar(
           actions: [

@@ -40,7 +40,7 @@ class QuizzMenu extends StatelessWidget{
                     ],
                   ),
                   onTap: () async {
-                    if (quizzes[i].name == stateNotifier.currentQuizz()) {
+                    if (quizzes[i].name == stateNotifier.currentQuizzName) {
                       Navigator.of(context).pop();
                       return;
                     }
