@@ -9,7 +9,6 @@ class TagBar extends StatefulWidget {
 }
 
 class _TagBarState extends State<TagBar> {
-
   @override
   void initState() {
     super.initState();
@@ -50,13 +49,12 @@ class _TagBarState extends State<TagBar> {
                   selected: isSelected,
                   visualDensity: VisualDensity.compact,
                   onSelected: (bool value) {
-                    setState(() {
-                      if (tag == "Tout") {
-                        tagNotifier.clearTags();
-                      } else {
-                        tagNotifier.toggleTag(tag);
-                      }
-                    });
+                    print("Tag selected: $tag");
+                    if (tag == "Tout") {
+                      tagNotifier.clearTags();
+                    } else {
+                      tagNotifier.toggleTag(tag);
+                    }
                   },
                 ),
               );

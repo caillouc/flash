@@ -1,3 +1,4 @@
+import 'package:flash/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
@@ -20,10 +21,23 @@ class _CardStackState extends State<CardStack> {
         setState(() {});
       }
     });
+    tagNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    List<FlashCard> filterdCards = currentQuizzNotifier.cards;
+    if (tagNotifier.selectedTags.isNotEmpty &&
+        !tagNotifier.selectedTags.contains("Tout")) {
+      filterdCards = filterdCards
+          .where((card) => card.tags
+              .any((tag) => tagNotifier.selectedTags.contains(tag)))
+          .toList();
+    }
     return CardSwiper(
       cardsCount: currentQuizzNotifier.nbCard,
       numberOfCardsDisplayed: 3,

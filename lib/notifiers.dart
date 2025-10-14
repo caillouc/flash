@@ -9,17 +9,16 @@ import 'utils.dart' as utils;
 import 'main.dart';
 
 const String _remoteQuizzListUrl =
-  'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzesList.json';
+    'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzesList.json';
 const String _remoteQuizzBaseUrl =
-  'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzes/';
+    'https://raw.githubusercontent.com/caillouc/flash-quizzes/refs/heads/main/quizzes/';
 const String _prefsVersionKey = 'quizzes_list_version';
 const String _localQuizzListFileName = 'quizzesList.json';
-const String _localQuizzFolder =
-      'quizzes/'; // directory to save quizzes
+const String _localQuizzFolder = 'quizzes/'; // directory to save quizzes
 
 class TagNotifier extends ChangeNotifier {
   List<String> _allTags = [];
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
 
   List<String> get allTags => List.unmodifiable(_allTags);
   List<String> get selectedTags => List.unmodifiable(_selectedTags);
@@ -38,6 +37,7 @@ class TagNotifier extends ChangeNotifier {
     } else {
       _selectedTags.add(tag);
     }
+    print(_selectedTags);
     notifyListeners();
   }
 
@@ -54,16 +54,30 @@ class CurrentQuizzNotifier extends ChangeNotifier {
         frontTitle:
             "Naviguez dans le menu en haut à gauche et sélectionnez vos quizz"),
     const FlashCard(
-        frontTitle: "Vous pourrez ensuite réviser les cartes dans cette section"),
+        frontTitle:
+            "Vous pourrez ensuite réviser les cartes dans cette section"),
   ];
   String _currentQuizzName = "";
+
+  CurrentQuizzNotifier() {
+    SharedPreferences.getInstance().then((prefs) {
+      String? savedQuizz = prefs.getString('current_quizz');
+      print("Saved quizz: $savedQuizz");
+      if (savedQuizz != null && savedQuizz.isNotEmpty) {
+        Quizz? quizz = quizzListNotifier.localQuizzes
+            .firstWhere((q) => q.name == savedQuizz);
+        loadQuizz(quizz);
+      }
+    });
+  }
 
   List<FlashCard> get cards => List.unmodifiable(_cards);
   String get currentQuizzName => _currentQuizzName;
   int get nbCard => _cards.length;
 
   Future<void> loadQuizz(Quizz quizz) async {
-    final String jsonContent = await utils.readLocalFile( _localQuizzFolder + quizz.fileName);
+    final String jsonContent =
+        await utils.readLocalFile(_localQuizzFolder + quizz.fileName);
     try {
       final decoded = json.decode(jsonContent);
 
@@ -87,6 +101,8 @@ class CurrentQuizzNotifier extends ChangeNotifier {
       _cards = parsed;
       _currentQuizzName = quizz.name;
       tagNotifier.setAllTags(quizz.tags);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('current_quizz', quizz.name);
       notifyListeners();
     } catch (e) {
       print('Error loading quizz from JSON: $e');
@@ -98,6 +114,13 @@ class QuizzListNotifier extends ChangeNotifier {
   List<Quizz> _quizzes = [];
   List<String> _localQuizzesName = [];
 
+  QuizzListNotifier() {
+    SharedPreferences.getInstance().then((prefs) {
+      _localQuizzesName = prefs.getStringList('local_quizzes') ?? [];
+      fetchAndSaveQuizzList();
+      loadQuizzListFromLocalFile();
+    });
+  }
 
   List<Quizz> get allQuizzes => List.unmodifiable(_quizzes);
   List<Quizz> get localQuizzes =>
@@ -107,6 +130,10 @@ class QuizzListNotifier extends ChangeNotifier {
   void removeLocalQuizz(Quizz quizz) {
     _localQuizzesName.remove(quizz.name);
     utils.deleteLocalFile(_localQuizzFolder + quizz.fileName);
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setStringList('local_quizzes', _localQuizzesName);
+      prefs.remove('${quizz.name}_version');
+    });
     notifyListeners();
   }
 
@@ -116,6 +143,9 @@ class QuizzListNotifier extends ChangeNotifier {
           _remoteQuizzBaseUrl + quizz.fileName,
           _localQuizzFolder + quizz.fileName);
       _localQuizzesName.add(quizz.name);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList('local_quizzes', _localQuizzesName);
+      await prefs.setString('${quizz.name}_version', quizz.version);
       notifyListeners();
     }
   }

@@ -12,8 +12,8 @@ void main() {
   runApp(const MyApp());
 }
 
-CurrentQuizzNotifier currentQuizzNotifier = CurrentQuizzNotifier();
 QuizzListNotifier quizzListNotifier = QuizzListNotifier();
+CurrentQuizzNotifier currentQuizzNotifier = CurrentQuizzNotifier();
 TagNotifier tagNotifier = TagNotifier();
 
 class MyApp extends StatelessWidget {
@@ -57,13 +57,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final ScrollController _listViewController = ScrollController();
   final TextEditingController _fieldTextController = TextEditingController();
 
-
   bool _learnMode = false;
 
   @override
   void initState() {
     super.initState();
-    quizzListNotifier.fetchAndSaveQuizzList();
     // initQuizz
     // Update dates
   }
@@ -73,8 +71,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
     _listViewController.dispose();
   }
-
-
 
   Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
     _listViewController.animateTo(
@@ -121,7 +117,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   children: [
                     const TagBar(),
                     CustomSearchBar(controller: _fieldTextController),
-                    CardList(cards: currentQuizzNotifier.cards, controller: _listViewController,)
+                    CardList(
+                      controller: _listViewController,
+                      searchController: _fieldTextController,
+                    )
                   ],
                 )
               : const Column(

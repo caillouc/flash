@@ -9,6 +9,7 @@ class FlashCard extends StatefulWidget {
   final String backTitle;
   final String backDescription;
   final String backImage;
+  final List<String> tags;
 
   const FlashCard(
       {super.key,
@@ -17,7 +18,8 @@ class FlashCard extends StatefulWidget {
       this.frontImage = "",
       this.backTitle = "",
       this.backDescription = "",
-      this.backImage = ""});
+      this.backImage = "", 
+      this.tags = const []});
 
   @override
   State<FlashCard> createState() => _FlashCardState();
