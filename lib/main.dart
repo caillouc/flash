@@ -1,11 +1,14 @@
 import 'package:scrolls_to_top/scrolls_to_top.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 import 'card_stack.dart';
 import 'tag_bar.dart';
 import 'card_list.dart';
 import 'search_bar.dart';
-import 'notifiers.dart';
+import 'quizz_list_notifier.dart';
+import 'card_notifier.dart';
+import 'tag_notifier.dart';
 import 'quizz_menu.dart';
 
 void main() {
@@ -13,7 +16,7 @@ void main() {
 }
 
 QuizzListNotifier quizzListNotifier = QuizzListNotifier();
-CurrentQuizzNotifier currentQuizzNotifier = CurrentQuizzNotifier();
+CardNotifier cardNotifier = CardNotifier();
 TagNotifier tagNotifier = TagNotifier();
 
 class MyApp extends StatelessWidget {
@@ -52,6 +55,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _listViewController = ScrollController();
@@ -62,8 +66,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // initQuizz
-    // Update dates
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.clear();
+    });
+    quizzListNotifier.loadLocalQuizzList().then((_) {
+      cardNotifier.loadCurrentQuizzFromPrefs();
+    });
+    quizzListNotifier.fetchAndSaveOnlineQuizzList();
   }
 
   @override
@@ -108,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               );
             },
           ),
-          title: Text(currentQuizzNotifier.currentQuizzName),
+          title: Text(cardNotifier.currentQuizzName),
         ),
         body: Center(
           child: _learnMode

@@ -18,7 +18,7 @@ class _CardListState extends State<CardList> {
   @override
   void initState() {
     super.initState();
-    currentQuizzNotifier.addListener(() {
+    cardNotifier.addListener(() {
       if (mounted) {
         setState(() {});
       }
@@ -32,7 +32,7 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
-    List<FlashCard> filterdCards = currentQuizzNotifier.cards;
+    List<FlashCard> filterdCards = cardNotifier.cards;
     if (tagNotifier.selectedTags.isNotEmpty &&
         !tagNotifier.selectedTags.contains("Tout")) {
       filterdCards = filterdCards

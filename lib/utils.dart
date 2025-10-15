@@ -42,6 +42,15 @@ Future<String> readLocalFile(String localFilePath) async {
   return "";
 }
 
+Future<void> writeLocalFile(String localFilePath, String content) async {
+  try {
+    final file = await _localFile(localFilePath);
+    await file.writeAsString(content);
+  } catch (e) {
+    print('Error writing local file $localFilePath: $e');
+  }
+}
+
 Future<void> deleteLocalFile(String localFilePath) async {
   try {
     final file = await _localFile(localFilePath);

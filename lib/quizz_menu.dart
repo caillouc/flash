@@ -55,7 +55,7 @@ class _QuizzMenuState extends State<QuizzMenu> {
                       }
                       return;
                     } else {
-                      currentQuizzNotifier.loadQuizz(quizz);
+                      cardNotifier.loadQuizz(quizz);
                       Navigator.of(context).pop();
                     }
                   },

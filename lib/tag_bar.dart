@@ -49,7 +49,6 @@ class _TagBarState extends State<TagBar> {
                   selected: isSelected,
                   visualDensity: VisualDensity.compact,
                   onSelected: (bool value) {
-                    print("Tag selected: $tag");
                     if (tag == "Tout") {
                       tagNotifier.clearTags();
                     } else {
