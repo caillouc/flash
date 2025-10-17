@@ -171,8 +171,8 @@ class _FlashCardState extends State<FlashCard>
                 padding: const EdgeInsets.all(16.0),
                 child: showFront
                     ? settingsNotifier.reverseCardOrientation
-                        ? _buildFront()
-                        : _buildBack()
+                        ? _buildBack()
+                        : _buildFront()
                     // when showing the back after 90 degrees we rotate its content
                     // by pi so the text isn't mirrored
                     : Transform(

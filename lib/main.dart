@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
 
 import 'card_list.dart';
@@ -175,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   Icons.undo,
                                   color: Theme.of(context).primaryColor))),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const TagBar(),
                           SizedBox(
@@ -185,6 +186,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               controller: _cardSwiperController,
                             ),
                           ),
+                          const SizedBox(height: 0,)
                         ],
                       ),
                     ],

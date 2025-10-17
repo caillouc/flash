@@ -34,11 +34,14 @@ class _CardListState extends State<CardList> {
     return Expanded(
       child: ListView.builder(
         controller: widget.controller,
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         itemCount: filterdCards.length,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-            child: filterdCards[index],
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              child: filterdCards[index],
+            ),
           );
         },
       ),
