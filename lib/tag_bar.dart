@@ -33,7 +33,6 @@ class _TagBarState extends State<TagBar> {
             itemCount: tagNotifier.allTags.length,
             itemBuilder: (context, index) {
               final tag = tagNotifier.allTags[index];
-              final isSelected = tagNotifier.selectedTags.contains(tag);
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: ChoiceChip(
@@ -46,7 +45,7 @@ class _TagBarState extends State<TagBar> {
                           fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   ),
-                  selected: isSelected,
+                  selected: tagNotifier.isTagSelected(tag),
                   visualDensity: VisualDensity.compact,
                   onSelected: (bool value) {
                     if (tag == "Tout") {

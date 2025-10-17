@@ -27,6 +27,10 @@ class _QuizzMenuState extends State<QuizzMenu> {
       child: Column(
         children: [
           Text("Quizzes", style: Theme.of(context).textTheme.headlineMedium),
+          const Divider(
+            endIndent: 20,
+            indent: 20,
+          ),
           Expanded(
             child: ListView.builder(
               itemBuilder: (context, index) {
@@ -36,16 +40,32 @@ class _QuizzMenuState extends State<QuizzMenu> {
                 return ListTile(
                   title: Text(quizz.name),
                   leading: _editMode
-                      ? quizzListNotifier.isLocalQuizz(quizz)
-                          ? const Icon(Icons.check_box)
-                          : const Icon(Icons.check_box_outline_blank)
+                      ? Switch(
+                          value: quizzListNotifier.isLocalQuizz(quizz),
+                          onChanged: (selected) {
+                            if (selected) {
+                              quizzListNotifier.addLocalQuizz(quizz);
+                            } else {
+                              quizzListNotifier.removeLocalQuizz(quizz);
+                            }
+                          },
+                        )
                       : null,
-                  trailing: Icon(
-                    IconData(
-                      int.parse(quizz.icon),
-                      fontFamily: 'MaterialIcons',
-                    ),
-                  ),
+                  trailing: quizzListNotifier.isUpdateAvailable(quizz)
+                      ? IconButton(
+                          onPressed: () {
+                            quizzListNotifier.removeLocalQuizz(quizz);
+                            quizzListNotifier.addLocalQuizz(quizz);
+                            quizzListNotifier.markAsUpdated(quizz);
+                          },
+                          icon: const Icon(Icons.update, color: Colors.orange),
+                        )
+                      : Icon(
+                          IconData(
+                            int.parse(quizz.icon),
+                            fontFamily: 'MaterialIcons',
+                          ),
+                        ),
                   onTap: () {
                     if (_editMode) {
                       if (quizzListNotifier.isLocalQuizz(quizz)) {
@@ -67,13 +87,26 @@ class _QuizzMenuState extends State<QuizzMenu> {
             ),
           ),
           // Button to switch to edit mode
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _editMode = !_editMode;
-              });
-            },
-            child: Text(_editMode ? 'Done' : 'Edit'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    _editMode = !_editMode;
+                  });
+                },
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Colors.black),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: Text(_editMode ? 'Done' : 'Edit'),
+              ),
+            ),
           )
         ],
       ),

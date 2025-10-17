@@ -1,6 +1,15 @@
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+import 'dart:convert';
 import 'dart:io';
+
+import 'package:crypto/crypto.dart';
+import 'package:flash/card.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'main.dart';
+import 'dart:math';
 
 Future<File> _localFile(String filePath) async {
   final dir = await getApplicationDocumentsDirectory();
@@ -62,3 +71,48 @@ Future<void> deleteLocalFile(String localFilePath) async {
     // ignore
   }
 }
+
+String computeSha1(String input) {
+  // Simple SHA1 hash computation
+  var bytes = utf8.encode(input);
+  var digest = sha1.convert(bytes);
+  return digest.toString();
+}
+
+int getRemaingDaysForBox(int box) {
+  switch (box) {
+    case 5:
+      return 0;
+    case 4:
+      return 1;
+    case 3:
+      return 3;
+    case 2:
+      return 7;
+    case 1:
+      return 14;
+    case 0:
+      return 30;
+    default:
+      return 0;
+  }
+}
+
+void updateRemainingDay() async {
+    final prefs = await SharedPreferences.getInstance();
+    int year = int.parse(DateFormat.y().format(DateTime.now()));
+    int dayOfYear = int.parse(DateFormat('D').format(DateTime.now()));
+    int storedYear = prefs.getInt("year") ?? year;
+    int storedDayOfYear = prefs.getInt("dayOfYear") ?? dayOfYear;
+    prefs.setInt("year", year);
+    prefs.setInt("dayOfYear", dayOfYear);
+    int dayDiff = dayOfYear + 365 * (year - storedYear) - storedDayOfYear;
+    for (FlashCard card in cardNotifier.cards) {
+      String remainingDaysKey = '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_remaining_days';
+      int? stored = prefs.getInt(remainingDaysKey);
+      if (stored == null) continue;
+      int newDay = max(stored - dayDiff, 0);
+      if (stored == newDay) continue;
+      prefs.setInt(remainingDaysKey, newDay);
+    }
+  }

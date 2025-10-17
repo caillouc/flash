@@ -5,16 +5,14 @@ import 'main.dart';
 
 class CardList extends StatefulWidget {
   final ScrollController controller;
-  final TextEditingController searchController;
 
-  const CardList({super.key, required this.controller, required this.searchController});
+  const CardList({super.key, required this.controller});
 
   @override
   State<CardList> createState() => _CardListState();
 }
 
 class _CardListState extends State<CardList> {
-
   @override
   void initState() {
     super.initState();
@@ -32,30 +30,7 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
-    List<FlashCard> filterdCards = cardNotifier.cards;
-    if (tagNotifier.selectedTags.isNotEmpty &&
-        !tagNotifier.selectedTags.contains("Tout")) {
-      filterdCards = filterdCards
-          .where((card) => card.tags
-              .any((tag) => tagNotifier.selectedTags.contains(tag)))
-          .toList();
-    }
-    if (widget.searchController.text.isNotEmpty) {
-      filterdCards = filterdCards
-          .where((card) =>
-              card.frontTitle
-                  .toLowerCase()
-                  .contains(widget.searchController.text.toLowerCase()) ||
-              card.backTitle
-                  .toLowerCase()
-                  .contains(widget.searchController.text.toLowerCase()) ||
-              card.backDescription
-                  .toLowerCase()
-                  .contains(widget.searchController.text.toLowerCase()) ||
-              card.tags.any((tag) =>
-                  tag.toLowerCase().contains(widget.searchController.text.toLowerCase())))
-          .toList();
-    }
+    List<FlashCard> filterdCards = cardNotifier.filteredCards(inListView: true);
     return Expanded(
       child: ListView.builder(
         controller: widget.controller,
@@ -69,5 +44,4 @@ class _CardListState extends State<CardList> {
       ),
     );
   }
-
 }

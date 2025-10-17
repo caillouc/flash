@@ -2,41 +2,64 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'quizz.dart';
-import 'utils.dart' as utils;
-import 'constants.dart';
+import '../quizz.dart';
+import '../utils.dart' as utils;
+import '../constants.dart';
 
 class QuizzListNotifier extends ChangeNotifier {
   List<Quizz> _localQuizzes = [];
   List<Quizz> _onlineQuizzes = [];
 
-  List<Quizz> get localQuizzes => List.unmodifiable(_localQuizzes);
+  String _currentQuizzName = "";
+  String _currentQuizzUniqueId = "";
 
-  /// Returns the merged list of quizzes (no duplicates). If a quiz exists both
-  /// locally and online, the local version is returned.
+  final List<Quizz> _updateAvailable = [];
+
+  String get currentQuizzName => _currentQuizzName;
+  String get currentQuizzUniqueId => _currentQuizzUniqueId;
+  List<Quizz> get localQuizzes {
+    final sortedLocal = List<Quizz>.from(_localQuizzes);
+    sortedLocal.sort((a, b) => a.name.compareTo(b.name));
+    return sortedLocal;
+  }
+
+  void markAsUpdated(Quizz quizz) {
+    _updateAvailable.removeWhere((q) => q.fileName == quizz.fileName);
+    notifyListeners();
+  }
+
+  set currentQuizzName(String name) {
+    _currentQuizzName = name;
+    _currentQuizzUniqueId = utils.computeSha1(_localQuizzes.firstWhere((q) => q.name == name).fileName);
+    notifyListeners();
+  }
+
   List<Quizz> get allQuizzes {
-    // Start with local quizzes (preferred)
-    final merged = <Quizz>[];
-    final seen = <String>{}; // track fileName keys
+    // Create a sorted list of local quizzes.
+    final sortedLocal = List<Quizz>.from(_localQuizzes);
+    sortedLocal.sort((a, b) => a.name.compareTo(b.name));
 
-    for (final q in _localQuizzes) {
-      merged.add(q);
-      seen.add(q.fileName);
-    }
+    // Create a set of local quiz file names for efficient lookup.
+    final localFileNames = _localQuizzes.map((q) => q.fileName).toSet();
 
-    // Add online quizzes that are not present locally
-    for (final q in _onlineQuizzes) {
-      if (!seen.contains(q.fileName)) {
-        merged.add(q);
-        seen.add(q.fileName);
-      }
-    }
+    // Filter online quizzes to get only those not present locally, then sort them.
+    final sortedOnlineOnly = _onlineQuizzes
+        .where((q) => !localFileNames.contains(q.fileName))
+        .toList();
+    sortedOnlineOnly.sort((a, b) => a.name.compareTo(b.name));
+
+    // Combine the two lists.
+    final merged = [...sortedLocal, ...sortedOnlineOnly];
 
     return List.unmodifiable(merged);
   }
 
   bool isLocalQuizz(Quizz quizz) {
     return _localQuizzes.any((q) => q.fileName == quizz.fileName);
+  }
+
+  bool isUpdateAvailable(Quizz quizz) {
+    return _updateAvailable.any((q) => q.fileName == quizz.fileName);
   }
 
   void removeLocalQuizz(Quizz quizz) async {
@@ -103,8 +126,8 @@ class QuizzListNotifier extends ChangeNotifier {
     }
   }
 
-  void fetchAndSaveOnlineQuizzList() async {
-    utils
+  Future<void> fetchAndSaveOnlineQuizzList() async {
+    await utils
         .fetchAndSaveFile(remoteQuizzListUrl, quizzListServerFileName)
         .then((jsonContent) {
       if (jsonContent.isNotEmpty) {
@@ -112,6 +135,18 @@ class QuizzListNotifier extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  void checkNewVersion() {
+    for (Quizz local in _localQuizzes) {
+      if (_onlineQuizzes.any((q) => q.fileName == local.fileName)) {
+        Quizz? online = _onlineQuizzes.firstWhere((q) => q.fileName == local.fileName);
+        if (online.version != local.version) {
+          _updateAvailable.add(local);
+        }
+      }
+    }
+    notifyListeners();
   }
 
   List<Quizz> _loadQuizzListFromJson(String jsonListStr) {

@@ -1,15 +1,17 @@
-import 'package:scrolls_to_top/scrolls_to_top.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:scrolls_to_top/scrolls_to_top.dart';
 
-import 'card_stack.dart';
-import 'tag_bar.dart';
 import 'card_list.dart';
-import 'search_bar.dart';
-import 'quizz_list_notifier.dart';
-import 'card_notifier.dart';
-import 'tag_notifier.dart';
+import 'card_stack.dart';
+import 'notifiers/card_notifier.dart';
+import 'notifiers/quizz_list_notifier.dart';
+import 'notifiers/settings.notifier.dart';
+import 'notifiers/tag_notifier.dart';
 import 'quizz_menu.dart';
+import 'search_bar.dart';
+import 'settings.dart';
+import 'tag_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +20,7 @@ void main() {
 QuizzListNotifier quizzListNotifier = QuizzListNotifier();
 CardNotifier cardNotifier = CardNotifier();
 TagNotifier tagNotifier = TagNotifier();
+SettingsNotifier settingsNotifier = SettingsNotifier();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,21 +31,34 @@ class MyApp extends StatelessWidget {
       title: 'Flash Learning',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: Theme.of(context).textTheme.apply(
-          fontSizeFactor: 1.25,
-          fontFamily: "SBL_Hbrw",
-          fontFamilyFallback: ["SBL_Hbrw"],
+        // textTheme: Theme.of(context).textTheme.apply(
+        //   fontSizeFactor: 1.25,
+        //   fontFamily: "SBL_Hbrw",
+        //   fontFamilyFallback: ["SBL_Hbrw"],
+        // ),
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.grey,
+          dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+          brightness: Brightness.light,
         ),
-        colorScheme: const ColorScheme.light(
-          primary: Color(0xffb5bbbd),
-          primaryContainer: Color(0xff9ec4d4),
-          secondary: Color(0xfff4dac5),
-          secondaryContainer: Color(0xffffdbc8),
-          tertiary: Color(0xfff7f8f9),
-          tertiaryContainer: Color(0xffb5cddb),
-        ),
+        primaryColor: Colors.grey,
       ),
-      themeMode: ThemeMode.light,
+      darkTheme: ThemeData(
+        // textTheme: Theme.of(context).textTheme.apply(
+        //   fontSizeFactor: 1.25,
+        //   fontFamily: "SBL_Hbrw",
+        //   fontFamilyFallback: ["SBL_Hbrw"],
+        // ),
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.grey,
+          dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+          brightness: Brightness.dark,
+        ),
+        primaryColor: Colors.grey,
+      ),
+      themeMode: ThemeMode.system,
       home: const MyHomePage(),
     );
   }
@@ -55,30 +71,42 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _listViewController = ScrollController();
-  final TextEditingController _fieldTextController = TextEditingController();
+  final CardSwiperController _cardSwiperController = CardSwiperController();
+  final TextEditingController _textEditingController = TextEditingController();
 
-  bool _learnMode = false;
+  bool _listView = false;
 
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.clear();
+    // SharedPreferences.getInstance().then((prefs) {
+    //   prefs.clear();
+    // });
+    settingsNotifier.init();
+    // For Quizz name
+    quizzListNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
     });
+
     quizzListNotifier.loadLocalQuizzList().then((_) {
       cardNotifier.loadCurrentQuizzFromPrefs();
+      quizzListNotifier.fetchAndSaveOnlineQuizzList().then((_) {
+        quizzListNotifier.checkNewVersion();
+      });
     });
-    quizzListNotifier.fetchAndSaveOnlineQuizzList();
   }
 
   @override
   void dispose() {
     super.dispose();
     _listViewController.dispose();
+    _cardSwiperController.dispose();
+    _textEditingController.dispose();
   }
 
   Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
@@ -99,10 +127,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           actions: [
             IconButton(
-              icon: Icon(_learnMode ? Icons.school : Icons.school_outlined),
+              icon: Icon(_listView ? Icons.school : Icons.school_outlined),
               onPressed: () {
+                cardNotifier.setTextFilter('');
+                _textEditingController.clear();
                 setState(() {
-                  _learnMode = !_learnMode;
+                  _listView = !_listView;
                 });
               },
             ),
@@ -117,32 +147,49 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               );
             },
           ),
-          title: Text(cardNotifier.currentQuizzName),
+          title: Text(quizzListNotifier.currentQuizzName),
         ),
-        body: Center(
-          child: _learnMode
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const TagBar(),
-                    CustomSearchBar(controller: _fieldTextController),
-                    CardList(
-                      controller: _listViewController,
-                      searchController: _fieldTextController,
-                    )
-                  ],
-                )
-              : const Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TagBar(),
-                    SizedBox(
-                      height: 540,
-                      width: 340,
-                      child: CardStack(),
-                    ),
-                  ],
-                ),
+        body: SafeArea(
+          child: Center(
+            child: _listView
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const TagBar(),
+                      CustomSearchBar(controller: _textEditingController,),
+                      CardList(
+                        controller: _listViewController,
+                      )
+                    ],
+                  )
+                : Stack(
+                    children: [
+                      const Settings(),
+                      Positioned(
+                          bottom: 10,
+                          right: 10,
+                          child: IconButton(
+                              onPressed: () => _cardSwiperController.undo(),
+                              icon: Icon(
+                                  size: 25,
+                                  Icons.undo,
+                                  color: Theme.of(context).primaryColor))),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const TagBar(),
+                          SizedBox(
+                            height: 540,
+                            width: 340,
+                            child: CardStack(
+                              controller: _cardSwiperController,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );

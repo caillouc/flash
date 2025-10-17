@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import "dart:math";
 
+import 'package:flash/main.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class FlashCard extends StatefulWidget {
+  final String id;
   final String frontTitle;
   final String frontDescription;
   final String frontImage;
@@ -11,19 +15,20 @@ class FlashCard extends StatefulWidget {
   final String backImage;
   final List<String> tags;
 
-  const FlashCard(
-      {super.key,
-      this.frontTitle = "",
-      this.frontDescription = "",
-      this.frontImage = "",
-      this.backTitle = "",
-      this.backDescription = "",
-      this.backImage = "", 
-      this.tags = const []});
+  const FlashCard({
+    super.key,
+    this.id = "",
+    this.frontTitle = "",
+    this.frontDescription = "",
+    this.frontImage = "",
+    this.backTitle = "",
+    this.backDescription = "",
+    this.backImage = "",
+    this.tags = const [],
+  });
 
   @override
   State<FlashCard> createState() => _FlashCardState();
-
 }
 
 class _FlashCardState extends State<FlashCard>
@@ -34,6 +39,11 @@ class _FlashCardState extends State<FlashCard>
   @override
   void initState() {
     super.initState();
+    settingsNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -124,6 +134,23 @@ class _FlashCardState extends State<FlashCard>
           width: 300,
           height: 500,
           child: GestureDetector(
+            onLongPress: () async {
+              SharedPreferences.getInstance().then((prefs) {
+                String boxKey =
+                    '${quizzListNotifier.currentQuizzUniqueId}_${widget.id}_box';
+                String remainingDaysKey =
+                    '${quizzListNotifier.currentQuizzUniqueId}_${widget.id}_remaining_days';
+                int currentBox = prefs.getInt(boxKey) ?? 5;
+                int currentRemaining = prefs.getInt(remainingDaysKey) ?? 0;
+                SnackBar snackBar = SnackBar(
+                  content: Text(
+                      "${widget.frontTitle} : Box=$currentBox, RemainingDays=$currentRemaining"),
+                  duration: const Duration(seconds: 2),
+                );
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              });
+            },
             behavior: HitTestBehavior.opaque,
             onTap: () async {
               // give a light haptic feedback then animate flip
@@ -143,7 +170,9 @@ class _FlashCardState extends State<FlashCard>
                 height: 500,
                 padding: const EdgeInsets.all(16.0),
                 child: showFront
-                    ? _buildFront()
+                    ? settingsNotifier.reverseCardOrientation
+                        ? _buildFront()
+                        : _buildBack()
                     // when showing the back after 90 degrees we rotate its content
                     // by pi so the text isn't mirrored
                     : Transform(
