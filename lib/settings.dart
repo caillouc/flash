@@ -40,7 +40,7 @@ class _SettingState extends State<Settings> {
                       children: [
                         Text('Paramètres',
                             style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 25,
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).primaryColor)),
                         const Divider(

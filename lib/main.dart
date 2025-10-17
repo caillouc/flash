@@ -72,7 +72,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _listViewController = ScrollController();
   final CardSwiperController _cardSwiperController = CardSwiperController();
@@ -157,7 +157,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const TagBar(),
-                      CustomSearchBar(controller: _textEditingController,),
+                      CustomSearchBar(
+                        controller: _textEditingController,
+                      ),
                       CardList(
                         controller: _listViewController,
                       )
@@ -186,7 +188,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               controller: _cardSwiperController,
                             ),
                           ),
-                          const SizedBox(height: 0,)
+                          const SizedBox(
+                            height: 0,
+                          )
                         ],
                       ),
                     ],

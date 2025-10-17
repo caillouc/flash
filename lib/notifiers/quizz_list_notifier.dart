@@ -23,11 +23,6 @@ class QuizzListNotifier extends ChangeNotifier {
     return sortedLocal;
   }
 
-  void markAsUpdated(Quizz quizz) {
-    _updateAvailable.removeWhere((q) => q.fileName == quizz.fileName);
-    notifyListeners();
-  }
-
   set currentQuizzName(String name) {
     _currentQuizzName = name;
     _currentQuizzUniqueId = utils.computeSha1(_localQuizzes.firstWhere((q) => q.name == name).fileName);
@@ -62,7 +57,14 @@ class QuizzListNotifier extends ChangeNotifier {
     return _updateAvailable.any((q) => q.fileName == quizz.fileName);
   }
 
-  void removeLocalQuizz(Quizz quizz) async {
+  void updateQuizz(Quizz quizz) {
+    removeLocalQuizz(quizz, skipReload: true);
+    Quizz upToDateQuizz = _onlineQuizzes.firstWhere((q) => q.fileName == quizz.fileName);
+    _updateAvailable.removeWhere((q) => q.fileName == quizz.fileName);
+    addLocalQuizz(upToDateQuizz);
+  }
+
+  void removeLocalQuizz(Quizz quizz, {bool skipReload = false}) async {
     print("Removing local quizz: ${quizz.name}");
     _localQuizzes.removeWhere((q) => q.fileName == quizz.fileName);
     utils.deleteLocalFile(localQuizzFolder + quizz.fileName);
@@ -85,7 +87,9 @@ class QuizzListNotifier extends ChangeNotifier {
     } catch (e) {
       print('Error updating local quizzes list after removal: $e');
     }
-    notifyListeners();
+    if (!skipReload) {
+      notifyListeners();
+    }
   }
 
   void addLocalQuizz(Quizz quizz) async {
@@ -111,6 +115,7 @@ class QuizzListNotifier extends ChangeNotifier {
         final newContent = json.encode(root);
         await utils.writeLocalFile(localQuizzListFileName, newContent);
         _localQuizzes.add(quizz);
+        print("${quizz.name} added");
       } catch (e) {
         print('Error updating local quizzes list: $e');
       }
@@ -142,6 +147,7 @@ class QuizzListNotifier extends ChangeNotifier {
       if (_onlineQuizzes.any((q) => q.fileName == local.fileName)) {
         Quizz? online = _onlineQuizzes.firstWhere((q) => q.fileName == local.fileName);
         if (online.version != local.version) {
+          print("Update available for ${local.name}");
           _updateAvailable.add(local);
         }
       }

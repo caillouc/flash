@@ -1,8 +1,10 @@
 import 'package:flash/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:win32/win32.dart';
 
 import 'main.dart';
+import 'card.dart';
 
 class CardStack extends StatefulWidget {
   final CardSwiperController controller;
@@ -73,7 +75,8 @@ class _CardStackState extends State<CardStack> {
 
       // cardBuilder: (context, index, percentThresholdX, percentThresholdY) =>
       //     filterdCards[index],
-      allowedSwipeDirection: const AllowedSwipeDirection.only(left: true, right: true),
+      allowedSwipeDirection:
+          const AllowedSwipeDirection.only(left: true, right: true),
       onSwipe: (previousIndex, currentIndex, direction) {
         if (settingsNotifier.apprentissage) {
           if (direction == CardSwiperDirection.left) {
@@ -85,7 +88,7 @@ class _CardStackState extends State<CardStack> {
         return true;
       },
       onUndo: (previousIndex, currentIndex, direction) {
-          return cardNotifier.undo(filterdCards[currentIndex]);
+        return cardNotifier.undo(filterdCards[currentIndex]);
       },
     );
   }

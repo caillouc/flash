@@ -50,6 +50,9 @@ class CardNotifier extends ChangeNotifier {
         return remaining <= 0;
       }).toList();
     }
+    if (!inListView && quizzListNotifier.currentQuizzName.isNotEmpty) {
+      filterdCards.shuffle();
+    }
     return filterdCards;
   }
 
@@ -87,7 +90,7 @@ class CardNotifier extends ChangeNotifier {
       for (final e in list) {
         final item = e as Map<String, dynamic>;
 
-        parsed.add(FlashCard(
+          parsed.add(FlashCard(
           id: item["id"],
           frontTitle: item["frontTitle"] ?? "",
           frontDescription: item["frontDescription"] ?? "",
