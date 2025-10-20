@@ -1,10 +1,8 @@
 import 'package:flash/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:win32/win32.dart';
 
 import 'main.dart';
-import 'card.dart';
 
 class CardStack extends StatefulWidget {
   final CardSwiperController controller;
@@ -49,7 +47,7 @@ class _CardStackState extends State<CardStack> {
     List<FlashCard> filterdCards = cardNotifier.filteredCards();
     if (filterdCards.isEmpty) {
       filterdCards = [
-        const FlashCard(frontTitle: "Aucune carte ne correspond aux filtres")
+        const FlashCard(key: ValueKey('no_cards_placeholder'), frontTitle: "Aucune carte ne correspond aux filtres")
       ];
     }
     return CardSwiper(

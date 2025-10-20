@@ -10,13 +10,15 @@ import '../constants.dart';
 
 class CardNotifier extends ChangeNotifier {
   List<FlashCard> _cards = [
-    const FlashCard(frontTitle: "Téléchargez un quiz pour commencer"),
-    const FlashCard(
-        frontTitle:
-            "Naviguez dans le menu en haut à gauche et sélectionnez vos quizz"),
-    const FlashCard(
-        frontTitle:
-            "Vous pourrez ensuite réviser les cartes dans cette section"),
+  const FlashCard(key: ValueKey('placeholder_1'), frontTitle: "Téléchargez un quiz pour commencer"),
+  const FlashCard(
+    key: ValueKey('placeholder_2'),
+    frontTitle:
+      "Naviguez dans le menu en haut à gauche et sélectionnez vos quizz"),
+  const FlashCard(
+    key: ValueKey('placeholder_3'),
+    frontTitle:
+      "Vous pourrez ensuite réviser les cartes dans cette section"),
   ];
   String _cardTextFilter = "";
   // in-memory cache of remaining days per card id
@@ -91,17 +93,18 @@ class CardNotifier extends ChangeNotifier {
         final item = e as Map<String, dynamic>;
 
           parsed.add(FlashCard(
-          id: item["id"],
-          frontTitle: item["frontTitle"] ?? "",
-          frontDescription: item["frontDescription"] ?? "",
-          frontImage: item["frontImage"] ?? "",
-          backTitle: item["backTitle"] ?? "",
-          backDescription: item["backDescription"] ?? "",
-          backImage: item["backImage"] ?? "",
-          tags: item["tags"] is List<dynamic>
-              ? (item["tags"] as List<dynamic>).cast<String>()
-              : <String>[],
-        ));
+            key: ValueKey(item["id"]),
+            id: item["id"],
+            frontTitle: item["frontTitle"] ?? "",
+            frontDescription: item["frontDescription"] ?? "",
+            frontImage: item["frontImage"] ?? "",
+            backTitle: item["backTitle"] ?? "",
+            backDescription: item["backDescription"] ?? "",
+            backImage: item["backImage"] ?? "",
+            tags: item["tags"] is List<dynamic>
+                ? (item["tags"] as List<dynamic>).cast<String>()
+                : <String>[],
+          ));
       }
 
       _cards = parsed;
