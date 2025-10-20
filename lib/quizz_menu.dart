@@ -37,6 +37,7 @@ class _QuizzMenuState extends State<QuizzMenu> {
             ),
           Expanded(
             child: ListView.builder(
+              padding: EdgeInsets.zero,
               itemBuilder: (context, index) {
                 final quizz = _editMode
                     ? quizzListNotifier.allQuizzes[index]
@@ -57,16 +58,21 @@ class _QuizzMenuState extends State<QuizzMenu> {
                       : null,
                   trailing: quizzListNotifier.isUpdateAvailable(quizz)
                       ? TextButton.icon(
-                          onPressed: () {
-                            quizzListNotifier.updateQuizz(quizz);
-                          },
-                          iconAlignment: IconAlignment.end,
-                          label: const Text(
-                            "MàJ",
-                            style: TextStyle(color: Colors.orange, fontSize: 20),
-                          ),
-                          icon: const Icon(Icons.update, color: Colors.orange, size: 20,),
-                        )
+                        onPressed: () {
+                          quizzListNotifier.updateQuizz(quizz);
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero, // Remove default padding
+                          minimumSize: const Size(0, 0), // Remove minimum size
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        iconAlignment: IconAlignment.end,
+                        label: const Text(
+                          "MàJ",
+                          style: TextStyle(color: Colors.orange, fontSize: 16),
+                        ),
+                        icon: const Icon(Icons.update, color: Colors.orange, size: 25),
+                      )
                       : Icon(
                           IconData(
                             int.parse(quizz.icon),
@@ -82,6 +88,7 @@ class _QuizzMenuState extends State<QuizzMenu> {
                       }
                       return;
                     } else {
+                      cardNotifier.setTextFilter('');
                       cardNotifier.loadQuizz(quizz);
                       Navigator.of(context).pop();
                     }

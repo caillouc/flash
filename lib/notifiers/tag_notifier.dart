@@ -32,7 +32,6 @@ class TagNotifier extends ChangeNotifier {
     }
     _allTags = tags.toSet().toList();
     clearTags();
-    notifyListeners();
   }
 
   void toggleTag(String tag) {
@@ -48,7 +47,7 @@ class TagNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearTags() {
+  void clearTags({bool noRefresh = false}) {
     _selectedTags.clear();
     _selectedTags.add("Tout");
     notifyListeners();

@@ -71,6 +71,18 @@ class _SettingState extends State<Settings> {
                             });
                           },
                         ),
+                        SwitchListTile(
+                          title: const Text('Mélanger l\'orientation'),
+                          subtitle: const Text(
+                              'Chaque carte aura une orientation aléatoire'),
+                          value: settingsNotifier.mixCardOrientation,
+                          onChanged: (v) {
+                            // Update the notifier, then call the local setState for the modal.
+                            setModalState(() {
+                              settingsNotifier.mixCardOrientation = v;
+                            });
+                          },
+                        ),
                       ],
                     ),
                   );

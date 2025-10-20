@@ -14,6 +14,7 @@ class FlashCard extends StatefulWidget {
   final String backDescription;
   final String backImage;
   final List<String> tags;
+  final bool randomReverse; // Optional override for random orientation
 
   const FlashCard({
     super.key,
@@ -25,6 +26,7 @@ class FlashCard extends StatefulWidget {
     this.backDescription = "",
     this.backImage = "",
     this.tags = const [],
+    this.randomReverse = false,
   });
 
   @override
@@ -39,6 +41,7 @@ class _FlashCardState extends State<FlashCard>
   @override
   void initState() {
     super.initState();
+    
     settingsNotifier.addListener(() {
       if (mounted) {
         setState(() {});
@@ -121,6 +124,10 @@ class _FlashCardState extends State<FlashCard>
 
     // choose which side to display depending on the animation angle
     final showFront = angle <= (pi / 2);
+    
+    final shouldReverse = settingsNotifier.mixCardOrientation
+        ? widget.randomReverse
+        : settingsNotifier.reverseCardOrientation;
 
     return Transform(
       transform: Matrix4.identity()
@@ -170,7 +177,7 @@ class _FlashCardState extends State<FlashCard>
                 height: 500,
                 padding: const EdgeInsets.all(16.0),
                 child: showFront
-                    ? settingsNotifier.reverseCardOrientation
+                    ? shouldReverse
                         ? _buildBack()
                         : _buildFront()
                     // when showing the back after 90 degrees we rotate its content
@@ -178,7 +185,9 @@ class _FlashCardState extends State<FlashCard>
                     : Transform(
                         transform: Matrix4.identity()..rotateY(pi),
                         alignment: Alignment.center,
-                        child: _buildBack(),
+                        child: shouldReverse
+                            ? _buildFront()
+                            : _buildBack(),
                       ),
               ),
             ),

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
 
 import 'card_list.dart';
 import 'card_stack.dart';
 import 'notifiers/card_notifier.dart';
 import 'notifiers/quizz_list_notifier.dart';
-import 'notifiers/settings.notifier.dart';
+import 'notifiers/settings_notifier.dart';
 import 'notifiers/tag_notifier.dart';
 import 'quizz_menu.dart';
 import 'search_bar.dart';
@@ -79,6 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textEditingController = TextEditingController();
 
   bool _listView = false;
+  bool _quizzesLoaded = false;
+  String _lastQuizzName = "";
 
   @override
   void initState() {
@@ -87,15 +88,39 @@ class _MyHomePageState extends State<MyHomePage> {
     //   prefs.clear();
     // });
     settingsNotifier.init();
-    // For Quizz name
+    // For Quizz name - only rebuild if the current quiz name actually changed
     quizzListNotifier.addListener(() {
+      if (mounted && _lastQuizzName != quizzListNotifier.currentQuizzName) {
+        _lastQuizzName = quizzListNotifier.currentQuizzName;
+        setState(() {});
+      }
+    });
+    
+    // Listen to card notifier for filtering changes to update card count
+    cardNotifier.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    
+    // Listen to tag notifier for filtering changes to update card count
+    tagNotifier.addListener(() {
       if (mounted) {
         setState(() {});
       }
     });
 
     quizzListNotifier.loadLocalQuizzList().then((_) {
-      cardNotifier.loadCurrentQuizzFromPrefs();
+      // If there are local quizzes, load the current quiz from prefs and
+      // wait for it before showing the card stack. This prevents briefly
+      // showing placeholder cards before the real quiz is loaded.
+      (() async {
+        if (quizzListNotifier.localQuizzes.isNotEmpty) {
+          await cardNotifier.loadCurrentQuizzFromPrefs();
+        }
+        if (mounted) setState(() => _quizzesLoaded = true);
+      })();
+
       quizzListNotifier.fetchAndSaveOnlineQuizzList().then((_) {
         quizzListNotifier.checkNewVersion();
       });
@@ -148,7 +173,11 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-          title: Text(quizzListNotifier.currentQuizzName),
+          title: Text(
+            quizzListNotifier.currentQuizzName.isNotEmpty
+                ? "${quizzListNotifier.currentQuizzName} (${cardNotifier.filteredCards().length})"
+                : quizzListNotifier.currentQuizzName
+          ),
         ),
         body: SafeArea(
           child: Center(
@@ -184,9 +213,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           SizedBox(
                             height: 540,
                             width: 340,
-                            child: CardStack(
-                              controller: _cardSwiperController,
-                            ),
+                            child: _quizzesLoaded
+                                ? CardStack(
+                                    controller: _cardSwiperController,
+                                  )
+                                : const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                           ),
                           const SizedBox(
                             height: 0,

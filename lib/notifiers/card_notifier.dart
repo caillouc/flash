@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +30,7 @@ class CardNotifier extends ChangeNotifier {
   int get nbCard => _cards.length;
 
   List<FlashCard> filteredCards({bool inListView = false}) {
-    List<FlashCard> filterdCards = cards;
+    List<FlashCard> filterdCards = List.from(cards);
     if (tagNotifier.hasSelectedTags) {
       filterdCards = filterdCards
           .where(
@@ -67,7 +68,7 @@ class CardNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadCurrentQuizzFromPrefs() async {
+  Future<void> loadCurrentQuizzFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? quizzName = prefs.getString('current_quizz');
     if (quizzName != null && quizzName.isNotEmpty) {
@@ -104,6 +105,7 @@ class CardNotifier extends ChangeNotifier {
             tags: item["tags"] is List<dynamic>
                 ? (item["tags"] as List<dynamic>).cast<String>()
                 : <String>[],
+            randomReverse: Random(DateTime.now().millisecondsSinceEpoch + item["id"].hashCode).nextBool()
           ));
       }
 
@@ -164,9 +166,7 @@ class CardNotifier extends ChangeNotifier {
 
   bool undo(FlashCard card) {
     if (_history.isEmpty) {return false;}
-    if (settingsNotifier.apprentissage) {
-      setBoxForCard(card, (_) => 5, isUndo: true);
-    }
+    setBoxForCard(card, (_) => 5, isUndo: true);
     return true;
   }
 

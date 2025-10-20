@@ -5,14 +5,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsNotifier extends ChangeNotifier {
   bool _apprentissage = true;
   bool _reverseCardOrientation = false;
+  bool _mixCardOrientation = false;
 
   bool get apprentissage => _apprentissage;
   bool get reverseCardOrientation => _reverseCardOrientation;
+  bool get mixCardOrientation => _mixCardOrientation;
 
   void init() {
     SharedPreferences.getInstance().then((prefs) {
       _apprentissage = prefs.getBool('apprentissage_mode') ?? _apprentissage;
       _reverseCardOrientation = prefs.getBool("reverseCardOrientation") ?? _reverseCardOrientation;
+      _mixCardOrientation = prefs.getBool("mixCardOrientation") ?? _mixCardOrientation;
     });
   }
 
@@ -32,6 +35,16 @@ class SettingsNotifier extends ChangeNotifier {
     // persist
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool('reverseCardOrientation', v);
+    });
+    notifyListeners();
+  }
+
+  set mixCardOrientation(bool v) {
+    if (_mixCardOrientation == v) return;
+    _mixCardOrientation = v;
+    // persist
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('mixCardOrientation', v);
     });
     notifyListeners();
   }

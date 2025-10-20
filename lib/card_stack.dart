@@ -36,8 +36,7 @@ class _CardStackState extends State<CardStack> {
     });
     settingsNotifier.addListener(() {
       if (mounted) {
-        setState(() {});
-        cardNotifier.clearHistory();
+        refresh();
       }
     });
   }
