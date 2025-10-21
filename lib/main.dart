@@ -96,20 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
     
-    // Listen to card notifier for filtering changes to update card count
-    cardNotifier.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
-    
-    // Listen to tag notifier for filtering changes to update card count
-    tagNotifier.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
-
     quizzListNotifier.loadLocalQuizzList().then((_) {
       // If there are local quizzes, load the current quiz from prefs and
       // wait for it before showing the card stack. This prevents briefly
@@ -173,11 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-          title: Text(
-            quizzListNotifier.currentQuizzName.isNotEmpty
-                ? "${quizzListNotifier.currentQuizzName} (${cardNotifier.filteredCards().length})"
-                : quizzListNotifier.currentQuizzName
-          ),
+          title: Text(quizzListNotifier.currentQuizzName),
         ),
         body: SafeArea(
           child: Center(

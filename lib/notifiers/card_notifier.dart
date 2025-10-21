@@ -26,19 +26,20 @@ class CardNotifier extends ChangeNotifier {
   final Map<String, int> _remainingDaysMap = {};
   final List _history = [];
 
+
   List<FlashCard> get cards => List.unmodifiable(_cards);
   int get nbCard => _cards.length;
 
   List<FlashCard> filteredCards({bool inListView = false}) {
-    List<FlashCard> filterdCards = List.from(cards);
+    List<FlashCard> filteredCards = List.from(cards);
     if (tagNotifier.hasSelectedTags) {
-      filterdCards = filterdCards
+      filteredCards = filteredCards
           .where(
               (card) => card.tags.any((tag) => tagNotifier.isTagSelected(tag)))
           .toList();
     }
     if (_cardTextFilter.isNotEmpty) {
-      filterdCards = filterdCards.where((card) {
+      filteredCards = filteredCards.where((card) {
         final lowerFilter = _cardTextFilter.toLowerCase();
         return card.frontTitle.toLowerCase().contains(lowerFilter) ||
             card.frontDescription.toLowerCase().contains(lowerFilter) ||
@@ -47,17 +48,22 @@ class CardNotifier extends ChangeNotifier {
       }).toList();
     }
     // If apprentissage mode is enabled, only keep cards with remaining_days == 0
+
     if (settingsNotifier.apprentissage && !inListView) {
-      filterdCards = filterdCards.where((card) {
+      List<FlashCard> tempFilteredCards = filteredCards.where((card) {
         final remaining = _remainingDaysMap[card.id] ?? 0;
         return remaining <= 0;
       }).toList();
+      if (tempFilteredCards.isNotEmpty) {
+        filteredCards = tempFilteredCards;
+      }
     }
     if (!inListView && quizzListNotifier.currentQuizzName.isNotEmpty) {
-      filterdCards.shuffle();
+      filteredCards.shuffle();
     }
-    return filterdCards;
+    return filteredCards;
   }
+
 
   void clearHistory() {
     _history.clear();

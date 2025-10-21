@@ -43,19 +43,20 @@ class _CardStackState extends State<CardStack> {
 
   @override
   Widget build(BuildContext context) {
-    List<FlashCard> filterdCards = cardNotifier.filteredCards();
-    if (filterdCards.isEmpty) {
-      filterdCards = [
+    List<FlashCard> filteredCards = cardNotifier.filteredCards();
+    if (filteredCards.isEmpty) {
+      filteredCards = [
         const FlashCard(key: ValueKey('no_cards_placeholder'), frontTitle: "Aucune carte ne correspond aux filtres")
       ];
     }
     return CardSwiper(
-      cardsCount: filterdCards.length,
+      cardsCount: filteredCards.length,
       controller: widget.controller,
       numberOfCardsDisplayed: 3,
+      isLoop: false,
       threshold: 70,
       cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
-        final card = filterdCards[index];
+        final card = filteredCards[index];
         // Determine the color based on swipe direction
         final color = percentThresholdX > 0
             ? Colors.green.withValues(alpha: (percentThresholdX / 100).abs())
@@ -71,21 +72,25 @@ class _CardStackState extends State<CardStack> {
       },
 
       // cardBuilder: (context, index, percentThresholdX, percentThresholdY) =>
-      //     filterdCards[index],
+      //     filteredCards[index],
       allowedSwipeDirection:
           const AllowedSwipeDirection.only(left: true, right: true),
+      onEnd: () {
+        filteredCards = cardNotifier.filteredCards();
+        refresh();
+      },
       onSwipe: (previousIndex, currentIndex, direction) {
         if (settingsNotifier.apprentissage) {
           if (direction == CardSwiperDirection.left) {
-            cardNotifier.demoteCard(filterdCards[previousIndex]);
+            cardNotifier.demoteCard(filteredCards[previousIndex]);
           } else {
-            cardNotifier.promoteCard(filterdCards[previousIndex]);
+            cardNotifier.promoteCard(filteredCards[previousIndex]);
           }
         }
         return true;
       },
       onUndo: (previousIndex, currentIndex, direction) {
-        return cardNotifier.undo(filterdCards[currentIndex]);
+        return cardNotifier.undo(filteredCards[currentIndex]);
       },
     );
   }
