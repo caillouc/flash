@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'card_list.dart';
 import 'card_stack.dart';
@@ -106,6 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
         }
         if (mounted) setState(() => _quizzesLoaded = true);
       })();
+
+      // Load private quizzes if previously fetched
+      quizzListNotifier.loadPrivateQuizzListIfExists();
 
       quizzListNotifier.fetchAndSaveOnlineQuizzList().then((_) {
         quizzListNotifier.checkNewVersion();

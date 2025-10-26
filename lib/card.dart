@@ -1,8 +1,10 @@
+import "dart:io";
 import "dart:math";
 
 import 'package:flash/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FlashCard extends StatefulWidget {
@@ -69,50 +71,70 @@ class _FlashCardState extends State<FlashCard>
     super.dispose();
   }
 
-  Widget _buildFront() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (widget.frontImage.isNotEmpty)
-          Image.asset(widget.frontImage, width: 200, height: 200),
-        const SizedBox(height: 20),
-        Text(
-          widget.frontTitle,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            widget.frontDescription,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
-      ],
+  Widget _buildImage(String imagePath) {
+    if (imagePath.isEmpty) return const SizedBox.shrink();
+    
+    return FutureBuilder<File>(
+      future: _getLocalImageFile(imagePath),
+      builder: (context, snapshot) {
+        // While loading, show nothing (just take up the space)
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Expanded(child: SizedBox.shrink());
+        }
+        
+        // Once loaded, check if file exists
+        if (snapshot.connectionState == ConnectionState.done && 
+            snapshot.hasData && 
+            snapshot.data!.existsSync()) {
+          return Expanded(
+            child: Image.file(
+              snapshot.data!, 
+              fit: BoxFit.contain,
+            ),
+          );
+        }
+        
+        // If file doesn't exist after loading, show error icon
+        return const Expanded(
+          child: Center(child: Icon(Icons.image_not_supported, size: 50)),
+        );
+      },
     );
   }
+  
+  Future<File> _getLocalImageFile(String imagePath) async {
+    final dir = await getApplicationDocumentsDirectory();
+    return File('${dir.path}/$imagePath');
+  }
 
-  Widget _buildBack() {
+  Widget _buildSide(bool isFrontSide) {
+    String image = isFrontSide ? widget.frontImage : widget.backImage;
+    String title = isFrontSide ? widget.frontTitle : widget.backTitle;
+    String description = isFrontSide ? widget.frontDescription : widget.backDescription;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (widget.backImage.isNotEmpty)
-          Image.asset(widget.backImage, width: 200, height: 200),
-        const SizedBox(height: 20),
-        Text(
-          widget.backTitle,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            widget.backDescription,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 16),
+        if (image.isNotEmpty) ...[
+          _buildImage(image)
+        ],
+        if (title.isNotEmpty) ...[
+          const SizedBox(height: 20),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-        ),
+        ],
+        if (description.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -178,16 +200,16 @@ class _FlashCardState extends State<FlashCard>
                 padding: const EdgeInsets.all(16.0),
                 child: showFront
                     ? shouldReverse
-                        ? _buildBack()
-                        : _buildFront()
+                        ? _buildSide(false)
+                        : _buildSide(true)
                     // when showing the back after 90 degrees we rotate its content
                     // by pi so the text isn't mirrored
                     : Transform(
                         transform: Matrix4.identity()..rotateY(pi),
                         alignment: Alignment.center,
                         child: shouldReverse
-                            ? _buildFront()
-                            : _buildBack(),
+                            ? _buildSide(true)
+                            : _buildSide(false),
                       ),
               ),
             ),

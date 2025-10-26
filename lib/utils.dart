@@ -26,11 +26,13 @@ Future<String> fetchAndSaveFile(String url, String localFilePath) async {
     final resp = await http.get(Uri.parse(url));
     if (resp.statusCode == 200) {
       final body = resp.body;
-      // save file
+      // save file with UTF-8 encoding
       final file = await _localFile(localFilePath);
-      await file.writeAsString(body);
+      await file.writeAsString(body, encoding: utf8);
       print('File successfully fetched and saved to $localFilePath');
       return body;
+    } else {
+      print("Error fetching file from $url: ${resp.statusCode}");
     }
   } catch (e) {
     print("Error fetching file from $url: $e");
@@ -39,11 +41,31 @@ Future<String> fetchAndSaveFile(String url, String localFilePath) async {
   return "";
 }
 
+Future<bool> fetchAndSaveBinaryFile(String url, String localFilePath) async {
+  try {
+    final resp = await http.get(Uri.parse(url));
+    if (resp.statusCode == 200) {
+      // Use bodyBytes to get binary data
+      final bytes = resp.bodyBytes;
+      // save binary file
+      final file = await _localFile(localFilePath);
+      await file.writeAsBytes(bytes);
+      print('Binary file successfully fetched and saved to $localFilePath');
+      return true;
+    } else {
+      print("Error fetching binary file from $url: ${resp.statusCode}");
+    }
+  } catch (e) {
+    print("Error fetching binary file from $url: $e");
+  }
+  return false;
+}
+
 Future<String> readLocalFile(String localFilePath) async {
   try {
     final file = await _localFile(localFilePath);
     if (await file.exists()) {
-      return await file.readAsString();
+      return await file.readAsString(encoding: utf8);
     }
   } catch (e) {
     // ignore and leave quizzes empty
@@ -54,7 +76,7 @@ Future<String> readLocalFile(String localFilePath) async {
 Future<void> writeLocalFile(String localFilePath, String content) async {
   try {
     final file = await _localFile(localFilePath);
-    await file.writeAsString(content);
+    await file.writeAsString(content, encoding: utf8);
   } catch (e) {
     print('Error writing local file $localFilePath: $e');
   }
@@ -69,6 +91,19 @@ Future<void> deleteLocalFile(String localFilePath) async {
     print('File $localFilePath deleted');
   } catch (e) {
     // ignore
+  }
+}
+
+Future<void> deleteLocalDirectory(String localDirPath) async {
+  try {
+    final dir = await getApplicationDocumentsDirectory();
+    final directory = Directory('${dir.path}/$localDirPath');
+    if (await directory.exists()) {
+      await directory.delete(recursive: true);
+      print('Directory $localDirPath deleted');
+    }
+  } catch (e) {
+    print('Error deleting directory $localDirPath: $e');
   }
 }
 

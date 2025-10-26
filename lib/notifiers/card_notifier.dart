@@ -10,7 +10,7 @@ import '../main.dart';
 import '../constants.dart';
 
 class CardNotifier extends ChangeNotifier {
-  List<FlashCard> _cards = [
+  final List<FlashCard> _noLocalQuizzCards = [
   const FlashCard(key: ValueKey('placeholder_1'), frontTitle: "Téléchargez un quiz pour commencer"),
   const FlashCard(
     key: ValueKey('placeholder_2'),
@@ -21,14 +21,20 @@ class CardNotifier extends ChangeNotifier {
     frontTitle:
       "Vous pourrez ensuite réviser les cartes dans cette section"),
   ];
+  List<FlashCard> _cards = [];
   String _cardTextFilter = "";
   // in-memory cache of remaining days per card id
   final Map<String, int> _remainingDaysMap = {};
   final List _history = [];
 
-
   List<FlashCard> get cards => List.unmodifiable(_cards);
   int get nbCard => _cards.length;
+
+  void setNoLocalQuizz () {
+    _cards = _noLocalQuizzCards;
+    quizzListNotifier.currentQuizzName = "";
+    notifyListeners();
+  }
 
   List<FlashCard> filteredCards({bool inListView = false}) {
     List<FlashCard> filteredCards = List.from(cards);
@@ -99,20 +105,32 @@ class CardNotifier extends ChangeNotifier {
       for (final e in list) {
         final item = e as Map<String, dynamic>;
 
-          parsed.add(FlashCard(
-            key: ValueKey(item["id"]),
-            id: item["id"],
-            frontTitle: item["frontTitle"] ?? "",
-            frontDescription: item["frontDescription"] ?? "",
-            frontImage: item["frontImage"] ?? "",
-            backTitle: item["backTitle"] ?? "",
-            backDescription: item["backDescription"] ?? "",
-            backImage: item["backImage"] ?? "",
-            tags: item["tags"] is List<dynamic>
-                ? (item["tags"] as List<dynamic>).cast<String>()
-                : <String>[],
-            randomReverse: Random(DateTime.now().millisecondsSinceEpoch + item["id"].hashCode).nextBool()
-          ));
+        // Handle image_path for private quizzes with images
+        String frontImagePath = "";
+        if (item.containsKey("frontImage") && item["frontImage"] != null && item["frontImage"].isNotEmpty && quizz.imageFolder.isNotEmpty) {
+          // Construct the full local path
+          frontImagePath = '$localImageFolder/${quizz.imageFolder}/${item["frontImage"]}';
+        }
+        String backImagePath = "";
+        if (item.containsKey("backImage") && item["backImage"] != null && item["backImage"].isNotEmpty && quizz.imageFolder.isNotEmpty) {
+          // Construct the full local path
+          backImagePath = '$localImageFolder/${quizz.imageFolder}/${item["backImage"]}';
+        }
+
+        parsed.add(FlashCard(
+          key: ValueKey(item["id"]),
+          id: item["id"],
+          frontTitle: item["frontTitle"] ?? "",
+          frontDescription: item["frontDescription"] ?? "",
+          frontImage: frontImagePath.isNotEmpty ? frontImagePath : (item["frontImage"] ?? ""),
+          backTitle: item["backTitle"] ?? "",
+          backDescription: item["backDescription"] ?? "",
+          backImage: backImagePath.isNotEmpty ? backImagePath : (item["backImage"] ?? ""),
+          tags: item["tags"] is List<dynamic>
+              ? (item["tags"] as List<dynamic>).cast<String>()
+              : <String>[],
+          randomReverse: Random(DateTime.now().millisecondsSinceEpoch + item["id"].hashCode).nextBool()
+        ));
       }
 
       _cards = parsed;

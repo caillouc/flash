@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flash/main.dart';
 import 'package:flutter/material.dart';
 
 import '../quizz.dart';
@@ -9,6 +10,8 @@ import '../constants.dart';
 class QuizzListNotifier extends ChangeNotifier {
   List<Quizz> _localQuizzes = [];
   List<Quizz> _onlineQuizzes = [];
+  List<Quizz> _privateQuizzes = [];
+  String? _downloadingQuizzFileName; // Track which quiz is being downloaded
 
   String _currentQuizzName = "";
   String _currentQuizzUniqueId = "";
@@ -17,6 +20,7 @@ class QuizzListNotifier extends ChangeNotifier {
 
   String get currentQuizzName => _currentQuizzName;
   String get currentQuizzUniqueId => _currentQuizzUniqueId;
+  String? get downloadingQuizzFileName => _downloadingQuizzFileName;
   List<Quizz> get localQuizzes {
     final sortedLocal = List<Quizz>.from(_localQuizzes);
     sortedLocal.sort((a, b) => a.name.compareTo(b.name));
@@ -25,7 +29,11 @@ class QuizzListNotifier extends ChangeNotifier {
 
   set currentQuizzName(String name) {
     _currentQuizzName = name;
-    _currentQuizzUniqueId = utils.computeSha1(_localQuizzes.firstWhere((q) => q.name == name).fileName);
+    if (name.isEmpty) {
+      _currentQuizzUniqueId = "";
+    } else {
+      _currentQuizzUniqueId = utils.computeSha1(_localQuizzes.firstWhere((q) => q.name == name).fileName);
+    }
     notifyListeners();
   }
 
@@ -37,8 +45,11 @@ class QuizzListNotifier extends ChangeNotifier {
     // Create a set of local quiz file names for efficient lookup.
     final localFileNames = _localQuizzes.map((q) => q.fileName).toSet();
 
+    // Determine which online list to use based on mode
+    final onlineList = _privateQuizzes + _onlineQuizzes;
+
     // Filter online quizzes to get only those not present locally, then sort them.
-    final sortedOnlineOnly = _onlineQuizzes
+    final sortedOnlineOnly = onlineList
         .where((q) => !localFileNames.contains(q.fileName))
         .toList();
     sortedOnlineOnly.sort((a, b) => a.name.compareTo(b.name));
@@ -58,16 +69,29 @@ class QuizzListNotifier extends ChangeNotifier {
   }
 
   void updateQuizz(Quizz quizz) {
-    removeLocalQuizz(quizz, skipReload: true);
-    Quizz upToDateQuizz = _onlineQuizzes.firstWhere((q) => q.fileName == quizz.fileName);
+    removeLocalQuizz(quizz, skipReload: true, isUpdate: true);
+    // Check if it's a private quiz or online quiz
+    Quizz? upToDateQuizz;
+    if (_privateQuizzes.any((q) => q.fileName == quizz.fileName)) {
+      upToDateQuizz = _privateQuizzes.firstWhere((q) => q.fileName == quizz.fileName);
+    } else {
+      upToDateQuizz = _onlineQuizzes.firstWhere((q) => q.fileName == quizz.fileName);
+    }
     _updateAvailable.removeWhere((q) => q.fileName == quizz.fileName);
     addLocalQuizz(upToDateQuizz);
   }
 
-  void removeLocalQuizz(Quizz quizz, {bool skipReload = false}) async {
+  void removeLocalQuizz(Quizz quizz, {bool skipReload = false, bool isUpdate = false}) async {
     print("Removing local quizz: ${quizz.name}");
     _localQuizzes.removeWhere((q) => q.fileName == quizz.fileName);
     utils.deleteLocalFile(localQuizzFolder + quizz.fileName);
+    
+    // Delete associated images if the quiz has an image folder
+    if (quizz.imageFolder.isNotEmpty) {
+      print("Deleting images for folder: ${quizz.imageFolder}");
+      await utils.deleteLocalDirectory('$localImageFolder/${quizz.imageFolder}');
+    }
+    
     try {
       String localListContent =
           await utils.readLocalFile(localQuizzListFileName);
@@ -87,6 +111,15 @@ class QuizzListNotifier extends ChangeNotifier {
     } catch (e) {
       print('Error updating local quizzes list after removal: $e');
     }
+    if (quizzListNotifier._currentQuizzName == quizz.name && !isUpdate) {
+      print("Current quiz was removed, loading another quiz");
+      if (_localQuizzes.isEmpty) {
+        cardNotifier.setNoLocalQuizz();
+      } else {
+        cardNotifier.loadQuizz(_localQuizzes.first);
+      }
+    }
+
     if (!skipReload) {
       notifyListeners();
     }
@@ -94,9 +127,24 @@ class QuizzListNotifier extends ChangeNotifier {
 
   void addLocalQuizz(Quizz quizz) async {
     if (!_localQuizzes.any((q) => q.fileName == quizz.fileName)) {
-      String _ = await utils.fetchAndSaveFile(
-          remoteQuizzBaseUrl + quizz.fileName,
+        _localQuizzes.add(quizz);
+      // Set downloading state
+      _downloadingQuizzFileName = quizz.fileName;
+      notifyListeners();
+      
+      // Determine the base URL based on whether the quiz is from private list
+      final isPrivateQuizz = _privateQuizzes.any((q) => q.fileName == quizz.fileName);
+      final baseUrl = isPrivateQuizz ? privateQuizzBaseUrl : remoteQuizzBaseUrl;
+      
+      String quizzContent = await utils.fetchAndSaveFile(
+          baseUrl + quizz.fileName,
           localQuizzFolder + quizz.fileName);
+      
+      // If quiz has an image folder, download all images from the cards
+      if (quizz.imageFolder.isNotEmpty && quizzContent.isNotEmpty) {
+        await _downloadQuizzImages(quizz.imageFolder, quizzContent);
+      }
+      
       try {
         // read existing local quizzes list
         String localListContent =
@@ -114,12 +162,48 @@ class QuizzListNotifier extends ChangeNotifier {
         quizzList.add(quizz.toMap());
         final newContent = json.encode(root);
         await utils.writeLocalFile(localQuizzListFileName, newContent);
-        _localQuizzes.add(quizz);
         print("${quizz.name} added");
       } catch (e) {
         print('Error updating local quizzes list: $e');
       }
+      
+      // Clear downloading state
+      _downloadingQuizzFileName = null;
       notifyListeners();
+    }
+  }
+
+  Future<void> _downloadQuizzImages(String imageFolder, String quizzContent) async {
+    try {
+      print("Downloading images for folder: $imageFolder");
+      final decoded = json.decode(quizzContent);
+      List<dynamic> cards = decoded as List<dynamic>;
+      
+      // Collect all unique image paths from cards
+      Set<String> imagePaths = {};
+      for (final card in cards) {
+        final cardMap = card as Map<String, dynamic>;
+        for (final key in ['frontImage', 'backImage']) {
+          if (cardMap.containsKey(key) && cardMap[key] != null) {
+            final imagePath = cardMap[key] as String;
+            if (imagePath.isNotEmpty) {
+              imagePaths.add(imagePath);
+            }
+          }
+        }
+      }
+      
+      // Download each unique image
+      for (final imagePath in imagePaths) {
+        final imageUrl = '$privateImageBaseUrl$imageFolder/$imagePath';
+        final localPath = '$localImageFolder/$imageFolder/$imagePath';
+        print("Downloading image: $imageUrl -> $localPath");
+        await utils.fetchAndSaveBinaryFile(imageUrl, localPath);
+      }
+      
+      print("Downloaded ${imagePaths.length} images for $imageFolder");
+    } catch (e) {
+      print('Error downloading quiz images: $e');
     }
   }
 
@@ -127,6 +211,18 @@ class QuizzListNotifier extends ChangeNotifier {
     String jsonContent = await utils.readLocalFile(localQuizzListFileName);
     if (jsonContent.isNotEmpty) {
       _localQuizzes = _loadQuizzListFromJson(jsonContent);
+      notifyListeners();
+    } else {
+      cardNotifier.setNoLocalQuizz();
+    }
+  }
+
+  Future<void> loadPrivateQuizzListIfExists() async {
+    // Try to load private quiz list if it was previously fetched
+    String jsonContent = await utils.readLocalFile(privateQuizzListFileName);
+    if (jsonContent.isNotEmpty) {
+      _privateQuizzes = _loadQuizzListFromJson(jsonContent);
+      print("Private quizzes loaded from cache: ${_privateQuizzes.length} quizzes");
       notifyListeners();
     }
   }
@@ -142,12 +238,34 @@ class QuizzListNotifier extends ChangeNotifier {
     });
   }
 
+  Future<void> enablePrivateMode() async {
+    // Fetch private quiz list
+    await utils
+        .fetchAndSaveFile(privateQuizzListUrl, privateQuizzListFileName)
+        .then((jsonContent) {
+      if (jsonContent.isNotEmpty) {
+        _privateQuizzes = _loadQuizzListFromJson(jsonContent);
+        print("Private quizzes loaded: ${_privateQuizzes.length} quizzes");
+        notifyListeners();
+      }
+    });
+  }
+
   void checkNewVersion() {
     for (Quizz local in _localQuizzes) {
+      // Check in online quizzes
       if (_onlineQuizzes.any((q) => q.fileName == local.fileName)) {
         Quizz? online = _onlineQuizzes.firstWhere((q) => q.fileName == local.fileName);
         if (online.version != local.version) {
           print("Update available for ${local.name}");
+          _updateAvailable.add(local);
+        }
+      }
+      // Also check in private quizzes
+      else if (_privateQuizzes.any((q) => q.fileName == local.fileName)) {
+        Quizz? private = _privateQuizzes.firstWhere((q) => q.fileName == local.fileName);
+        if (private.version != local.version) {
+          print("Update available for ${local.name} (private)");
           _updateAvailable.add(local);
         }
       }
