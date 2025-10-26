@@ -23,12 +23,14 @@ class CustomSearchBar extends StatelessWidget {
               quizzListNotifier.checkNewVersion();
               
               // Show a subtle confirmation
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('🔓 Private mode activated'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('🔓 Private mode activated'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
             });
           } else {
             cardNotifier.setTextFilter(value);

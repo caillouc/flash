@@ -32,11 +32,6 @@ class MyApp extends StatelessWidget {
       title: 'Flash Learning',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // textTheme: Theme.of(context).textTheme.apply(
-        //   fontSizeFactor: 1.25,
-        //   fontFamily: "SBL_Hbrw",
-        //   fontFamilyFallback: ["SBL_Hbrw"],
-        // ),
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.grey,
@@ -46,11 +41,6 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.grey,
       ),
       darkTheme: ThemeData(
-        // textTheme: Theme.of(context).textTheme.apply(
-        //   fontSizeFactor: 1.25,
-        //   fontFamily: "SBL_Hbrw",
-        //   fontFamilyFallback: ["SBL_Hbrw"],
-        // ),
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.grey,

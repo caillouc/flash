@@ -31,14 +31,12 @@ Future<String> fetchAndSaveFile(String url, String localFilePath) async {
       // save file with UTF-8 encoding
       final file = await _localFile(localFilePath);
       await file.writeAsString(body, encoding: utf8);
-      print('File successfully fetched and saved to $localFilePath');
       return body;
     } else {
       print("Error fetching file from $url: ${resp.statusCode}");
     }
   } catch (e) {
     print("Error fetching file from $url: $e");
-    // TODO: Snackbar ther error ?
   }
   return "";
 }
@@ -52,7 +50,6 @@ Future<bool> fetchAndSaveBinaryFile(String url, String localFilePath) async {
       // save binary file
       final file = await _localFile(localFilePath);
       await file.writeAsBytes(bytes);
-      print('Binary file successfully fetched and saved to $localFilePath');
       return true;
     } else {
       print("Error fetching binary file from $url: ${resp.statusCode}");
@@ -90,7 +87,6 @@ Future<void> deleteLocalFile(String localFilePath) async {
     if (await file.exists()) {
       await file.delete();
     }
-    print('File $localFilePath deleted');
   } catch (e) {
     // ignore
   }
@@ -102,7 +98,6 @@ Future<void> deleteLocalDirectory(String localDirPath) async {
     final directory = Directory('${dir.path}/$localDirPath');
     if (await directory.exists()) {
       await directory.delete(recursive: true);
-      print('Directory $localDirPath deleted');
     }
   } catch (e) {
     print('Error deleting directory $localDirPath: $e');

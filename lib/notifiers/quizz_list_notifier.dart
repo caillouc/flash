@@ -82,13 +82,11 @@ class QuizzListNotifier extends ChangeNotifier {
   }
 
   void removeLocalQuizz(Quizz quizz, {bool skipReload = false, bool isUpdate = false}) async {
-    print("Removing local quizz: ${quizz.name}");
     _localQuizzes.removeWhere((q) => q.fileName == quizz.fileName);
     utils.deleteLocalFile('$localQuizzFolder/${quizz.fileName}');
     
     // Delete associated images if the quiz has an image folder
     if (quizz.imageFolder.isNotEmpty) {
-      print("Deleting images for folder: ${quizz.imageFolder}");
       await utils.deleteLocalDirectory('$localImageFolder/${quizz.imageFolder}');
     }
     
@@ -112,7 +110,6 @@ class QuizzListNotifier extends ChangeNotifier {
       print('Error updating local quizzes list after removal: $e');
     }
     if (quizzListNotifier._currentQuizzName == quizz.name && !isUpdate) {
-      print("Current quiz was removed, loading another quiz");
       if (_localQuizzes.isEmpty) {
         cardNotifier.setNoLocalQuizz();
       } else {
@@ -162,7 +159,6 @@ class QuizzListNotifier extends ChangeNotifier {
         quizzList.add(quizz.toMap());
         final newContent = json.encode(root);
         await utils.writeLocalFile(localQuizzListFileName, newContent);
-        print("${quizz.name} added");
       } catch (e) {
         print('Error updating local quizzes list: $e');
       }
@@ -175,7 +171,6 @@ class QuizzListNotifier extends ChangeNotifier {
 
   Future<void> _downloadQuizzImages(String imageFolder, String quizzContent) async {
     try {
-      print("Downloading images for folder: $imageFolder");
       final decoded = json.decode(quizzContent);
       List<dynamic> cards = decoded as List<dynamic>;
       
@@ -197,11 +192,8 @@ class QuizzListNotifier extends ChangeNotifier {
       for (final imagePath in imagePaths) {
         final imageUrl = '$privateImageBaseUrl$imageFolder/$imagePath';
         final localPath = '$localImageFolder/$imageFolder/$imagePath';
-        print("Downloading image: $imageUrl -> $localPath");
         await utils.fetchAndSaveBinaryFile(imageUrl, localPath);
       }
-      
-      print("Downloaded ${imagePaths.length} images for $imageFolder");
     } catch (e) {
       print('Error downloading quiz images: $e');
     }
@@ -222,7 +214,6 @@ class QuizzListNotifier extends ChangeNotifier {
     String jsonContent = await utils.readLocalFile(privateQuizzListFileName);
     if (jsonContent.isNotEmpty) {
       _privateQuizzes = _loadQuizzListFromJson(jsonContent);
-      print("Private quizzes loaded from cache: ${_privateQuizzes.length} quizzes");
       notifyListeners();
     }
   }
@@ -245,7 +236,6 @@ class QuizzListNotifier extends ChangeNotifier {
         .then((jsonContent) {
       if (jsonContent.isNotEmpty) {
         _privateQuizzes = _loadQuizzListFromJson(jsonContent);
-        print("Private quizzes loaded: ${_privateQuizzes.length} quizzes");
         notifyListeners();
       }
     });
@@ -257,7 +247,6 @@ class QuizzListNotifier extends ChangeNotifier {
       if (_onlineQuizzes.any((q) => q.fileName == local.fileName)) {
         Quizz? online = _onlineQuizzes.firstWhere((q) => q.fileName == local.fileName);
         if (online.version != local.version) {
-          print("Update available for ${local.name}");
           _updateAvailable.add(local);
         }
       }
@@ -265,7 +254,6 @@ class QuizzListNotifier extends ChangeNotifier {
       else if (_privateQuizzes.any((q) => q.fileName == local.fileName)) {
         Quizz? private = _privateQuizzes.firstWhere((q) => q.fileName == local.fileName);
         if (private.version != local.version) {
-          print("Update available for ${local.name} (private)");
           _updateAvailable.add(local);
         }
       }
