@@ -1,17 +1,35 @@
-# Flash card app
+# Flash Card Learning App
 
-* This app is made thanks to [Flutter](https://flutter.dev/)
-* It has been tested only on an iPhone 11 and correct behavior on other devices
-  in not guaranteed
-* Support for several quizz lists
-  * Quizz list are made thanks to a json file
-  * Example can be found in `resource\example_quizz.json`
-  * In order to add a quizz to the app, an entry should be added in
-    `resource/quizzesList.json`
+A simple and effective flashcard app for memorizing facts, vocabulary, and more.
 
-* Available quizzes (in `resource` folder)
-  * Country to Capital
-  * Grec alphabet
-  * Grec vocabulary
-  * Hebrew alphabet
-  * Hebrew vocabulary
+## Availability
+
+The app is available on the App Store: [Download Link](PLACEHOLDER_APPSTORE_URL)
+
+## Features
+
+- Interactive flashcard learning
+- Multiple quiz categories
+- Progress tracking with spaced repetition
+- Support for images in cards
+- Tag-based filtering
+
+## Quiz Sources
+
+Public quizzes are fetched from our GitHub repository: [flash-quizzes](https://github.com/caillouc/flash-quizzes)
+
+Private quizzes are supported but currently point to a hardcoded backend server (easily configurable upon request).
+
+## Adding New Quizzes
+
+To add new quizzes, please refer to the [quiz repository](https://github.com/caillouc/flash-quizzes) for format and contribution guidelines.
+
+## Backend
+
+The private quiz backend is a simple file server written in Rust: [rust-file-server](https://github.com/caillouc/rust-file-server)
+
+## Contributing
+
+This app is built with [Flutter](https://flutter.dev/). 
+
+Requests for updates, bug reports, and feature suggestions are more than welcome! This project started as a personal tool for close relatives but can be improved for more general use upon demand.

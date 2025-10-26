@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'main.dart';
 
 class Settings extends StatefulWidget {
@@ -19,7 +20,7 @@ class _SettingState extends State<Settings> {
     });
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 10,
@@ -82,6 +83,33 @@ class _SettingState extends State<Settings> {
                               settingsNotifier.mixCardOrientation = v;
                             });
                           },
+                        ),
+                        const Divider(),
+                        Text(
+                          "Bugs, Nouveaux Quiz, Questions :",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            const url =
+                                'mailto:flash.card@clsn.fr?subject=Bug, Nouvelle recette, Question&body=';
+                            if (await canLaunchUrlString(url)) {
+                              await launchUrlString(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: Text(
+                            "flash.card@clsn.fr",
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: Theme.of(context).primaryColor,
+                                      // underline in color of primaryColor
+                                      decoration: TextDecoration.underline,
+                                      decorationColor:
+                                          Theme.of(context).primaryColor,
+                                    ),
+                          ),
                         ),
                       ],
                     ),

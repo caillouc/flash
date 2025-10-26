@@ -25,7 +25,9 @@ Future<String> fetchAndSaveFile(String url, String localFilePath) async {
   try {
     final resp = await http.get(Uri.parse(url));
     if (resp.statusCode == 200) {
-      final body = resp.body;
+      // Use bodyBytes to avoid encoding issues, then decode as UTF-8
+      final bytes = resp.bodyBytes;
+      final body = utf8.decode(bytes);
       // save file with UTF-8 encoding
       final file = await _localFile(localFilePath);
       await file.writeAsString(body, encoding: utf8);
@@ -117,7 +119,7 @@ String computeSha1(String input) {
 int getRemaingDaysForBox(int box) {
   switch (box) {
     case 5:
-      return 0;
+      return 1;
     case 4:
       return 1;
     case 3:

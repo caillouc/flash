@@ -27,11 +27,8 @@ class _QuizzMenuState extends State<QuizzMenu> {
       child: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: Text("Quizzes",
-                  style: Theme.of(context).textTheme.headlineMedium),
-            ),
+            Text("Quiz",
+                style: Theme.of(context).textTheme.headlineMedium),
             const Divider(
               endIndent: 20,
               indent: 20,
@@ -141,7 +138,7 @@ class _QuizzMenuState extends State<QuizzMenu> {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: Text(_editMode ? 'Done' : 'Edit'),
+                  child: Text(_editMode ? 'Terminer' : 'Modifer'),
                 ),
               ),
             )

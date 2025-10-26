@@ -94,7 +94,7 @@ class CardNotifier extends ChangeNotifier {
 
   Future<void> loadQuizz(Quizz quizz) async {
     final String jsonContent =
-        await utils.readLocalFile(localQuizzFolder + quizz.fileName);
+        await utils.readLocalFile('$localQuizzFolder/${quizz.fileName}');
     try {
       final decoded = json.decode(jsonContent);
 

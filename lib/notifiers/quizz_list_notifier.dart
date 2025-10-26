@@ -84,7 +84,7 @@ class QuizzListNotifier extends ChangeNotifier {
   void removeLocalQuizz(Quizz quizz, {bool skipReload = false, bool isUpdate = false}) async {
     print("Removing local quizz: ${quizz.name}");
     _localQuizzes.removeWhere((q) => q.fileName == quizz.fileName);
-    utils.deleteLocalFile(localQuizzFolder + quizz.fileName);
+    utils.deleteLocalFile('$localQuizzFolder/${quizz.fileName}');
     
     // Delete associated images if the quiz has an image folder
     if (quizz.imageFolder.isNotEmpty) {
@@ -138,7 +138,7 @@ class QuizzListNotifier extends ChangeNotifier {
       
       String quizzContent = await utils.fetchAndSaveFile(
           baseUrl + quizz.fileName,
-          localQuizzFolder + quizz.fileName);
+          '$localQuizzFolder/${quizz.fileName}');
       
       // If quiz has an image folder, download all images from the cards
       if (quizz.imageFolder.isNotEmpty && quizzContent.isNotEmpty) {
