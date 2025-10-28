@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
         primaryColor: Colors.grey,
+        fontFamily: 'SBL_BLit',
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -48,8 +49,15 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         primaryColor: Colors.grey,
+        fontFamily: 'SBL_BLit',
       ),
       themeMode: ThemeMode.system,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.20)),
+          child: child!,
+        );
+      },
       home: const MyHomePage(),
     );
   }

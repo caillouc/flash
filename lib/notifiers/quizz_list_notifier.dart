@@ -11,7 +11,7 @@ class QuizzListNotifier extends ChangeNotifier {
   List<Quizz> _localQuizzes = [];
   List<Quizz> _onlineQuizzes = [];
   List<Quizz> _privateQuizzes = [];
-  String? _downloadingQuizzFileName; // Track which quiz is being downloaded
+  final Set<String> _downloadingQuizzFileNames = {}; // Track multiple quizzes being downloaded
 
   String _currentQuizzName = "";
   String _currentQuizzUniqueId = "";
@@ -20,7 +20,12 @@ class QuizzListNotifier extends ChangeNotifier {
 
   String get currentQuizzName => _currentQuizzName;
   String get currentQuizzUniqueId => _currentQuizzUniqueId;
-  String? get downloadingQuizzFileName => _downloadingQuizzFileName;
+  Set<String> get downloadingQuizzFileNames => Set.unmodifiable(_downloadingQuizzFileNames);
+  
+  bool isQuizzDownloading(String fileName) {
+    return _downloadingQuizzFileNames.contains(fileName);
+  }
+  
   List<Quizz> get localQuizzes {
     final sortedLocal = List<Quizz>.from(_localQuizzes);
     sortedLocal.sort((a, b) => a.name.compareTo(b.name));
@@ -126,7 +131,7 @@ class QuizzListNotifier extends ChangeNotifier {
     if (!_localQuizzes.any((q) => q.fileName == quizz.fileName)) {
         _localQuizzes.add(quizz);
       // Set downloading state
-      _downloadingQuizzFileName = quizz.fileName;
+      _downloadingQuizzFileNames.add(quizz.fileName);
       notifyListeners();
       
       // Determine the base URL based on whether the quiz is from private list
@@ -164,7 +169,10 @@ class QuizzListNotifier extends ChangeNotifier {
       }
       
       // Clear downloading state
-      _downloadingQuizzFileName = null;
+      if (_currentQuizzName == quizz.name) {
+        cardNotifier.loadQuizz(quizz);
+      }
+      _downloadingQuizzFileNames.remove(quizz.fileName);
       notifyListeners();
     }
   }

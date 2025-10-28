@@ -126,7 +126,7 @@ class _FlashCardState extends State<FlashCard>
         ],
         if (description.isNotEmpty) ...[
           const SizedBox(height: 10),
-          Expanded(
+          Flexible(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SingleChildScrollView(

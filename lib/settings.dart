@@ -49,9 +49,10 @@ class _SettingState extends State<Settings> {
                           endIndent: 20,
                         ),
                         SwitchListTile(
-                          title: const Text('Mode apprentissage'),
+                          title: const Text('Mode apprentissage', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: const Text(
-                              'Retiens les réponses, et privilégie les questions difficiles'),
+                              'Retiens les réponses, et privilégie les questions difficiles',
+                              style: TextStyle(fontSize: 13)),
                           value: settingsNotifier.apprentissage,
                           onChanged: (v) {
                             // Update the notifier, then call the local setState for the modal.
@@ -61,9 +62,10 @@ class _SettingState extends State<Settings> {
                           },
                         ),
                         SwitchListTile(
-                          title: const Text('Inverser les cartes'),
+                          title: const Text('Inverser les cartes', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: const Text(
-                              'Inverse la face caché et la visible des cartes'),
+                              'Inverse la face caché et la visible des cartes',
+                              style: TextStyle(fontSize: 13)),
                           value: settingsNotifier.reverseCardOrientation,
                           onChanged: (v) {
                             // Update the notifier, then call the local setState for the modal.
@@ -73,9 +75,10 @@ class _SettingState extends State<Settings> {
                           },
                         ),
                         SwitchListTile(
-                          title: const Text('Mélanger l\'orientation'),
+                          title: const Text('Mélanger l\'orientation', style: TextStyle(fontWeight: FontWeight.bold)),
                           subtitle: const Text(
-                              'Chaque carte aura une orientation aléatoire'),
+                              'Chaque carte aura une orientation aléatoire',
+                              style: TextStyle(fontSize: 13)),
                           value: settingsNotifier.mixCardOrientation,
                           onChanged: (v) {
                             // Update the notifier, then call the local setState for the modal.
@@ -92,7 +95,7 @@ class _SettingState extends State<Settings> {
                         GestureDetector(
                           onTap: () async {
                             const url =
-                                'mailto:flash.card@clsn.fr?subject=Bug, Nouvelle recette, Question&body=';
+                                'mailto:flash.card@clsn.fr?subject=Bug, Nouveaux Quiz, Question&body=';
                             if (await canLaunchUrlString(url)) {
                               await launchUrlString(url);
                             } else {

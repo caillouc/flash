@@ -41,8 +41,7 @@ class _QuizzMenuState extends State<QuizzMenu> {
                       ? quizzListNotifier.allQuizzes[index]
                       : quizzListNotifier.localQuizzes[index];
                   final isDownloading =
-                      quizzListNotifier.downloadingQuizzFileName ==
-                          quizz.fileName;
+                      quizzListNotifier.isQuizzDownloading(quizz.fileName);
 
                   return ListTile(
                     title: Text(quizz.name),

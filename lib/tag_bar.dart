@@ -37,8 +37,7 @@ class _TagBarState extends State<TagBar> {
                 padding: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: ChoiceChip(
                   label: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 2.0, horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       tag,
                       style: const TextStyle(
