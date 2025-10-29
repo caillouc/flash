@@ -130,7 +130,7 @@ int getRemaingDaysForBox(int box) {
   }
 }
 
-void updateRemainingDay() async {
+Future<void> updateRemainingDay() async {
     final prefs = await SharedPreferences.getInstance();
     int year = int.parse(DateFormat.y().format(DateTime.now()));
     int dayOfYear = int.parse(DateFormat('D').format(DateTime.now()));
@@ -139,6 +139,7 @@ void updateRemainingDay() async {
     prefs.setInt("year", year);
     prefs.setInt("dayOfYear", dayOfYear);
     int dayDiff = dayOfYear + 365 * (year - storedYear) - storedDayOfYear;
+    if (dayDiff <= 0) return;
     for (FlashCard card in cardNotifier.cards) {
       String remainingDaysKey = '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_remaining_days';
       int? stored = prefs.getInt(remainingDaysKey);

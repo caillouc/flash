@@ -221,27 +221,9 @@ class CardNotifier extends ChangeNotifier {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('current_quizz', quizz.name);
 
-      // Load remaining days and box levels for each card into memory if present
-      _remainingDaysMap.clear();
-      _boxMap.clear();
-      for (final c in _cards) {
-        final remainingDaysKey =
-            '${quizzListNotifier.currentQuizzUniqueId}_${c.id}_remaining_days';
-        final boxKey = '${quizzListNotifier.currentQuizzUniqueId}_${c.id}_box';
-        final remainingVal = prefs.getInt(remainingDaysKey);
-        final boxVal = prefs.getInt(boxKey);
-        if (remainingVal != null) {
-          _remainingDaysMap[c.id] = remainingVal;
-        }
-        if (boxVal != null) {
-          _boxMap[c.id] = boxVal;
-        } else {
-          _boxMap[c.id] = 5; // default box
-        }
-      }
-
+      await utils.updateRemainingDay();
+      await refreshRemainingDaysCache();
       _history.clear();
-      utils.updateRemainingDay();
       notifyListeners();
     } catch (e) {
       print('Error loading quizz from JSON: $e');
@@ -289,5 +271,28 @@ class CardNotifier extends ChangeNotifier {
     }
     setBoxForCard(card, (_) => 5, isUndo: true);
     return true;
+  }
+
+  Future<void> refreshRemainingDaysCache() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _remainingDaysMap.clear();
+    _boxMap.clear();
+    
+    for (final card in _cards) {
+      final remainingDaysKey =
+          '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_remaining_days';
+      final boxKey = '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_box';
+      final remainingVal = prefs.getInt(remainingDaysKey);
+      final boxVal = prefs.getInt(boxKey);
+      
+      if (remainingVal != null) {
+        _remainingDaysMap[card.id] = remainingVal;
+      }
+      if (boxVal != null) {
+        _boxMap[card.id] = boxVal;
+      } else {
+        _boxMap[card.id] = 5; // default box
+      }
+    }
   }
 }

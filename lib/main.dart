@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'card_list.dart';
 import 'card_stack.dart';
@@ -13,6 +12,7 @@ import 'quizz_menu.dart';
 import 'search_bar.dart';
 import 'settings.dart';
 import 'tag_bar.dart';
+import 'utils.dart' as utils;
 
 void main() {
   runApp(const MyApp());
@@ -70,7 +70,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _listViewController = ScrollController();
   final CardSwiperController _cardSwiperController = CardSwiperController();
@@ -83,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // SharedPreferences.getInstance().then((prefs) {
     //   prefs.clear();
     // });
@@ -95,32 +96,56 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     });
     
-    quizzListNotifier.loadLocalQuizzList().then((_) {
-      // If there are local quizzes, load the current quiz from prefs and
-      // wait for it before showing the card stack. This prevents briefly
-      // showing placeholder cards before the real quiz is loaded.
-      (() async {
-        if (quizzListNotifier.localQuizzes.isNotEmpty) {
-          await cardNotifier.loadCurrentQuizzFromPrefs();
-        }
-        if (mounted) setState(() => _quizzesLoaded = true);
-      })();
+    _initializeApp();
+  }
 
-      // Load private quizzes if previously fetched
-      quizzListNotifier.loadPrivateQuizzListIfExists();
+  Future<void> _initializeApp() async {
+    await quizzListNotifier.loadLocalQuizzList();
+    
+    if (quizzListNotifier.localQuizzes.isNotEmpty) {
+      await cardNotifier.loadCurrentQuizzFromPrefs();
+    }
+    if (mounted) setState(() => _quizzesLoaded = true);
 
-      quizzListNotifier.fetchAndSaveOnlineQuizzList().then((_) {
-        quizzListNotifier.checkNewVersion();
-      });
-    });
+    // Load private quizzes if previously fetched
+    if (settingsNotifier.privateMode) {
+      await quizzListNotifier.fetchAndSavePrivateQuizzList();
+    }
+    await quizzListNotifier.fetchAndSaveOnlineQuizzList();
+    quizzListNotifier.checkNewVersion();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _handleAppResumed();
+    }
+  }
+
+  Future<void> _handleAppResumed() async {
+    // Update remaining days for current quiz if a quiz is loaded
+    if (quizzListNotifier.currentQuizzName.isNotEmpty) {
+      await utils.updateRemainingDay();
+      // Update the in-memory cache in CardNotifier
+      await cardNotifier.refreshRemainingDaysCache();
+    }
+
+    // Check for updates
+    await quizzListNotifier.fetchAndSaveOnlineQuizzList();
+    if (settingsNotifier.privateMode) {
+      await quizzListNotifier.fetchAndSavePrivateQuizzList();
+    }
+    quizzListNotifier.checkNewVersion();
   }
 
   @override
   void dispose() {
-    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     _listViewController.dispose();
     _cardSwiperController.dispose();
     _textEditingController.dispose();
+    super.dispose();
   }
 
   Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {

@@ -16,12 +16,13 @@ class CustomSearchBar extends StatelessWidget {
         onChanged: (value) {
           // Easter egg: activate private mode when typing flash.clsn.fr
           if (value.toLowerCase() == 'flash.clsn.fr') {
-            quizzListNotifier.enablePrivateMode().then((_) {
-              // Clear the search bar
+            settingsNotifier.privateMode = true;
+            // Clear the search bar
+            quizzListNotifier.fetchAndSavePrivateQuizzList().then((_) {
               controller.clear();
               cardNotifier.setTextFilter('');
               quizzListNotifier.checkNewVersion();
-              
+
               // Show a subtle confirmation
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(

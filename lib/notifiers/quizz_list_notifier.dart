@@ -217,15 +217,6 @@ class QuizzListNotifier extends ChangeNotifier {
     }
   }
 
-  Future<void> loadPrivateQuizzListIfExists() async {
-    // Try to load private quiz list if it was previously fetched
-    String jsonContent = await utils.readLocalFile(privateQuizzListFileName);
-    if (jsonContent.isNotEmpty) {
-      _privateQuizzes = _loadQuizzListFromJson(jsonContent);
-      notifyListeners();
-    }
-  }
-
   Future<void> fetchAndSaveOnlineQuizzList() async {
     await utils
         .fetchAndSaveFile(remoteQuizzListUrl, quizzListServerFileName)
@@ -237,7 +228,7 @@ class QuizzListNotifier extends ChangeNotifier {
     });
   }
 
-  Future<void> enablePrivateMode() async {
+  Future<void> fetchAndSavePrivateQuizzList() async {
     // Fetch private quiz list
     await utils
         .fetchAndSaveFile(privateQuizzListUrl, privateQuizzListFileName)

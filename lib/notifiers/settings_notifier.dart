@@ -6,16 +6,19 @@ class SettingsNotifier extends ChangeNotifier {
   bool _apprentissage = true;
   bool _reverseCardOrientation = false;
   bool _mixCardOrientation = false;
+  bool _privateMode = false;
 
   bool get apprentissage => _apprentissage;
   bool get reverseCardOrientation => _reverseCardOrientation;
   bool get mixCardOrientation => _mixCardOrientation;
+  bool get privateMode => _privateMode;
 
   void init() {
     SharedPreferences.getInstance().then((prefs) {
       _apprentissage = prefs.getBool('apprentissage_mode') ?? _apprentissage;
       _reverseCardOrientation = prefs.getBool("reverseCardOrientation") ?? _reverseCardOrientation;
       _mixCardOrientation = prefs.getBool("mixCardOrientation") ?? _mixCardOrientation;
+      _privateMode = prefs.getBool('private_mode') ?? _privateMode;
     });
   }
 
@@ -25,6 +28,16 @@ class SettingsNotifier extends ChangeNotifier {
     // persist
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool('apprentissage_mode', v);
+    });
+    notifyListeners();
+  }
+
+  set privateMode(bool v) {
+    if (_privateMode == v) return;
+    _privateMode = v;
+    // persist
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('private_mode', v);
     });
     notifyListeners();
   }
