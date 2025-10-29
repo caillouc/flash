@@ -178,10 +178,41 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           ],
           leading: Builder(
             builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  _scaffoldKey.currentState?.openDrawer();
+              return ListenableBuilder(
+                listenable: quizzListNotifier,
+                builder: (context, child) {
+                  final hasAnyUpdates = quizzListNotifier.localQuizzes.any((quiz) => 
+                    quizzListNotifier.isUpdateAvailable(quiz));
+                  
+                  // Check if current quiz has an update available
+                  final currentQuizHasUpdate = quizzListNotifier.currentQuizzName.isNotEmpty &&
+                    quizzListNotifier.localQuizzes
+                      .where((quiz) => quiz.name == quizzListNotifier.currentQuizzName)
+                      .any((quiz) => quizzListNotifier.isUpdateAvailable(quiz));
+                  
+                  return Stack(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.menu),
+                        onPressed: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                      ),
+                      if (hasAnyUpdates)
+                        Positioned(
+                          right: 18,
+                          top: 13,
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: currentQuizHasUpdate ? Colors.orange : Theme.of(context).iconTheme.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
                 },
               );
             },
