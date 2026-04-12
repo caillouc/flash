@@ -198,9 +198,17 @@ class QuizzListNotifier extends ChangeNotifier {
       
       // Download each unique image
       for (final imagePath in imagePaths) {
-        final imageUrl = '$privateImageBaseUrl$imageFolder/$imagePath';
+        final remoteUrl = '$remoteImageBaseUrl$imageFolder/$imagePath';
         final localPath = '$localImageFolder/$imageFolder/$imagePath';
-        await utils.fetchAndSaveBinaryFile(imageUrl, localPath);
+        
+        // Try to download from GitHub first
+        bool success = await utils.fetchAndSaveBinaryFile(remoteUrl, localPath);
+        
+        // If GitHub fails and privateMode is enabled, try the private server as fallback
+        if (!success && settingsNotifier.privateMode) {
+          final privateUrl = '$privateImageBaseUrl$imageFolder/$imagePath';
+          await utils.fetchAndSaveBinaryFile(privateUrl, localPath);
+        }
       }
     } catch (e) {
       print('Error downloading quiz images: $e');
