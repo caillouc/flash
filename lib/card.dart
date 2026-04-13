@@ -39,6 +39,7 @@ class _FlashCardState extends State<FlashCard>
     with SingleTickerProviderStateMixin {
   bool isFront = true;
   late final AnimationController _controller;
+  final Map<String, Future<File>> _imageCache = {};
 
   @override
   void initState() {
@@ -68,14 +69,18 @@ class _FlashCardState extends State<FlashCard>
   @override
   void dispose() {
     _controller.dispose();
+    _imageCache.clear();
     super.dispose();
   }
 
   Widget _buildImage(String imagePath) {
     if (imagePath.isEmpty) return const SizedBox.shrink();
     
+    // Cache the future to prevent it from being recreated on every frame
+    _imageCache.putIfAbsent(imagePath, () => _getLocalImageFile(imagePath));
+    
     return FutureBuilder<File>(
-      future: _getLocalImageFile(imagePath),
+      future: _imageCache[imagePath],
       builder: (context, snapshot) {
         // While loading, show nothing (just take up the space)
         if (snapshot.connectionState == ConnectionState.waiting) {
