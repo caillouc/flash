@@ -104,6 +104,22 @@ Future<void> deleteLocalDirectory(String localDirPath) async {
   }
 }
 
+String removeAccents(String str) {
+  var withoutAccents = str
+    .replaceAll(RegExp(r'[àâä]'), 'a')
+    .replaceAll(RegExp(r'[éèêë]'), 'e')
+    .replaceAll(RegExp(r'[îï]'), 'i')
+    .replaceAll(RegExp(r'[ôö]'), 'o')
+    .replaceAll(RegExp(r'[ûùü]'), 'u')
+    .replaceAll(RegExp(r'[ç]'), 'c')
+    .replaceAll(RegExp(r'[ñ]'), 'n')
+    .replaceAll(RegExp(r'[ã]'), 'a')
+    .replaceAll(RegExp(r'[õ]'), 'o')
+    .replaceAll(RegExp(r'[ø]'), 'o')
+    .replaceAll(RegExp(r'[æ]'), 'ae');
+  return withoutAccents;
+}
+
 String computeSha1(String input) {
   // Simple SHA1 hash computation
   var bytes = utf8.encode(input);

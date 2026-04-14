@@ -50,11 +50,11 @@ class CardNotifier extends ChangeNotifier {
     }
     if (_cardTextFilter.isNotEmpty) {
       filteredCards = filteredCards.where((card) {
-        final lowerFilter = _cardTextFilter.toLowerCase();
-        return card.frontTitle.toLowerCase().contains(lowerFilter) ||
-            card.frontDescription.toLowerCase().contains(lowerFilter) ||
-            card.backTitle.toLowerCase().contains(lowerFilter) ||
-            card.backDescription.toLowerCase().contains(lowerFilter);
+        final lowerFilter = utils.removeAccents(_cardTextFilter).toLowerCase();
+        return utils.removeAccents(card.frontTitle).toLowerCase().contains(lowerFilter) ||
+            utils.removeAccents(card.frontDescription).toLowerCase().contains(lowerFilter) ||
+            utils.removeAccents(card.backTitle).toLowerCase().contains(lowerFilter) ||
+            utils.removeAccents(card.backDescription).toLowerCase().contains(lowerFilter);
       }).toList();
     }
 

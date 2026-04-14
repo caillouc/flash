@@ -14,9 +14,9 @@ class CustomSearchBar extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: (value) {
-          // Easter egg: activate private mode when typing flash.clsn.fr
+          // Easter egg: toggle private mode when typing flash.clsn.fr
           if (value.toLowerCase() == 'flash.clsn.fr') {
-            settingsNotifier.privateMode = true;
+            settingsNotifier.privateMode = !settingsNotifier.privateMode;
             // Clear the search bar
             quizzListNotifier.fetchAndSavePrivateQuizzList().then((_) {
               controller.clear();
@@ -25,10 +25,11 @@ class CustomSearchBar extends StatelessWidget {
 
               // Show a subtle confirmation
               if (context.mounted) {
+                final modeStatus = settingsNotifier.privateMode ? '🔓 Private mode activated' : '🔒 Private mode deactivated';
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('🔓 Private mode activated'),
-                    duration: Duration(seconds: 2),
+                  SnackBar(
+                    content: Text(modeStatus),
+                    duration: const Duration(seconds: 2),
                   ),
                 );
               }
