@@ -54,7 +54,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       builder: (context, child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.20)),
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: const TextScaler.linear(1.20)),
           child: child!,
         );
       },
@@ -92,16 +93,21 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     quizzListNotifier.addListener(() {
       if (mounted && _lastQuizzName != quizzListNotifier.currentQuizzName) {
         _lastQuizzName = quizzListNotifier.currentQuizzName;
+        _textEditingController.clear();
+        // Unfocus the keyboard when the quiz changes
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          FocusScope.of(context).unfocus();
+        });
         setState(() {});
       }
     });
-    
+
     _initializeApp();
   }
 
   Future<void> _initializeApp() async {
     await quizzListNotifier.loadLocalQuizzList();
-    
+
     if (quizzListNotifier.localQuizzes.isNotEmpty) {
       await cardNotifier.loadCurrentQuizzFromPrefs();
     }
@@ -181,15 +187,18 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               return ListenableBuilder(
                 listenable: quizzListNotifier,
                 builder: (context, child) {
-                  final hasAnyUpdates = quizzListNotifier.localQuizzes.any((quiz) => 
-                    quizzListNotifier.isUpdateAvailable(quiz));
-                  
-                  // Check if current quiz has an update available
-                  final currentQuizHasUpdate = quizzListNotifier.currentQuizzName.isNotEmpty &&
-                    quizzListNotifier.localQuizzes
-                      .where((quiz) => quiz.name == quizzListNotifier.currentQuizzName)
+                  final hasAnyUpdates = quizzListNotifier.localQuizzes
                       .any((quiz) => quizzListNotifier.isUpdateAvailable(quiz));
-                  
+
+                  // Check if current quiz has an update available
+                  final currentQuizHasUpdate = quizzListNotifier
+                          .currentQuizzName.isNotEmpty &&
+                      quizzListNotifier.localQuizzes
+                          .where((quiz) =>
+                              quiz.name == quizzListNotifier.currentQuizzName)
+                          .any((quiz) =>
+                              quizzListNotifier.isUpdateAvailable(quiz));
+
                   return Stack(
                     children: [
                       IconButton(
@@ -206,7 +215,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                             width: 8,
                             height: 8,
                             decoration: BoxDecoration(
-                              color: currentQuizHasUpdate ? Colors.orange : Theme.of(context).iconTheme.color,
+                              color: currentQuizHasUpdate
+                                  ? Colors.orange
+                                  : Theme.of(context).iconTheme.color,
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -217,7 +228,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               );
             },
           ),
-          title: Text(quizzListNotifier.currentQuizzName),
+          title: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(quizzListNotifier.currentQuizzName),
+          ),
         ),
         body: SafeArea(
           child: Center(
