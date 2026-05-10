@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:scrolls_to_top/scrolls_to_top.dart';
@@ -249,37 +251,64 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                       )
                     ],
                   )
-                : Stack(
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Settings(),
-                      Positioned(
-                          bottom: 10,
-                          right: 10,
-                          child: IconButton(
+                      const TagBar(),
+                      Expanded(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            const ratioWidth = 3.0;
+                            const ratioHeight = 5.0;
+                            const maxCardWidth = 600.0;
+                            const maxCardHeight = 900.0;
+
+                            final availableWidth =
+                                min(constraints.maxWidth, maxCardWidth);
+                            final availableHeight =
+                                min(constraints.maxHeight, maxCardHeight);
+
+                            final scale = min(
+                              availableWidth / ratioWidth,
+                              availableHeight / ratioHeight,
+                            );
+
+                            final stackWidth = ratioWidth * scale;
+                            final stackHeight = ratioHeight * scale;
+
+                            return Center(
+                              child: SizedBox(
+                                width: stackWidth,
+                                height: stackHeight,
+                                child: _quizzesLoaded
+                                    ? CardStack(
+                                        controller: _cardSwiperController,
+                                      )
+                                    : const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Settings(),
+                            IconButton(
                               onPressed: () => _cardSwiperController.undo(),
                               icon: Icon(
-                                  size: 25,
-                                  Icons.undo,
-                                  color: Theme.of(context).primaryColor))),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const TagBar(),
-                          SizedBox(
-                            height: 540,
-                            width: 340,
-                            child: _quizzesLoaded
-                                ? CardStack(
-                                    controller: _cardSwiperController,
-                                  )
-                                : const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                          ),
-                          const SizedBox(
-                            height: 0,
-                          )
-                        ],
+                                size: 25,
+                                Icons.undo,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

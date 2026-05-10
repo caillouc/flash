@@ -22,11 +22,8 @@ class _SettingState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 10,
-      left: 10,
-      child: IconButton(
-        onPressed: () {
+    return IconButton(
+      onPressed: () {
           showModalBottomSheet<void>(
             context: context,
             useRootNavigator: true,
@@ -121,12 +118,11 @@ class _SettingState extends State<Settings> {
               );
             },
           );
-        },
-        icon: Icon(
-          size: 25,
-          Icons.settings_outlined,
-          color: Theme.of(context).primaryColor,
-        ),
+      },
+      icon: Icon(
+        size: 25,
+        Icons.settings_outlined,
+        color: Theme.of(context).primaryColor,
       ),
     );
   }
