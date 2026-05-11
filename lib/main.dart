@@ -314,6 +314,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   ),
           ),
         ),
+        floatingActionButton: _listView && _quizzesLoaded
+            ? FloatingActionButton(
+                onPressed: () {
+                  _listViewController.animateTo(
+                    _listViewController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                tooltip: 'Scroll to bottom',
+                child: const Icon(Icons.arrow_downward),
+              )
+            : null,
       ),
     );
   }

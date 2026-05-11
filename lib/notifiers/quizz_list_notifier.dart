@@ -73,8 +73,8 @@ class QuizzListNotifier extends ChangeNotifier {
     return _updateAvailable.any((q) => q.fileName == quizz.fileName);
   }
 
-  void updateQuizz(Quizz quizz) {
-    removeLocalQuizz(quizz, skipReload: true, isUpdate: true);
+  Future<void> updateQuizz(Quizz quizz) async {
+    await removeLocalQuizz(quizz, skipReload: true, isUpdate: true);
     // Check if it's a private quiz or online quiz
     Quizz? upToDateQuizz;
     if (_privateQuizzes.any((q) => q.fileName == quizz.fileName)) {
@@ -83,10 +83,10 @@ class QuizzListNotifier extends ChangeNotifier {
       upToDateQuizz = _onlineQuizzes.firstWhere((q) => q.fileName == quizz.fileName);
     }
     _updateAvailable.removeWhere((q) => q.fileName == quizz.fileName);
-    addLocalQuizz(upToDateQuizz);
+    await addLocalQuizz(upToDateQuizz);
   }
 
-  void removeLocalQuizz(Quizz quizz, {bool skipReload = false, bool isUpdate = false}) async {
+  Future<void> removeLocalQuizz(Quizz quizz, {bool skipReload = false, bool isUpdate = false}) async {
     _localQuizzes.removeWhere((q) => q.fileName == quizz.fileName);
     utils.deleteLocalFile('$localQuizzFolder/${quizz.fileName}');
     
@@ -127,7 +127,7 @@ class QuizzListNotifier extends ChangeNotifier {
     }
   }
 
-  void addLocalQuizz(Quizz quizz) async {
+  Future<void> addLocalQuizz(Quizz quizz) async {
     if (!_localQuizzes.any((q) => q.fileName == quizz.fileName)) {
         _localQuizzes.add(quizz);
       // Set downloading state
@@ -196,18 +196,52 @@ class QuizzListNotifier extends ChangeNotifier {
         }
       }
       
-      // Download each unique image
-      for (final imagePath in imagePaths) {
+      // Download images with a dynamic worker pool that starts a new download
+      // as soon as one finishes (keeps up to [concurrency] active tasks).
+      final paths = imagePaths.toList();
+      const int concurrency = 4; // tune this for your environment
+      final List<Future<void>> active = [];
+
+      for (final imagePath in paths) {
         final remoteUrl = '$remoteImageBaseUrl$imageFolder/$imagePath';
         final localPath = '$localImageFolder/$imageFolder/$imagePath';
-        
-        // Try to download from GitHub first
-        bool success = await utils.fetchAndSaveBinaryFile(remoteUrl, localPath);
-        
-        // If GitHub fails and privateMode is enabled, try the private server as fallback
-        if (!success && settingsNotifier.privateMode) {
-          final privateUrl = '$privateImageBaseUrl$imageFolder/$imagePath';
-          await utils.fetchAndSaveBinaryFile(privateUrl, localPath);
+
+        Future<void> task() async {
+          bool success = await utils.fetchAndSaveBinaryFile(remoteUrl, localPath);
+          if (!success && settingsNotifier.privateMode) {
+            final privateUrl = '$privateImageBaseUrl$imageFolder/$imagePath';
+            success = await utils.fetchAndSaveBinaryFile(privateUrl, localPath);
+          }
+          if (success) {
+            await utils.evictLocalImage(localPath);
+          }
+        }
+
+        final f = task();
+        active.add(f);
+
+        // When a task completes, remove it from the active list.
+        f.whenComplete(() {
+          active.remove(f);
+        });
+
+        // If we've reached the concurrency limit, wait until any active task
+        // completes before scheduling more.
+        if (active.length >= concurrency) {
+          try {
+            await Future.any(active);
+          } catch (_) {
+            // ignore individual failures here; errors are handled in task
+          }
+        }
+      }
+
+      // Wait for remaining downloads to finish.
+      if (active.isNotEmpty) {
+        try {
+          await Future.wait(active);
+        } catch (_) {
+          // ignore errors here as well
         }
       }
     } catch (e) {

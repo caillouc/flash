@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/painting.dart';
 import 'package:flash/card.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -58,6 +59,21 @@ Future<bool> fetchAndSaveBinaryFile(String url, String localFilePath) async {
     print("Error fetching binary file from $url: $e");
   }
   return false;
+}
+
+/// Evict a locally stored image from Flutter's image cache so updates
+/// to the file are reloaded when displayed.
+Future<void> evictLocalImage(String localFilePath) async {
+  try {
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/$localFilePath');
+    if (await file.exists()) {
+      final provider = FileImage(file);
+      await provider.evict();
+    }
+  } catch (e) {
+    // ignore eviction errors
+  }
 }
 
 Future<String> readLocalFile(String localFilePath) async {

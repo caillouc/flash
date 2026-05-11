@@ -18,6 +18,8 @@ class _CardListState extends State<CardList> {
     super.initState();
     cardNotifier.addListener(() {
       if (mounted) {
+        // Reset scroll position to top when quiz/cards change
+        widget.controller.jumpTo(0);
         setState(() {});
       }
     });
@@ -31,17 +33,22 @@ class _CardListState extends State<CardList> {
   @override
   Widget build(BuildContext context) {
     List<FlashCard> filterdCards = cardNotifier.filteredCards(inListView: true);
+    
     return Expanded(
-      child: ListView.builder(
+      child: GridView.builder(
         controller: widget.controller,
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: 3.0 / 5.0,
+        ),
         itemCount: filterdCards.length,
         itemBuilder: (context, index) {
           return Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-              child: filterdCards[index],
-            ),
+            child: filterdCards[index],
           );
         },
       ),

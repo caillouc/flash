@@ -35,7 +35,7 @@ class CustomSearchBar extends StatelessWidget {
               }
             });
           } else {
-            cardNotifier.setTextFilter(value);
+            cardNotifier.setTextFilter(value.trim());
           }
         },
         decoration: InputDecoration(

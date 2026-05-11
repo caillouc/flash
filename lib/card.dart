@@ -123,10 +123,19 @@ class _FlashCardState extends State<FlashCard>
         if (image.isNotEmpty) ...[_buildImage(image)],
         if (title.isNotEmpty) ...[
           const SizedBox(height: 20),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
+          LayoutBuilder(builder: (context, constraints) {
+            return ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: constraints.maxWidth),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  title,
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ),
+            );
+          }),
         ],
         if (description.isNotEmpty) ...[
           const SizedBox(height: 10),
