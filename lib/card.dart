@@ -131,7 +131,7 @@ class _FlashCardState extends State<FlashCard>
                 alignment: Alignment.centerLeft,
                 child: Text(
                   title,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
               ),
             );
@@ -146,7 +146,7 @@ class _FlashCardState extends State<FlashCard>
                 child: Text(
                   description,
                   textAlign: TextAlign.justify,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
             ),

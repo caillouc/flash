@@ -2,6 +2,7 @@ import 'package:flash/card.dart';
 import 'package:flutter/material.dart';
 
 import 'main.dart';
+import 'expanded_card_view.dart';
 
 class CardList extends StatefulWidget {
   final ScrollController controller;
@@ -13,6 +14,17 @@ class CardList extends StatefulWidget {
 }
 
 class _CardListState extends State<CardList> {
+  void _openCard(FlashCard card) {
+    showModalBottomSheet<void>(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black54,
+      builder: (context) => ExpandedCardView(card: card),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -47,11 +59,53 @@ class _CardListState extends State<CardList> {
         ),
         itemCount: filterdCards.length,
         itemBuilder: (context, index) {
-          return Center(
-            child: filterdCards[index],
+          final card = filterdCards[index];
+          return _PinchToOpenCard(
+            onPinchOut: () => _openCard(card),
+            child: Center(
+              child: card,
+            ),
           );
         },
       ),
+    );
+  }
+}
+
+class _PinchToOpenCard extends StatefulWidget {
+  final Widget child;
+  final VoidCallback onPinchOut;
+
+  const _PinchToOpenCard({
+    required this.child,
+    required this.onPinchOut,
+  });
+
+  @override
+  State<_PinchToOpenCard> createState() => _PinchToOpenCardState();
+}
+
+class _PinchToOpenCardState extends State<_PinchToOpenCard> {
+  double _maxScale = 1.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onScaleStart: (_) {
+        _maxScale = 1.0;
+      },
+      onScaleUpdate: (details) {
+        if (details.scale > _maxScale) {
+          _maxScale = details.scale;
+        }
+      },
+      onScaleEnd: (_) {
+        if (_maxScale >= 1.12) {
+          widget.onPinchOut();
+        }
+      },
+      child: widget.child,
     );
   }
 }
