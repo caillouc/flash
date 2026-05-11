@@ -60,11 +60,9 @@ class _CardListState extends State<CardList> {
         itemCount: filterdCards.length,
         itemBuilder: (context, index) {
           final card = filterdCards[index];
-          return _PinchToOpenCard(
-            onPinchOut: () => _openCard(card),
-            child: Center(
-              child: card,
-            ),
+          return _CardWithPinchAndButton(
+            card: card,
+            onExpand: () => _openCard(card),
           );
         },
       ),
@@ -72,20 +70,21 @@ class _CardListState extends State<CardList> {
   }
 }
 
-class _PinchToOpenCard extends StatefulWidget {
-  final Widget child;
-  final VoidCallback onPinchOut;
+class _CardWithPinchAndButton extends StatefulWidget {
+  final FlashCard card;
+  final VoidCallback onExpand;
 
-  const _PinchToOpenCard({
-    required this.child,
-    required this.onPinchOut,
+  const _CardWithPinchAndButton({
+    required this.card,
+    required this.onExpand,
   });
 
   @override
-  State<_PinchToOpenCard> createState() => _PinchToOpenCardState();
+  State<_CardWithPinchAndButton> createState() =>
+      _CardWithPinchAndButtonState();
 }
 
-class _PinchToOpenCardState extends State<_PinchToOpenCard> {
+class _CardWithPinchAndButtonState extends State<_CardWithPinchAndButton> {
   double _maxScale = 1.0;
 
   @override
@@ -102,10 +101,31 @@ class _PinchToOpenCardState extends State<_PinchToOpenCard> {
       },
       onScaleEnd: (_) {
         if (_maxScale >= 1.12) {
-          widget.onPinchOut();
+          widget.onExpand();
         }
       },
-      child: widget.child,
+      child: Stack(
+        children: [
+          Center(
+            child: widget.card,
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Material(
+              color: Colors.transparent,
+              child: IconButton(
+                iconSize: 20,
+                constraints:
+                    const BoxConstraints(minWidth: 0, minHeight: 0),
+                padding: const EdgeInsets.all(4),
+                icon: const Icon(Icons.zoom_in),
+                onPressed: widget.onExpand,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
