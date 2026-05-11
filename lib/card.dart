@@ -17,6 +17,7 @@ class FlashCard extends StatefulWidget {
   final String backImage;
   final List<String> tags;
   final bool randomReverse; // Optional override for random orientation
+  final bool showDescription;
 
   const FlashCard({
     super.key,
@@ -29,6 +30,7 @@ class FlashCard extends StatefulWidget {
     this.backImage = "",
     this.tags = const [],
     this.randomReverse = false,
+    this.showDescription = true,
   });
 
   @override
@@ -68,6 +70,7 @@ class _FlashCardState extends State<FlashCard>
 
   @override
   void dispose() {
+    debugPrint("Disposing FlashCard ${widget.id}");
     _controller.dispose();
     _imageCache.clear();
     super.dispose();
@@ -79,6 +82,7 @@ class _FlashCardState extends State<FlashCard>
     // Cache the future to prevent it from being recreated on every frame
     _imageCache.putIfAbsent(imagePath, () => _getLocalImageFile(imagePath));
 
+    debugPrint("Loading image for path: $imagePath");
     return FutureBuilder<File>(
       future: _imageCache[imagePath],
       builder: (context, snapshot) {
@@ -137,7 +141,7 @@ class _FlashCardState extends State<FlashCard>
             );
           }),
         ],
-        if (description.isNotEmpty) ...[
+        if (description.isNotEmpty && widget.showDescription) ...[
           const SizedBox(height: 10),
           Flexible(
             child: Padding(

@@ -61,7 +61,18 @@ class _CardListState extends State<CardList> {
         itemBuilder: (context, index) {
           final card = filterdCards[index];
           return _CardWithPinchAndButton(
-            card: card,
+            card: FlashCard(
+              id: card.id,
+              frontTitle: card.frontTitle,
+              frontDescription: card.frontDescription,
+              frontImage: card.frontImage,
+              backTitle: card.backTitle,
+              backDescription: card.backDescription,
+              backImage: card.backImage,
+              tags: card.tags,
+              randomReverse: card.randomReverse,
+              showDescription: false,
+            ),
             onExpand: () => _openCard(card),
           );
         },
@@ -70,7 +81,7 @@ class _CardListState extends State<CardList> {
   }
 }
 
-class _CardWithPinchAndButton extends StatefulWidget {
+class _CardWithPinchAndButton extends StatelessWidget {
   final FlashCard card;
   final VoidCallback onExpand;
 
@@ -80,52 +91,27 @@ class _CardWithPinchAndButton extends StatefulWidget {
   });
 
   @override
-  State<_CardWithPinchAndButton> createState() =>
-      _CardWithPinchAndButtonState();
-}
-
-class _CardWithPinchAndButtonState extends State<_CardWithPinchAndButton> {
-  double _maxScale = 1.0;
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onScaleStart: (_) {
-        _maxScale = 1.0;
-      },
-      onScaleUpdate: (details) {
-        if (details.scale > _maxScale) {
-          _maxScale = details.scale;
-        }
-      },
-      onScaleEnd: (_) {
-        if (_maxScale >= 1.12) {
-          widget.onExpand();
-        }
-      },
-      child: Stack(
-        children: [
-          Center(
-            child: widget.card,
-          ),
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Material(
-              color: Colors.transparent,
-              child: IconButton(
-                iconSize: 20,
-                constraints:
-                    const BoxConstraints(minWidth: 0, minHeight: 0),
-                padding: const EdgeInsets.all(4),
-                icon: const Icon(Icons.zoom_in),
-                onPressed: widget.onExpand,
-              ),
+    return Stack(
+      children: [
+        Center(
+          child: card,
+        ),
+        Positioned(
+          top: 5,
+          right: 5,
+          child: Material(
+            color: Colors.transparent,
+            child: IconButton(
+              iconSize: 20,
+              constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              padding: const EdgeInsets.all(4),
+              icon: const Icon(Icons.zoom_in),
+              onPressed: onExpand,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
