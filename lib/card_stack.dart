@@ -14,46 +14,73 @@ class CardStack extends StatefulWidget {
 }
 
 class _CardStackState extends State<CardStack> {
+  List<FlashCard> _filteredCards = [];
+  late bool _apprentissageMode;
 
-  void refresh() {
-    cardNotifier.clearHistory();
-    widget.controller.moveTo(0);
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    cardNotifier.addListener(() {
-      if (mounted) {
-        refresh();
-      }
-    });
-    tagNotifier.addListener(() {
-      if (mounted) {
-        refresh();
-      }
-    });
-    settingsNotifier.addListener(() {
-      if (mounted) {
-        refresh();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  List<FlashCard> _buildFilteredCards() {
     List<FlashCard> filteredCards = cardNotifier.filteredCards();
     if (filteredCards.isEmpty) {
       filteredCards = [
         const FlashCard(key: ValueKey('no_cards_placeholder'), frontTitle: "Aucune carte ne correspond aux filtres")
       ];
     }
+    return filteredCards;
+  }
+
+  void refresh() {
+    cardNotifier.clearHistory();
+    widget.controller.moveTo(0);
+    setState(() {
+      _filteredCards = _buildFilteredCards();
+      _apprentissageMode = settingsNotifier.apprentissage;
+    });
+  }
+
+  void _handleCardNotifierChanged() {
+    if (mounted) {
+      refresh();
+    }
+  }
+
+  void _handleTagNotifierChanged() {
+    if (mounted) {
+      refresh();
+    }
+  }
+
+  void _handleSettingsNotifierChanged() {
+    if (mounted) {
+      refresh();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _apprentissageMode = settingsNotifier.apprentissage;
+    _filteredCards = _buildFilteredCards();
+    cardNotifier.addListener(_handleCardNotifierChanged);
+    tagNotifier.addListener(_handleTagNotifierChanged);
+    settingsNotifier.addListener(_handleSettingsNotifierChanged);
+  }
+
+  @override
+  void dispose() {
+    cardNotifier.removeListener(_handleCardNotifierChanged);
+    tagNotifier.removeListener(_handleTagNotifierChanged);
+    settingsNotifier.removeListener(_handleSettingsNotifierChanged);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<FlashCard> filteredCards = _filteredCards;
+    bool hasNoCard = filteredCards.first.key == const ValueKey('no_cards_placeholder');
     return CardSwiper(
       cardsCount: filteredCards.length,
       controller: widget.controller,
-      numberOfCardsDisplayed: 3,
-      isLoop: false,
+      numberOfCardsDisplayed: filteredCards.length < 3 ? filteredCards.length : 3,
+      isLoop: !hasNoCard,
       threshold: 70,
       cardBuilder: (context, index, percentThresholdX, percentThresholdY) {
         final card = filteredCards[index];
@@ -76,11 +103,12 @@ class _CardStackState extends State<CardStack> {
       allowedSwipeDirection:
           const AllowedSwipeDirection.only(left: true, right: true),
       onEnd: () {
-        filteredCards = cardNotifier.filteredCards();
+        _filteredCards = _buildFilteredCards();
         refresh();
       },
       onSwipe: (previousIndex, currentIndex, direction) {
-        if (settingsNotifier.apprentissage) {
+        if (hasNoCard) return false;
+        if (_apprentissageMode) {
           if (direction == CardSwiperDirection.left) {
             cardNotifier.demoteCard(filteredCards[previousIndex]);
           } else {

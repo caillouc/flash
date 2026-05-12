@@ -83,6 +83,18 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   bool _quizzesLoaded = false;
   String _lastQuizzName = "";
 
+  void _handleQuizzListNotifierChanged() {
+    if (mounted && _lastQuizzName != quizzListNotifier.currentQuizzName) {
+      _lastQuizzName = quizzListNotifier.currentQuizzName;
+      _textEditingController.clear();
+      // Unfocus the keyboard when the quiz changes
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        FocusScope.of(context).unfocus();
+      });
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -92,17 +104,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     // });
     settingsNotifier.init();
     // For Quizz name - only rebuild if the current quiz name actually changed
-    quizzListNotifier.addListener(() {
-      if (mounted && _lastQuizzName != quizzListNotifier.currentQuizzName) {
-        _lastQuizzName = quizzListNotifier.currentQuizzName;
-        _textEditingController.clear();
-        // Unfocus the keyboard when the quiz changes
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          FocusScope.of(context).unfocus();
-        });
-        setState(() {});
-      }
-    });
+    quizzListNotifier.addListener(_handleQuizzListNotifierChanged);
 
     _initializeApp();
   }
@@ -149,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    quizzListNotifier.removeListener(_handleQuizzListNotifierChanged);
     WidgetsBinding.instance.removeObserver(this);
     _listViewController.dispose();
     _cardSwiperController.dispose();

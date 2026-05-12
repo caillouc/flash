@@ -9,14 +9,22 @@ class TagBar extends StatefulWidget {
 }
 
 class _TagBarState extends State<TagBar> {
+  void _handleTagNotifierChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    tagNotifier.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    tagNotifier.addListener(_handleTagNotifierChanged);
+  }
+
+  @override
+  void dispose() {
+    tagNotifier.removeListener(_handleTagNotifierChanged);
+    super.dispose();
   }
 
   @override

@@ -145,6 +145,7 @@ class CardNotifier extends ChangeNotifier {
   }
 
   void setTextFilter(String filter) {
+    if (_cardTextFilter == filter) return;
     _cardTextFilter = filter;
     notifyListeners();
   }

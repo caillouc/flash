@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'quizz.dart';
 import 'main.dart';
 
 class QuizzMenu extends StatefulWidget {
@@ -10,15 +11,27 @@ class QuizzMenu extends StatefulWidget {
 
 class _QuizzMenuState extends State<QuizzMenu> {
   var _editMode = quizzListNotifier.localQuizzes.isEmpty;
+  List<Quizz> _quizzesInEditMode = [];
+
+  void _handleQuizzListNotifierChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    quizzListNotifier.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    if (_editMode) {
+      _quizzesInEditMode = List.from(quizzListNotifier.allQuizzes);
+    }
+    quizzListNotifier.addListener(_handleQuizzListNotifierChanged);
+  }
+
+  @override
+  void dispose() {
+    quizzListNotifier.removeListener(_handleQuizzListNotifierChanged);
+    super.dispose();
   }
 
   @override
@@ -38,7 +51,7 @@ class _QuizzMenuState extends State<QuizzMenu> {
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
                   final quizz = _editMode
-                      ? quizzListNotifier.allQuizzes[index]
+                      ? _quizzesInEditMode[index]
                       : quizzListNotifier.localQuizzes[index];
                   final isDownloading =
                       quizzListNotifier.isQuizzDownloading(quizz.fileName);
@@ -107,15 +120,17 @@ class _QuizzMenuState extends State<QuizzMenu> {
                         }
                         return;
                       } else {
-                        cardNotifier.setTextFilter('');
-                        cardNotifier.loadQuizz(quizz);
+                        if (quizzListNotifier.currentQuizzName != quizz.name) {
+                          cardNotifier.setTextFilter('');
+                          cardNotifier.loadQuizz(quizz);
+                        }
                         Navigator.of(context).pop();
                       }
                     },
                   );
                 },
                 itemCount: _editMode
-                    ? quizzListNotifier.allQuizzes.length
+                    ? _quizzesInEditMode.length
                     : quizzListNotifier.localQuizzes.length,
               ),
             ),
@@ -127,6 +142,10 @@ class _QuizzMenuState extends State<QuizzMenu> {
                 child: OutlinedButton(
                   onPressed: () {
                     setState(() {
+                      if (!_editMode) {
+                        _quizzesInEditMode =
+                            List.from(quizzListNotifier.allQuizzes);
+                      }
                       _editMode = !_editMode;
                     });
                   },

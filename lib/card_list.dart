@@ -25,21 +25,32 @@ class _CardListState extends State<CardList> {
     );
   }
 
+  void _handleCardNotifierChanged() {
+    if (mounted) {
+      // Reset scroll position to top when quiz/cards change
+      widget.controller.jumpTo(0);
+      setState(() {});
+    }
+  }
+
+  void _handleTagNotifierChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    cardNotifier.addListener(() {
-      if (mounted) {
-        // Reset scroll position to top when quiz/cards change
-        widget.controller.jumpTo(0);
-        setState(() {});
-      }
-    });
-    tagNotifier.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    cardNotifier.addListener(_handleCardNotifierChanged);
+    tagNotifier.addListener(_handleTagNotifierChanged);
+  }
+
+  @override
+  void dispose() {
+    cardNotifier.removeListener(_handleCardNotifierChanged);
+    tagNotifier.removeListener(_handleTagNotifierChanged);
+    super.dispose();
   }
 
   @override

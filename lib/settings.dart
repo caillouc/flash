@@ -10,14 +10,22 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings> {
+  void _handleSettingsNotifierChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    settingsNotifier.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    settingsNotifier.addListener(_handleSettingsNotifierChanged);
+  }
+
+  @override
+  void dispose() {
+    settingsNotifier.removeListener(_handleSettingsNotifierChanged);
+    super.dispose();
   }
 
   @override
