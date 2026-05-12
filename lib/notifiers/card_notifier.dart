@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../card.dart';
@@ -55,10 +56,22 @@ class CardNotifier extends ChangeNotifier {
     if (_cardTextFilter.isNotEmpty) {
       filteredCards = filteredCards.where((card) {
         final lowerFilter = utils.removeAccents(_cardTextFilter).toLowerCase();
-        return utils.removeAccents(card.frontTitle).toLowerCase().contains(lowerFilter) ||
-            utils.removeAccents(card.frontDescription).toLowerCase().contains(lowerFilter) ||
-            utils.removeAccents(card.backTitle).toLowerCase().contains(lowerFilter) ||
-            utils.removeAccents(card.backDescription).toLowerCase().contains(lowerFilter);
+        return utils
+                .removeAccents(card.frontTitle)
+                .toLowerCase()
+                .contains(lowerFilter) ||
+            utils
+                .removeAccents(card.frontDescription)
+                .toLowerCase()
+                .contains(lowerFilter) ||
+            utils
+                .removeAccents(card.backTitle)
+                .toLowerCase()
+                .contains(lowerFilter) ||
+            utils
+                .removeAccents(card.backDescription)
+                .toLowerCase()
+                .contains(lowerFilter);
       }).toList();
     }
 
@@ -115,24 +128,30 @@ class CardNotifier extends ChangeNotifier {
     // Select len(filtered) / 2 cards using weighted random selection with diminishing returns
     final numberOfCardsToSelect = (cards.length / 2).round();
     final selectedCards = <FlashCard>[];
-    final selectionCounts = <String, int>{}; // Track how many times each card was selected
-    
+    final selectionCounts =
+        <String, int>{}; // Track how many times each card was selected
+
     // Create a dynamic weighted list that gets modified as we select cards
     final dynamicWeightedCards = List<FlashCard>.from(weightedCards);
-    
-    for (int i = 0; i < numberOfCardsToSelect && dynamicWeightedCards.isNotEmpty; i++) {
+
+    for (int i = 0;
+        i < numberOfCardsToSelect && dynamicWeightedCards.isNotEmpty;
+        i++) {
       // Select a random card
       final randomIndex = random.nextInt(dynamicWeightedCards.length);
       final selectedCard = dynamicWeightedCards[randomIndex];
       selectedCards.add(selectedCard);
-      
+
       // Increment selection count
-      selectionCounts[selectedCard.id] = (selectionCounts[selectedCard.id] ?? 0) + 1;
-      
+      selectionCounts[selectedCard.id] =
+          (selectionCounts[selectedCard.id] ?? 0) + 1;
+
       // Reduce the card's presence in the weighted list (remove half of its occurrences)
-      final cardOccurrences = dynamicWeightedCards.where((card) => card.id == selectedCard.id).length;
+      final cardOccurrences = dynamicWeightedCards
+          .where((card) => card.id == selectedCard.id)
+          .length;
       final toRemove = (cardOccurrences / 3).round();
-      
+
       int removed = 0;
       dynamicWeightedCards.removeWhere((card) {
         if (card.id == selectedCard.id && removed < toRemove) {
@@ -142,7 +161,7 @@ class CardNotifier extends ChangeNotifier {
         return false;
       });
     }
-    
+
     return selectedCards;
   }
 
@@ -174,6 +193,17 @@ class CardNotifier extends ChangeNotifier {
     try {
       final decoded = json.decode(jsonContent);
 
+      final dir = await getApplicationDocumentsDirectory();
+      final appDocPath = dir.path;
+
+      String resolveLocalImagePath(String imagePath) {
+        if (imagePath.isEmpty) return "";
+        if (imagePath.startsWith('/') || imagePath.startsWith(appDocPath)) {
+          return imagePath;
+        }
+        return '$appDocPath/$imagePath';
+      }
+
       List<dynamic> list = decoded as List<dynamic>;
 
       final parsed = <FlashCard>[];
@@ -201,19 +231,22 @@ class CardNotifier extends ChangeNotifier {
               '$localImageFolder/${quizz.imageFolder}/${item["backImage"]}';
         }
 
+        final rawFrontImage = frontImagePath.isNotEmpty
+            ? frontImagePath
+            : (item["frontImage"] ?? "");
+        final rawBackImage = backImagePath.isNotEmpty
+            ? backImagePath
+            : (item["backImage"] ?? "");
+
         parsed.add(FlashCard(
             key: ValueKey(item["id"]),
             id: item["id"],
             frontTitle: item["frontTitle"] ?? "",
             frontDescription: item["frontDescription"] ?? "",
-            frontImage: frontImagePath.isNotEmpty
-                ? frontImagePath
-                : (item["frontImage"] ?? ""),
+            frontImage: resolveLocalImagePath(rawFrontImage),
             backTitle: item["backTitle"] ?? "",
             backDescription: item["backDescription"] ?? "",
-            backImage: backImagePath.isNotEmpty
-                ? backImagePath
-                : (item["backImage"] ?? ""),
+            backImage: resolveLocalImagePath(rawBackImage),
             tags: item["tags"] is List<dynamic>
                 ? (item["tags"] as List<dynamic>).cast<String>()
                 : <String>[],
@@ -284,14 +317,14 @@ class CardNotifier extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _remainingDaysMap.clear();
     _boxMap.clear();
-    
+
     for (final card in _cards) {
       final remainingDaysKey =
           '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_remaining_days';
       final boxKey = '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_box';
       final remainingVal = prefs.getInt(remainingDaysKey);
       final boxVal = prefs.getInt(boxKey);
-      
+
       if (remainingVal != null) {
         _remainingDaysMap[card.id] = remainingVal;
       }

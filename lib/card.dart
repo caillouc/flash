@@ -4,7 +4,6 @@ import "dart:math";
 import 'package:flash/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FlashCard extends StatefulWidget {
@@ -41,7 +40,6 @@ class _FlashCardState extends State<FlashCard>
     with SingleTickerProviderStateMixin {
   bool isFront = true;
   late final AnimationController _controller;
-  final Map<String, Future<File>> _imageCache = {};
 
   @override
   void initState() {
@@ -70,50 +68,23 @@ class _FlashCardState extends State<FlashCard>
 
   @override
   void dispose() {
-    debugPrint("Disposing FlashCard ${widget.id}");
     _controller.dispose();
-    _imageCache.clear();
     super.dispose();
   }
 
   Widget _buildImage(String imagePath) {
     if (imagePath.isEmpty) return const SizedBox.shrink();
-
-    // Cache the future to prevent it from being recreated on every frame
-    _imageCache.putIfAbsent(imagePath, () => _getLocalImageFile(imagePath));
-
-    debugPrint("Loading image for path: $imagePath");
-    return FutureBuilder<File>(
-      future: _imageCache[imagePath],
-      builder: (context, snapshot) {
-        // While loading, show nothing (just take up the space)
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Expanded(child: SizedBox.shrink());
-        }
-
-        // Once loaded, check if file exists
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData &&
-            snapshot.data!.existsSync()) {
-          return Expanded(
-            child: Image.file(
-              snapshot.data!,
-              fit: BoxFit.contain,
-            ),
-          );
-        }
-
-        // If file doesn't exist after loading, show error icon
-        return const Expanded(
-          child: Center(child: Icon(Icons.image_not_supported, size: 50)),
-        );
-      },
+    final file = File(imagePath);
+    return Expanded(
+      child: Image.file(
+        file,
+        fit: BoxFit.contain,
+        gaplessPlayback: true,
+        errorBuilder: (context, error, stackTrace) {
+          return const Center(child: Icon(Icons.image_not_supported, size: 50));
+        },
+      ),
     );
-  }
-
-  Future<File> _getLocalImageFile(String imagePath) async {
-    final dir = await getApplicationDocumentsDirectory();
-    return File('${dir.path}/$imagePath');
   }
 
   Widget _buildSide(bool isFrontSide) {
@@ -135,7 +106,8 @@ class _FlashCardState extends State<FlashCard>
                 alignment: Alignment.centerLeft,
                 child: Text(
                   title,
-                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 28, fontWeight: FontWeight.bold),
                 ),
               ),
             );
