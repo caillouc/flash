@@ -13,14 +13,14 @@ class CardNotifier extends ChangeNotifier {
   final List<FlashCard> _noLocalQuizzCards = [
     const FlashCard(
         key: ValueKey('placeholder_1'),
-        frontTitle: "Téléchargez un quiz pour commencer"),
+        frontDescription: "Téléchargez un quiz pour commencer"),
     const FlashCard(
         key: ValueKey('placeholder_2'),
-        frontTitle:
+        frontDescription:
             "Naviguez dans le menu en haut à gauche et sélectionnez vos quizz"),
     const FlashCard(
         key: ValueKey('placeholder_3'),
-        frontTitle:
+        frontDescription:
             "Vous pourrez ensuite réviser les cartes dans cette section"),
   ];
   List<FlashCard> _cards = [];
@@ -37,10 +37,14 @@ class CardNotifier extends ChangeNotifier {
   void setNoLocalQuizz() {
     _cards = _noLocalQuizzCards;
     quizzListNotifier.currentQuizzName = "";
+    tagNotifier.setAllTags([]);
     notifyListeners();
   }
 
   List<FlashCard> filteredCards({bool inListView = false}) {
+    if (_cards == _noLocalQuizzCards) {
+      return _cards;
+    }
     List<FlashCard> filteredCards = List.from(cards);
     if (tagNotifier.hasSelectedTags) {
       filteredCards = filteredCards
@@ -70,7 +74,9 @@ class CardNotifier extends ChangeNotifier {
         filteredCards = _selectCardsWithWeightedRandom(filteredCards);
       }
     }
-    if (!inListView && quizzListNotifier.currentQuizzName.isNotEmpty) {
+    if (!inListView &&
+        quizzListNotifier.currentQuizzName.isNotEmpty &&
+        _cards != _noLocalQuizzCards) {
       filteredCards.shuffle();
     }
     return filteredCards;

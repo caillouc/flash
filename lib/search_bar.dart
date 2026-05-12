@@ -44,6 +44,9 @@ class CustomSearchBar extends StatelessWidget {
           suffixIcon: IconButton(
             icon: const Icon(Icons.clear),
             onPressed: (() {
+              if (controller.text.isEmpty) {
+                return;
+              }
               cardNotifier.setTextFilter('');
               controller.clear();
             }),

@@ -114,9 +114,10 @@ class QuizzListNotifier extends ChangeNotifier {
     } catch (e) {
       print('Error updating local quizzes list after removal: $e');
     }
-    if (quizzListNotifier._currentQuizzName == quizz.name && !isUpdate) {
+    if (quizzListNotifier.currentQuizzName == quizz.name && !isUpdate) {
       if (_localQuizzes.isEmpty) {
         cardNotifier.setNoLocalQuizz();
+        currentQuizzName = "";
       } else {
         cardNotifier.loadQuizz(_localQuizzes.first);
       }

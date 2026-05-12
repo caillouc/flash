@@ -142,7 +142,16 @@ class _QuizzMenuState extends State<QuizzMenu> {
                 child: OutlinedButton(
                   onPressed: () {
                     setState(() {
-                      if (!_editMode) {
+                      if (_editMode) {
+                        if (quizzListNotifier.localQuizzes.length == 1) {
+                          final quizz = quizzListNotifier.localQuizzes.first;
+                          if (quizzListNotifier.currentQuizzName != quizz.name) {
+                            cardNotifier.setTextFilter('');
+                            cardNotifier.loadQuizz(quizz);
+                          }
+                          Navigator.of(context).pop();
+                        }
+                      } else {
                         _quizzesInEditMode =
                             List.from(quizzListNotifier.allQuizzes);
                       }

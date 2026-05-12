@@ -82,7 +82,7 @@ class _CardListState extends State<CardList> {
               backImage: card.backImage,
               tags: card.tags,
               randomReverse: card.randomReverse,
-              showDescription: false,
+              showDescription: quizzListNotifier.currentQuizzName.isEmpty, // Show description if no quiz is loaded
             ),
             onExpand: () => _openCard(card),
           );
