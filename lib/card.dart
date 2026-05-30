@@ -199,9 +199,12 @@ class _FlashCardState extends State<FlashCard>
                       '${quizzListNotifier.currentQuizzUniqueId}_${widget.id}_remaining_days';
                   int currentBox = prefs.getInt(boxKey) ?? 5;
                   int currentRemaining = prefs.getInt(remainingDaysKey) ?? 0;
+                  final displayTitle = widget.frontTitle.isNotEmpty
+                      ? widget.frontTitle
+                      : widget.backTitle;
                   SnackBar snackBar = SnackBar(
                     content: Text(
-                        "${widget.frontTitle} : Box=$currentBox, RemainingDays=$currentRemaining"),
+                        "$displayTitle : Box=$currentBox, RemainingDays=$currentRemaining"),
                     duration: const Duration(seconds: 2),
                   );
                   if (!context.mounted) return;

@@ -161,14 +161,29 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   }
 
   void _handleScrollDirectionChange() {
-    final currentOffset = _listViewController.offset;
-    if (currentOffset == _lastScrollOffset) return;
-    final isScrollingDown = currentOffset > _lastScrollOffset;
+    if (!_listViewController.hasClients) return;
+
+    final position = _listViewController.position;
+    final currentOffset = position.pixels;
+    final minOffset = position.minScrollExtent;
+    final maxOffset = position.maxScrollExtent;
+    final atTop = currentOffset <= minOffset + 0.5;
+    final atBottom = currentOffset >= maxOffset - 0.5;
+
+    bool nextIsScrollingDown = _isScrollingDown;
+    if (atTop && !atBottom) {
+      nextIsScrollingDown = true;
+    } else if (atBottom && !atTop) {
+      nextIsScrollingDown = false;
+    } else if (currentOffset != _lastScrollOffset) {
+      nextIsScrollingDown = currentOffset > _lastScrollOffset;
+    }
+
     _lastScrollOffset = currentOffset;
 
-    if (isScrollingDown != _isScrollingDown && mounted) {
+    if (nextIsScrollingDown != _isScrollingDown && mounted) {
       setState(() {
-        _isScrollingDown = isScrollingDown;
+        _isScrollingDown = nextIsScrollingDown;
       });
     }
   }
@@ -210,6 +225,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 setState(() {
                   _listView = !_listView;
                 });
+                if (_listView) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _handleScrollDirectionChange();
+                  });
+                }
               },
             ),
           ],

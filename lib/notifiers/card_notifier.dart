@@ -92,9 +92,33 @@ class CardNotifier extends ChangeNotifier {
     if (!inListView &&
         quizzListNotifier.currentQuizzName.isNotEmpty &&
         _cards != _noLocalQuizzCards) {
-      filteredCards.shuffle();
+      filteredCards = _shuffleAvoidingConsecutiveDuplicates(filteredCards);
     }
     return filteredCards;
+  }
+
+  List<FlashCard> _shuffleAvoidingConsecutiveDuplicates(List<FlashCard> cards) {
+    if (cards.length < 2) return cards;
+
+    final shuffled = List<FlashCard>.from(cards);
+    const maxAttempts = 3;
+    for (int attempt = 0; attempt < maxAttempts; attempt++) {
+      shuffled.shuffle();
+      if (!_hasConsecutiveDuplicates(shuffled)) {
+        return shuffled;
+      }
+    }
+
+    return shuffled;
+  }
+
+  bool _hasConsecutiveDuplicates(List<FlashCard> cards) {
+    for (int i = 1; i < cards.length; i++) {
+      if (cards[i].id == cards[i - 1].id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   List<FlashCard> _selectCardsWithWeightedRandom(List<FlashCard> cards) {
@@ -129,11 +153,13 @@ class CardNotifier extends ChangeNotifier {
     }
 
     // Select len(filtered) / 2 cards using weighted random selection with diminishing returns
-    final numberOfCardsToSelect = (cards.length / 2).round();
+    final numberOfCardsToSelect = max(3, (cards.length / 2).round());
     final selectedCards = <FlashCard>[];
 
     // Weighted sampling with diminishing returns without list expansion.
-    for (int i = 0; i < numberOfCardsToSelect && weightedCards.isNotEmpty; i++) {
+    for (int i = 0;
+        i < numberOfCardsToSelect && weightedCards.isNotEmpty;
+        i++) {
       if (totalWeight <= 0) {
         break;
       }
@@ -340,8 +366,7 @@ class CardNotifier extends ChangeNotifier {
     if (currentQuizzId.isEmpty) return;
 
     for (final card in _cards) {
-      final remainingDaysKey =
-        '${currentQuizzId}_${card.id}_remaining_days';
+      final remainingDaysKey = '${currentQuizzId}_${card.id}_remaining_days';
       final boxKey = '${currentQuizzId}_${card.id}_box';
       final remainingVal = prefs.getInt(remainingDaysKey);
       final boxVal = prefs.getInt(boxKey);

@@ -59,23 +59,15 @@ class _CardStackState extends State<CardStack> {
       cardNotifier.clearHistory();
     }
     final nextCards = _buildFilteredCards();
-    final merged = _mergeWithPinnedFront(nextCards);
     widget.controller.moveTo(0);
     setState(() {
-      _filteredCards = merged;
+      if (_filteredCards.isEmpty) {
+        _filteredCards = nextCards;
+      } else {
+        _filteredCards = [_filteredCards.first, ...nextCards];
+      }
       _apprentissageMode = settingsNotifier.apprentissage;
     });
-  }
-
-  List<FlashCard> _mergeWithPinnedFront(List<FlashCard> nextCards) {
-    if (_filteredCards.isEmpty) {
-      return nextCards;
-    }
-    final pinned = _filteredCards.first;
-    final trimmed = nextCards
-        .where((card) => card.key != pinned.key)
-        .toList();
-    return [pinned, ...trimmed];
   }
 
   void _handleCardNotifierChanged() {
