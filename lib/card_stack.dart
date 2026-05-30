@@ -54,6 +54,30 @@ class _CardStackState extends State<CardStack> {
     });
   }
 
+  void _refreshKeepingFront({bool resetHistory = true}) {
+    if (resetHistory) {
+      cardNotifier.clearHistory();
+    }
+    final nextCards = _buildFilteredCards();
+    final merged = _mergeWithPinnedFront(nextCards);
+    widget.controller.moveTo(0);
+    setState(() {
+      _filteredCards = merged;
+      _apprentissageMode = settingsNotifier.apprentissage;
+    });
+  }
+
+  List<FlashCard> _mergeWithPinnedFront(List<FlashCard> nextCards) {
+    if (_filteredCards.isEmpty) {
+      return nextCards;
+    }
+    final pinned = _filteredCards.first;
+    final trimmed = nextCards
+        .where((card) => card.key != pinned.key)
+        .toList();
+    return [pinned, ...trimmed];
+  }
+
   void _handleCardNotifierChanged() {
     if (mounted) {
       refresh();
@@ -119,7 +143,7 @@ class _CardStackState extends State<CardStack> {
       allowedSwipeDirection:
           const AllowedSwipeDirection.only(left: true, right: true),
       onEnd: () {
-        refresh(resetHistory: false);
+        _refreshKeepingFront(resetHistory: false);
       },
       onSwipe: (previousIndex, currentIndex, direction) {
         if (hasNoCard) return false;

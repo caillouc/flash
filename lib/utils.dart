@@ -176,6 +176,8 @@ Future<void> updateRemainingDay() async {
   prefs.setInt(quizzEpochKey, epochDay);
 
   final dayDiff = epochDay - storedEpochDay;
+    print(
+      'updateRemainingDay: quizz=$currentQuizzId epoch=$epochDay stored=$storedEpochDay diff=$dayDiff');
   if (dayDiff <= 0) return;
 
   for (FlashCard card in cardNotifier.cards) {
@@ -185,5 +187,7 @@ Future<void> updateRemainingDay() async {
     int newDay = max(stored - dayDiff, 0);
     if (stored == newDay) continue;
     prefs.setInt(remainingDaysKey, newDay);
+    print(
+        'updateRemainingDay: card=${card.id} remaining $stored -> $newDay');
   }
 }
