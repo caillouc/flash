@@ -17,6 +17,7 @@ class FlashCard extends StatefulWidget {
   final List<String> tags;
   final bool randomReverse; // Optional override for random orientation
   final bool showDescription;
+  final bool enableImageZoom;
 
   const FlashCard({
     super.key,
@@ -30,6 +31,7 @@ class FlashCard extends StatefulWidget {
     this.tags = const [],
     this.randomReverse = false,
     this.showDescription = true,
+    this.enableImageZoom = true,
   });
 
   @override
@@ -75,14 +77,23 @@ class _FlashCardState extends State<FlashCard>
   Widget _buildImage(String imagePath) {
     if (imagePath.isEmpty) return const SizedBox.shrink();
     final file = File(imagePath);
+    final image = Image.file(
+      file,
+      fit: BoxFit.contain,
+      gaplessPlayback: true,
+      errorBuilder: (context, error, stackTrace) {
+        return const Center(child: Icon(Icons.image_not_supported, size: 50));
+      },
+    );
     return Expanded(
-      child: Image.file(
-        file,
-        fit: BoxFit.contain,
-        gaplessPlayback: true,
-        errorBuilder: (context, error, stackTrace) {
-          return const Center(child: Icon(Icons.image_not_supported, size: 50));
-        },
+      child: ClipRect(
+        child: widget.enableImageZoom
+            ? InteractiveViewer(
+                minScale: 1.0,
+                maxScale: 4.0,
+                child: image,
+              )
+            : image,
       ),
     );
   }

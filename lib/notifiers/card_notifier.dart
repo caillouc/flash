@@ -10,6 +10,8 @@ import '../utils.dart' as utils;
 import '../main.dart';
 import '../constants.dart';
 
+const int maxHistory = 5;
+
 class CardNotifier extends ChangeNotifier {
   final List<FlashCard> _noLocalQuizzCards = [
     const FlashCard(
@@ -109,57 +111,65 @@ class CardNotifier extends ChangeNotifier {
       0: 4.7,
     };
 
-    // Create weighted list - each card appears multiple times based on its weight
-    final List<FlashCard> weightedCards = [];
+    final weightedCards = <FlashCard>[];
+    final weights = <double>[];
+    double totalWeight = 0;
     for (final card in cards) {
       final box = _boxMap[card.id] ?? 5; // Use cached box value
       final weight = boxWeights[box] ?? 1.0;
-      // Convert percentage to count (multiply by 10 for better precision)
-      final count = (weight * 10).round();
-      for (int i = 0; i < count; i++) {
+      if (weight > 0) {
         weightedCards.add(card);
+        weights.add(weight);
+        totalWeight += weight;
       }
     }
 
-    if (weightedCards.isEmpty) {
+    if (weightedCards.isEmpty || totalWeight <= 0) {
       return cards;
     }
 
     // Select len(filtered) / 2 cards using weighted random selection with diminishing returns
     final numberOfCardsToSelect = (cards.length / 2).round();
     final selectedCards = <FlashCard>[];
-    final selectionCounts =
-        <String, int>{}; // Track how many times each card was selected
 
-    // Create a dynamic weighted list that gets modified as we select cards
-    final dynamicWeightedCards = List<FlashCard>.from(weightedCards);
+    // Weighted sampling with diminishing returns without list expansion.
+    for (int i = 0; i < numberOfCardsToSelect && weightedCards.isNotEmpty; i++) {
+      if (totalWeight <= 0) {
+        break;
+      }
 
-    for (int i = 0;
-        i < numberOfCardsToSelect && dynamicWeightedCards.isNotEmpty;
-        i++) {
-      // Select a random card
-      final randomIndex = random.nextInt(dynamicWeightedCards.length);
-      final selectedCard = dynamicWeightedCards[randomIndex];
-      selectedCards.add(selectedCard);
-
-      // Increment selection count
-      selectionCounts[selectedCard.id] =
-          (selectionCounts[selectedCard.id] ?? 0) + 1;
-
-      // Reduce the card's presence in the weighted list (remove half of its occurrences)
-      final cardOccurrences = dynamicWeightedCards
-          .where((card) => card.id == selectedCard.id)
-          .length;
-      final toRemove = (cardOccurrences / 3).round();
-
-      int removed = 0;
-      dynamicWeightedCards.removeWhere((card) {
-        if (card.id == selectedCard.id && removed < toRemove) {
-          removed++;
-          return true;
+      final roll = random.nextDouble() * totalWeight;
+      double cumulative = 0;
+      int pickedIndex = -1;
+      for (int index = 0; index < weights.length; index++) {
+        cumulative += weights[index];
+        if (roll <= cumulative) {
+          pickedIndex = index;
+          break;
         }
-        return false;
-      });
+      }
+
+      if (pickedIndex == -1) {
+        break;
+      }
+
+      selectedCards.add(weightedCards[pickedIndex]);
+
+      // Diminishing returns: reduce weight by ~1/3 each time it is selected.
+      final oldWeight = weights[pickedIndex];
+      final newWeight = oldWeight * 2 / 3;
+      totalWeight -= (oldWeight - newWeight);
+      if (newWeight <= 0.0001) {
+        final lastIndex = weights.length - 1;
+        if (pickedIndex != lastIndex) {
+          weights[pickedIndex] = weights[lastIndex];
+          weightedCards[pickedIndex] = weightedCards[lastIndex];
+        }
+        weights.removeLast();
+        weightedCards.removeLast();
+      } else {
+        weights[pickedIndex] = newWeight;
+      }
     }
 
     return selectedCards;
@@ -282,13 +292,21 @@ class CardNotifier extends ChangeNotifier {
       int remaining;
       if (!isUndo) {
         int currentRemaining = prefs.getInt(remainingDaysKey) ?? 0;
-        _history.add([currentBox, currentRemaining]);
+        if (_history.length >= maxHistory) {
+          _history.removeAt(0);
+        }
+        _history.add([currentBox, currentRemaining, card.id]);
         newBox = update(currentBox).clamp(0, 5);
         remaining = utils.getRemaingDaysForBox(newBox);
       } else {
         var last = _history.removeLast();
         newBox = last[0];
         remaining = last[1];
+        if (last[2] != card.id) {
+          // Wrong card, there is an issue in the history ...
+          _history.clear();
+          return;
+        }
       }
       prefs.setInt(boxKey, newBox);
       prefs.setInt(remainingDaysKey, remaining);
@@ -318,10 +336,13 @@ class CardNotifier extends ChangeNotifier {
     _remainingDaysMap.clear();
     _boxMap.clear();
 
+    final currentQuizzId = quizzListNotifier.currentQuizzUniqueId;
+    if (currentQuizzId.isEmpty) return;
+
     for (final card in _cards) {
       final remainingDaysKey =
-          '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_remaining_days';
-      final boxKey = '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_box';
+        '${currentQuizzId}_${card.id}_remaining_days';
+      final boxKey = '${currentQuizzId}_${card.id}_box';
       final remainingVal = prefs.getInt(remainingDaysKey);
       final boxVal = prefs.getInt(boxKey);
 

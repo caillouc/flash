@@ -82,6 +82,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   bool _listView = false;
   bool _quizzesLoaded = false;
   String _lastQuizzName = "";
+  bool _isScrollingDown = true;
+  double _lastScrollOffset = 0.0;
 
   void _handleQuizzListNotifierChanged() {
     if (mounted && _lastQuizzName != quizzListNotifier.currentQuizzName) {
@@ -99,12 +101,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // SharedPreferences.getInstance().then((prefs) {
-    //   prefs.clear();
-    // });
     settingsNotifier.init();
     // For Quizz name - only rebuild if the current quiz name actually changed
     quizzListNotifier.addListener(_handleQuizzListNotifierChanged);
+    _listViewController.addListener(_handleScrollDirectionChange);
 
     _initializeApp();
   }
@@ -153,18 +153,44 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   void dispose() {
     quizzListNotifier.removeListener(_handleQuizzListNotifierChanged);
     WidgetsBinding.instance.removeObserver(this);
+    _listViewController.removeListener(_handleScrollDirectionChange);
     _listViewController.dispose();
     _cardSwiperController.dispose();
     _textEditingController.dispose();
     super.dispose();
   }
 
-  Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
+  void _handleScrollDirectionChange() {
+    final currentOffset = _listViewController.offset;
+    if (currentOffset == _lastScrollOffset) return;
+    final isScrollingDown = currentOffset > _lastScrollOffset;
+    _lastScrollOffset = currentOffset;
+
+    if (isScrollingDown != _isScrollingDown && mounted) {
+      setState(() {
+        _isScrollingDown = isScrollingDown;
+      });
+    }
+  }
+
+  void _scrollToTop() {
     _listViewController.animateTo(
       _listViewController.position.minScrollExtent,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
+  }
+
+  void _scrollToBottom() {
+    _listViewController.animateTo(
+      _listViewController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
+    _scrollToTop();
   }
 
   @override
@@ -319,15 +345,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         ),
         floatingActionButton: _listView && _quizzesLoaded
             ? FloatingActionButton(
-                onPressed: () {
-                  _listViewController.animateTo(
-                    _listViewController.position.maxScrollExtent,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                },
-                tooltip: 'Scroll to bottom',
-                child: const Icon(Icons.arrow_downward),
+                onPressed: _isScrollingDown ? _scrollToBottom : _scrollToTop,
+                tooltip:
+                    _isScrollingDown ? 'Scroll to bottom' : 'Scroll to top',
+                child: AnimatedRotation(
+                  turns: _isScrollingDown ? 0.0 : 0.5,
+                  duration: const Duration(milliseconds: 200),
+                  child: const Icon(Icons.arrow_downward),
+                ),
               )
             : null,
       ),

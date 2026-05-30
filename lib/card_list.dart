@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:flash/card.dart';
 import 'package:flutter/material.dart';
 
-import 'main.dart';
 import 'expanded_card_view.dart';
+import 'main.dart';
 
 class CardList extends StatefulWidget {
   final ScrollController controller;
@@ -56,7 +58,7 @@ class _CardListState extends State<CardList> {
   @override
   Widget build(BuildContext context) {
     List<FlashCard> filterdCards = cardNotifier.filteredCards(inListView: true);
-    
+
     return Expanded(
       child: GridView.builder(
         controller: widget.controller,
@@ -82,7 +84,7 @@ class _CardListState extends State<CardList> {
               backImage: card.backImage,
               tags: card.tags,
               randomReverse: card.randomReverse,
-              showDescription: quizzListNotifier.currentQuizzName.isEmpty, // Show description if no quiz is loaded
+              showDescription: quizzListNotifier.currentQuizzName.isEmpty,
             ),
             onExpand: () => _openCard(card),
           );
@@ -103,26 +105,49 @@ class _CardWithPinchAndButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Center(
-          child: card,
-        ),
-        Positioned(
-          top: 5,
-          right: 5,
-          child: Material(
-            color: Colors.transparent,
-            child: IconButton(
-              iconSize: 20,
-              constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-              padding: const EdgeInsets.all(4),
-              icon: const Icon(Icons.zoom_in),
-              onPressed: onExpand,
-            ),
+    return LayoutBuilder(builder: (context, constraints) {
+      const ratioWidth = 3.0;
+      const ratioHeight = 5.0;
+      const maxCardWidth = 600.0;
+      const maxCardHeight = 900.0;
+
+      final availableWidth = min(constraints.maxWidth, maxCardWidth);
+      final availableHeight = min(constraints.maxHeight, maxCardHeight);
+      final scale = min(
+        availableWidth / ratioWidth,
+        availableHeight / ratioHeight,
+      );
+      final cardWidth = ratioWidth * scale;
+      final cardHeight = ratioHeight * scale;
+
+      return Center(
+        child: SizedBox(
+          width: cardWidth,
+          height: cardHeight,
+          child: Stack(
+            children: [
+              Positioned.fill(child: card),
+              Positioned(
+                top: 5,
+                right: 5,
+                child: Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                    iconSize: 20,
+                    constraints: const BoxConstraints(
+                      minWidth: 0,
+                      minHeight: 0,
+                    ),
+                    padding: const EdgeInsets.all(4),
+                    icon: const Icon(Icons.zoom_in),
+                    onPressed: onExpand,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ],
-    );
+      );
+    });
   }
 }

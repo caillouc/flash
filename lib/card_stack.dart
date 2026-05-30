@@ -24,11 +24,29 @@ class _CardStackState extends State<CardStack> {
         const FlashCard(key: ValueKey('no_cards_placeholder'), frontTitle: "Aucune carte ne correspond aux filtres")
       ];
     }
+    filteredCards = filteredCards
+        .map((card) => FlashCard(
+              key: card.key,
+              id: card.id,
+              frontTitle: card.frontTitle,
+              frontDescription: card.frontDescription,
+              frontImage: card.frontImage,
+              backTitle: card.backTitle,
+              backDescription: card.backDescription,
+              backImage: card.backImage,
+              tags: card.tags,
+              randomReverse: card.randomReverse,
+              showDescription: card.showDescription,
+              enableImageZoom: false,
+            ))
+        .toList();
     return filteredCards;
   }
 
-  void refresh() {
-    cardNotifier.clearHistory();
+  void refresh({bool resetHistory = true}) {
+    if (resetHistory) {
+      cardNotifier.clearHistory();
+    }
     widget.controller.moveTo(0);
     setState(() {
       _filteredCards = _buildFilteredCards();
@@ -98,13 +116,10 @@ class _CardStackState extends State<CardStack> {
         );
       },
 
-      // cardBuilder: (context, index, percentThresholdX, percentThresholdY) =>
-      //     filteredCards[index],
       allowedSwipeDirection:
           const AllowedSwipeDirection.only(left: true, right: true),
       onEnd: () {
-        _filteredCards = _buildFilteredCards();
-        refresh();
+        refresh(resetHistory: false);
       },
       onSwipe: (previousIndex, currentIndex, direction) {
         if (hasNoCard) return false;

@@ -5,7 +5,6 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/painting.dart';
 import 'package:flash/card.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -163,21 +162,28 @@ int getRemaingDaysForBox(int box) {
 }
 
 Future<void> updateRemainingDay() async {
-    final prefs = await SharedPreferences.getInstance();
-    int year = int.parse(DateFormat.y().format(DateTime.now()));
-    int dayOfYear = int.parse(DateFormat('D').format(DateTime.now()));
-    int storedYear = prefs.getInt("year") ?? year;
-    int storedDayOfYear = prefs.getInt("dayOfYear") ?? dayOfYear;
-    prefs.setInt("year", year);
-    prefs.setInt("dayOfYear", dayOfYear);
-    int dayDiff = dayOfYear + 365 * (year - storedYear) - storedDayOfYear;
-    if (dayDiff <= 0) return;
-    for (FlashCard card in cardNotifier.cards) {
-      String remainingDaysKey = '${quizzListNotifier.currentQuizzUniqueId}_${card.id}_remaining_days';
-      int? stored = prefs.getInt(remainingDaysKey);
-      if (stored == null) continue;
-      int newDay = max(stored - dayDiff, 0);
-      if (stored == newDay) continue;
-      prefs.setInt(remainingDaysKey, newDay);
-    }
+  final prefs = await SharedPreferences.getInstance();
+  final now = DateTime.now().toUtc();
+  final epochDay = now.difference(DateTime.utc(1970, 1, 1)).inDays;
+
+  final currentQuizzId = quizzListNotifier.currentQuizzUniqueId;
+  if (currentQuizzId.isEmpty) return;
+
+  final quizzEpochKey = '${currentQuizzId}_epoch_day';
+  final storedEpochDay =
+      prefs.getInt(quizzEpochKey) ?? prefs.getInt("epoch_day") ?? epochDay;
+  // Persist per-quizz epoch to avoid other quizzes being masked by a global update.
+  prefs.setInt(quizzEpochKey, epochDay);
+
+  final dayDiff = epochDay - storedEpochDay;
+  if (dayDiff <= 0) return;
+
+  for (FlashCard card in cardNotifier.cards) {
+    String remainingDaysKey = '${currentQuizzId}_${card.id}_remaining_days';
+    int? stored = prefs.getInt(remainingDaysKey);
+    if (stored == null) continue;
+    int newDay = max(stored - dayDiff, 0);
+    if (stored == newDay) continue;
+    prefs.setInt(remainingDaysKey, newDay);
   }
+}
