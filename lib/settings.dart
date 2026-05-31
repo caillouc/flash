@@ -100,7 +100,7 @@ class _SettingState extends State<Settings> {
                         GestureDetector(
                           onTap: () async {
                             const url =
-                                'mailto:flash.card@clsn.fr?subject=Bug, Nouveaux Quiz, Question&body=';
+                                'mailto:flash.quiz@clsn.fr?subject=Bug, Nouveaux Quiz, Question&body=';
                             if (await canLaunchUrlString(url)) {
                               await launchUrlString(url);
                             } else {
@@ -108,7 +108,7 @@ class _SettingState extends State<Settings> {
                             }
                           },
                           child: Text(
-                            "flash.card@clsn.fr",
+                            "flash.quiz@clsn.fr",
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       color: Theme.of(context).primaryColor,
