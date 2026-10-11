@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'quizz.dart';
 import 'main.dart';
+import 'utils.dart' as utils;
 
 class QuizzMenu extends StatefulWidget {
   const QuizzMenu({super.key});
@@ -12,6 +13,8 @@ class QuizzMenu extends StatefulWidget {
 class _QuizzMenuState extends State<QuizzMenu> {
   var _editMode = quizzListNotifier.localQuizzes.isEmpty;
   List<Quizz> _quizzesInEditMode = [];
+  final _searchController = TextEditingController();
+  String _searchFilter = '';
 
   void _handleQuizzListNotifierChanged() {
     if (mounted) {
@@ -31,11 +34,27 @@ class _QuizzMenuState extends State<QuizzMenu> {
   @override
   void dispose() {
     quizzListNotifier.removeListener(_handleQuizzListNotifierChanged);
+    _searchController.dispose();
     super.dispose();
+  }
+
+  List<Quizz> get _displayedQuizzes {
+    final quizzes =
+        _editMode ? _quizzesInEditMode : quizzListNotifier.localQuizzes;
+    if (_searchFilter.isEmpty) {
+      return quizzes;
+    }
+    final lowerFilter = utils.removeAccents(_searchFilter.toLowerCase());
+    return quizzes
+        .where((quizz) => utils
+            .removeAccents(quizz.name.toLowerCase())
+            .contains(lowerFilter))
+        .toList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final displayedQuizzes = _displayedQuizzes;
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -46,13 +65,46 @@ class _QuizzMenuState extends State<QuizzMenu> {
               endIndent: 20,
               indent: 20,
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              child: TextField(
+                controller: _searchController,
+                onChanged: (value) {
+                  setState(() {
+                    _searchFilter = value.trim();
+                  });
+                },
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: 'Rechercher',
+                  isDense: true,
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      if (_searchController.text.isEmpty) {
+                        return;
+                      }
+                      _searchController.clear();
+                      setState(() {
+                        _searchFilter = '';
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+            if (displayedQuizzes.isEmpty && _searchFilter.isNotEmpty)
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('Aucun quiz trouvé'),
+              ),
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 itemBuilder: (context, index) {
-                  final quizz = _editMode
-                      ? _quizzesInEditMode[index]
-                      : quizzListNotifier.localQuizzes[index];
+                  final quizz = displayedQuizzes[index];
                   final isDownloading =
                       quizzListNotifier.isQuizzDownloading(quizz.fileName);
 
@@ -129,9 +181,7 @@ class _QuizzMenuState extends State<QuizzMenu> {
                     },
                   );
                 },
-                itemCount: _editMode
-                    ? _quizzesInEditMode.length
-                    : quizzListNotifier.localQuizzes.length,
+                itemCount: displayedQuizzes.length,
               ),
             ),
             // Button to switch to edit mode
